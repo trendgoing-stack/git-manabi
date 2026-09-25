@@ -7,6 +7,7 @@ import { db, getIndex, getEntry } from '../data.js';
 import { search } from '../search.js';
 import { getSettings } from '../storage.js';
 import { replace } from '../router.js';
+import { displaySyntax } from '../ui/builder-ui.js';
 import { CATEGORIES, TOOLS, SEARCH_DEBOUNCE_MS, SEARCH_LIMIT } from '../config.js';
 
 /** @param {import('../router.js').RouteCtx} ctx */
@@ -60,7 +61,7 @@ export function renderSearch(ctx) {
   const toolChips = h(
     'div',
     { class: 'chips', role: 'group', 'aria-label': 'ツールで絞り込み' },
-    [{ id: '', short: 'すべて' }, ...TOOLS].map((t) =>
+    [{ id: '', short: 'すべて' }, ...TOOLS, { id: 'mine', short: '自作' }].map((t) =>
       h(
         'button',
         {
@@ -133,7 +134,7 @@ function renderResults(box, state) {
 /** 検索結果の1行 */
 export function resultRow(item) {
   const href = item.isSnippet ? `#/snippet/${item.id}` : `#/entry/${item.id}`;
-  const cmd = item.syntax ? item.syntax.split('\n')[0] : null;
+  const cmd = item.syntax ? displaySyntax(item.syntax).split('\n')[0] : null;
   return h(
     'li',
     null,
@@ -196,7 +197,7 @@ function renderHome(settings) {
               h(
                 'a',
                 { href: `#/entry/${e.id}` },
-                e.syntax ? h('code', null, e.syntax.split('\n')[0]) : null,
+                e.syntax ? h('code', null, displaySyntax(e.syntax).split('\n')[0]) : null,
                 h('span', null, e.title)
               )
             )

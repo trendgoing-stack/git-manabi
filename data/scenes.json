@@ -28,5 +28,11 @@
     "title": "他の人と一緒に作業する",
     "desc": "リモートの変更を確認して取り込む",
     "entryIds": ["git-fetch", "git-pull", "git-rebase", "git-stash", "git-stash-pop"]
+  },
+  {
+    "id": "github-team",
+    "title": "GitHub でチーム開発",
+    "desc": "プルリクエストでレビューしてから取り込む",
+    "entryIds": ["gh-pr-create", "gh-pr-checkout", "web-review-pr", "gh-pr-checks", "gh-pr-merge"]
   }
 ]

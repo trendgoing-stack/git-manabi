@@ -1,1 +1,328 @@
-[]
+[
+  {
+    "id": "gh-auth-login",
+    "tool": "gh",
+    "category": "setup",
+    "title": "GitHub CLI で GitHub にログインしたい",
+    "intents": ["gh を使えるようにしたい", "gh の認証をしたい", "ターミナルから GitHub にログインしたい"],
+    "keywords": ["ろぐいん", "にんしょう", "認証", "auth", "login", "GitHub CLI"],
+    "syntax": "gh auth login",
+    "summary": "[[GitHub CLI]] から自分の GitHub アカウントを使えるように、ログイン情報を登録します。",
+    "details": "実行すると質問形式で、接続先（GitHub.com）、Git の通信方式（HTTPS か SSH）、ログイン方法（ブラウザかトークン）を順に選びます。ブラウザを選んだ場合は、表示された一回限りのコードを GitHub の画面に入力すると完了します。\n\nHTTPS を選び、Git の認証にも使うかという質問に「はい」と答えると、`git push` のときにパスワードを聞かれなくなります。",
+    "examples": [
+      {"cmd": "gh auth login", "desc": "質問に答えながらログインします。"},
+      {"cmd": "gh auth status", "desc": "今のログイン状態を確認します。"},
+      {"cmd": "gh auth logout", "desc": "ログイン情報を削除します。"}
+    ],
+    "danger": "safe",
+    "undo": "`gh auth logout` でログイン情報を削除できます。",
+    "prereq": "gh（GitHub CLI）のインストールが必要です。",
+    "related": ["gh-repo-clone", "gh-pr-create", "git-config-user"],
+    "docUrl": "https://cli.github.com/manual/gh_auth_login",
+    "tags": ["初回", "認証"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "gh-repo-create",
+    "tool": "gh",
+    "category": "repo",
+    "title": "手元のリポジトリを GitHub に新しく作って push したい",
+    "intents": ["GitHub にリポジトリを作りたい", "ローカルのプロジェクトを GitHub に上げたい", "コマンドでリポジトリを作成したい"],
+    "keywords": ["りぽじとりさくせい", "作成", "新規", "公開", "repo create"],
+    "syntax": "gh repo create <name> --private --source=. --push",
+    "placeholders": [
+      {"key": "name", "label": "リポジトリ名", "example": "my-project"}
+    ],
+    "summary": "GitHub に新しい[[リポジトリ]]を作り、今いるフォルダのリポジトリを [[origin]] として登録して push します。",
+    "details": "`--source=.` は「今いるフォルダの Git リポジトリを使う」という意味です。先に `git init` と最初のコミットを済ませておきます。誰でも見られるようにしたいときは `--private` を `--public` に変えます。\n\n引数を付けずに `gh repo create` だけを実行すると、質問形式で作れます。",
+    "examples": [
+      {"cmd": "gh repo create my-project --public --source=. --push", "desc": "公開リポジトリとして作って push します。"},
+      {"cmd": "gh repo create", "desc": "質問に答えながら作ります。"},
+      {"cmd": "gh repo create my-project --private --clone", "desc": "空のリポジトリを GitHub に作り、手元に複製します。"}
+    ],
+    "danger": "safe",
+    "undo": "GitHub の画面からリポジトリを削除できます（「GitHub のリポジトリを削除したい」を参照）。",
+    "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。コミットが1つ以上あるリポジトリで実行します。",
+    "related": ["git-init", "git-remote-add", "git-push-upstream", "web-create-repo", "web-delete-repo"],
+    "docUrl": "https://cli.github.com/manual/gh_repo_create",
+    "tags": ["初回", "作成"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "gh-repo-clone",
+    "tool": "gh",
+    "category": "repo",
+    "title": "gh で GitHub のリポジトリを手元に複製したい",
+    "intents": ["owner/repo の形で clone したい", "URL を調べずに複製したい", "フォークを複製したい"],
+    "keywords": ["くろーん", "複製", "ふくせい", "repo clone"],
+    "syntax": "gh repo clone <repo>",
+    "placeholders": [
+      {"key": "repo", "label": "リポジトリ（owner/名前）", "example": "octocat/Hello-World"}
+    ],
+    "summary": "`owner/名前` の短い書き方で[[リポジトリ]]を複製します。",
+    "details": "URL を調べなくても `owner/repo` の形で指定できます。自分のリポジトリなら名前だけでも構いません。\n\n[[フォーク]]を複製した場合は、フォーク元のリポジトリが `upstream` という名前で自動的に登録されます。",
+    "examples": [
+      {"cmd": "gh repo clone octocat/Hello-World", "desc": "owner/名前 で指定して複製します。"},
+      {"cmd": "gh repo clone my-project", "desc": "自分のリポジトリを名前だけで複製します。"},
+      {"cmd": "gh repo fork owner/repo --clone", "desc": "フォークを作って、そのまま手元に複製します。"}
+    ],
+    "danger": "safe",
+    "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
+    "related": ["git-clone", "gh-auth-login"],
+    "docUrl": "https://cli.github.com/manual/gh_repo_clone",
+    "tags": ["取得"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "gh-pr-create",
+    "tool": "gh",
+    "category": "pr",
+    "title": "プルリクエストを作りたい",
+    "intents": ["PR を作成したい", "レビューを依頼したい", "作業ブランチをマージしてもらうよう頼みたい"],
+    "keywords": ["ぷるりくえすと", "ぷるりく", "ぴーあーる", "PR", "pull request", "作成", "pr create"],
+    "syntax": "gh pr create [options] --title <title> --body <body>",
+    "placeholders": [
+      {"key": "title", "label": "タイトル", "example": "ログイン画面を追加", "quote": true},
+      {"key": "body", "label": "説明", "example": "ログイン画面を追加しました。レビューをお願いします。", "quote": true}
+    ],
+    "options": [
+      {"flag": "--draft", "label": "下書きとして", "desc": "下書き（Draft）の[[プルリクエスト]]として作ります。準備ができるまでマージされません。"},
+      {"flag": "--base", "label": "マージ先を指定", "desc": "マージ先のブランチを指定します。省略すると既定のブランチ（通常は main）になります。", "value": {"label": "マージ先のブランチ", "example": "main"}},
+      {"flag": "--reviewer", "label": "レビュアーを指定", "desc": "レビューを依頼する人のユーザー名を指定します。", "value": {"label": "ユーザー名", "example": "octocat"}},
+      {"flag": "--assignee", "label": "担当者を指定", "desc": "担当者を指定します。自分なら `@me` と書きます。", "value": {"label": "ユーザー名", "example": "@me", "quote": true}}
+    ],
+    "summary": "今のブランチから、[[プルリクエスト]]を作成します。",
+    "details": "先に作業ブランチを push しておきます（まだなら、gh が push するかを尋ねます）。\n\n`--title` と `--body` を省くと質問形式で入力できます。`--fill` を付けると、コミットのメッセージから自動で埋めます。",
+    "examples": [
+      {"cmd": "gh pr create --title \"ログイン画面を追加\" --body \"レビューお願いします\"", "desc": "タイトルと説明を指定して作ります。"},
+      {"cmd": "gh pr create --fill", "desc": "コミットのメッセージからタイトルと説明を埋めて作ります。"},
+      {"cmd": "gh pr create --web", "desc": "ブラウザで作成画面を開きます。"}
+    ],
+    "danger": "safe",
+    "undo": "作った PR は `gh pr close <番号>` で閉じられます。",
+    "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
+    "shellNote": "タイトルや説明に `$` やバッククォートを含むと、mac/Linux では展開されます。PowerShell では `@` が特別な意味を持つため、`@me` は `\"@me\"` のように \" で囲んでください。",
+    "related": ["gh-pr-list", "gh-pr-view", "git-push-upstream", "web-create-pr"],
+    "docUrl": "https://cli.github.com/manual/gh_pr_create",
+    "tags": ["PR", "レビュー"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "gh-pr-list",
+    "tool": "gh",
+    "category": "pr",
+    "title": "プルリクエストの一覧を見たい",
+    "intents": ["PR の一覧を確認したい", "自分の PR を探したい", "マージ済みの PR を見たい"],
+    "keywords": ["ぷるりく", "いちらん", "一覧", "PR", "pr list"],
+    "syntax": "gh pr list",
+    "summary": "リポジトリの開いている[[プルリクエスト]]を一覧表示します。",
+    "details": "番号、タイトル、ブランチ名が表示されます。番号は `gh pr view` や `gh pr checkout` で使います。",
+    "examples": [
+      {"cmd": "gh pr list", "desc": "開いている PR を表示します。"},
+      {"cmd": "gh pr list --author \"@me\"", "desc": "自分が作った PR だけ表示します。"},
+      {"cmd": "gh pr list --state merged", "desc": "マージ済みの PR を表示します。"},
+      {"cmd": "gh pr list --search \"review-requested:@me\"", "desc": "自分にレビュー依頼が来ている PR を表示します。"}
+    ],
+    "danger": "safe",
+    "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
+    "shellNote": "PowerShell では `@` が特別な意味を持つため、`@me` は `\"@me\"` のように \" で囲んでください。",
+    "related": ["gh-pr-view", "gh-pr-checkout", "gh-pr-create"],
+    "docUrl": "https://cli.github.com/manual/gh_pr_list",
+    "tags": ["PR", "確認"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "gh-pr-checkout",
+    "tool": "gh",
+    "category": "pr",
+    "title": "プルリクエストのブランチを手元で試したい",
+    "intents": ["PR を手元に取ってきたい", "レビューのために PR を動かしたい", "他の人の PR のブランチに切り替えたい"],
+    "keywords": ["ちぇっくあうと", "レビュー", "手元で確認", "pr checkout"],
+    "syntax": "gh pr checkout <number>",
+    "placeholders": [
+      {"key": "number", "label": "PR の番号", "example": "123"}
+    ],
+    "summary": "[[プルリクエスト]]のブランチを取得して、そのブランチに切り替えます。",
+    "details": "レビューのために、他の人の変更を実際に動かして確かめたいときに使います。[[フォーク]]から出された PR でも同じように取得できます。\n\n確認が終わったら `git switch main` などで元のブランチに戻ります。",
+    "examples": [
+      {"cmd": "gh pr checkout 123", "desc": "123 番の PR のブランチに切り替えます。"},
+      {"cmd": "gh pr checkout 123 -b review-123", "desc": "手元でのブランチ名を review-123 にして切り替えます。"}
+    ],
+    "danger": "safe",
+    "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
+    "related": ["gh-pr-list", "git-switch", "web-review-pr"],
+    "docUrl": "https://cli.github.com/manual/gh_pr_checkout",
+    "tags": ["PR", "レビュー"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "gh-pr-view",
+    "tool": "gh",
+    "category": "pr",
+    "title": "プルリクエストの内容を見たい",
+    "intents": ["PR の詳細を確認したい", "PR をブラウザで開きたい", "PR のコメントを読みたい"],
+    "keywords": ["ぷるりく", "しょうさい", "詳細", "PR", "pr view"],
+    "syntax": "gh pr view <number>",
+    "placeholders": [
+      {"key": "number", "label": "PR の番号", "example": "123"}
+    ],
+    "summary": "[[プルリクエスト]]のタイトル、説明、状態などを表示します。",
+    "details": "番号を省略すると、今いるブランチから作られた PR を表示します。`--web` を付けるとブラウザで開きます。",
+    "examples": [
+      {"cmd": "gh pr view", "desc": "今のブランチの PR を表示します。"},
+      {"cmd": "gh pr view 123 --web", "desc": "123 番の PR をブラウザで開きます。"},
+      {"cmd": "gh pr view 123 --comments", "desc": "コメントも含めて表示します。"},
+      {"cmd": "gh pr diff 123", "desc": "PR の変更内容（差分）を表示します。"}
+    ],
+    "danger": "safe",
+    "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
+    "related": ["gh-pr-list", "gh-pr-checks", "gh-browse"],
+    "docUrl": "https://cli.github.com/manual/gh_pr_view",
+    "tags": ["PR", "確認"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "gh-pr-merge",
+    "tool": "gh",
+    "category": "pr",
+    "title": "プルリクエストをマージしたい",
+    "intents": ["PR を取り込みたい", "スカッシュしてマージしたい", "マージしてブランチも消したい"],
+    "keywords": ["まーじ", "すかっしゅ", "取り込み", "PR", "pr merge", "squash"],
+    "syntax": "gh pr merge <number> [options]",
+    "placeholders": [
+      {"key": "number", "label": "PR の番号", "example": "123"}
+    ],
+    "options": [
+      {"flag": "--merge", "label": "マージコミットで", "desc": "マージコミットを作って取り込みます。PR のコミットはそのまま残ります。", "conflicts": ["--squash", "--rebase"]},
+      {"flag": "--squash", "label": "1つにまとめて", "desc": "PR のコミットを1つにまとめて取り込みます（[[スカッシュマージ]]）。", "conflicts": ["--merge", "--rebase"]},
+      {"flag": "--rebase", "label": "リベースで", "desc": "PR のコミットをマージ先の後ろに並べ直して取り込みます。", "conflicts": ["--merge", "--squash"]},
+      {"flag": "--delete-branch", "label": "ブランチも削除", "desc": "マージ後に、手元と GitHub の作業ブランチを削除します。"},
+      {"flag": "--auto", "label": "条件がそろったら自動で", "desc": "必要なレビューや[[CI]]がそろった時点で自動的にマージされるように予約します（リポジトリの設定で許可されている場合）。"}
+    ],
+    "summary": "[[プルリクエスト]]をマージ先のブランチに取り込みます。",
+    "details": "マージ方法（`--merge`／`--squash`／`--rebase`）を指定しないと、質問形式で選びます。リポジトリの設定で許可されていない方法は使えません。\n\nレビューや[[CI]]の条件が満たされていないと、マージできないことがあります。",
+    "examples": [
+      {"cmd": "gh pr merge 123 --squash --delete-branch", "desc": "1つにまとめてマージし、ブランチを削除します。"},
+      {"cmd": "gh pr merge", "desc": "今のブランチの PR を、質問に答えながらマージします。"}
+    ],
+    "danger": "caution",
+    "dangerNote": "マージ先のブランチ（main など）に変更が入り、ほかの人の手元にも影響します。",
+    "undo": "マージは取り消せないので、打ち消すには `git revert` を使うか、GitHub の PR 画面の「Revert」ボタンで打ち消しの PR を作ります。",
+    "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
+    "related": ["gh-pr-checks", "gh-pr-view", "git-merge", "web-merge-pr"],
+    "docUrl": "https://cli.github.com/manual/gh_pr_merge",
+    "tags": ["PR", "統合"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "gh-pr-checks",
+    "tool": "gh",
+    "category": "pr",
+    "title": "プルリクエストの自動テスト（CI）の結果を確認したい",
+    "intents": ["CI が通ったか見たい", "チェックの結果を確認したい", "テストが終わるまで待ちたい"],
+    "keywords": ["しーあい", "ちぇっく", "テスト", "actions", "pr checks", "CI"],
+    "syntax": "gh pr checks <number>",
+    "placeholders": [
+      {"key": "number", "label": "PR の番号", "example": "123"}
+    ],
+    "summary": "[[プルリクエスト]]で動いた[[CI]]（自動テストなど）の結果を一覧表示します。",
+    "details": "各チェックの成功・失敗・実行中が表示されます。番号を省略すると、今のブランチの PR が対象です。`--watch` を付けると、すべて終わるまで表示を更新し続けます。",
+    "examples": [
+      {"cmd": "gh pr checks 123", "desc": "123 番の PR のチェック結果を表示します。"},
+      {"cmd": "gh pr checks --watch", "desc": "今のブランチの PR のチェックが終わるまで待ちます。"}
+    ],
+    "danger": "safe",
+    "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
+    "related": ["gh-pr-view", "gh-pr-merge"],
+    "docUrl": "https://cli.github.com/manual/gh_pr_checks",
+    "tags": ["PR", "CI", "確認"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "gh-issue-create",
+    "tool": "gh",
+    "category": "issue",
+    "title": "Issue を作りたい",
+    "intents": ["バグを報告したい", "やることを Issue に登録したい", "課題を起票したい"],
+    "keywords": ["いしゅー", "きひょう", "起票", "バグ報告", "issue create"],
+    "syntax": "gh issue create --title <title> --body <body>",
+    "placeholders": [
+      {"key": "title", "label": "タイトル", "example": "ログインできない", "quote": true},
+      {"key": "body", "label": "説明", "example": "再現手順と期待する動き", "quote": true}
+    ],
+    "summary": "リポジトリに新しい[[Issue]]を作ります。",
+    "details": "`--title` と `--body` を省くと質問形式で入力できます。ラベルや担当者もまとめて指定できます。",
+    "examples": [
+      {"cmd": "gh issue create --title \"ログインできない\" --body \"再現手順を書く\"", "desc": "タイトルと説明を指定して作ります。"},
+      {"cmd": "gh issue create --label bug --assignee \"@me\"", "desc": "bug ラベルを付け、自分を担当者にして作ります（タイトルなどは質問形式）。"},
+      {"cmd": "gh issue create --web", "desc": "ブラウザで作成画面を開きます。"}
+    ],
+    "danger": "safe",
+    "undo": "`gh issue close <番号>` で閉じられます。",
+    "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
+    "shellNote": "PowerShell では `@` が特別な意味を持つため、`@me` は `\"@me\"` のように \" で囲んでください。",
+    "related": ["gh-issue-list", "gh-pr-create"],
+    "docUrl": "https://cli.github.com/manual/gh_issue_create",
+    "tags": ["Issue"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "gh-issue-list",
+    "tool": "gh",
+    "category": "issue",
+    "title": "Issue の一覧を見たい",
+    "intents": ["自分の担当の Issue を見たい", "開いている Issue を確認したい", "ラベルで Issue を絞りたい"],
+    "keywords": ["いしゅー", "いちらん", "一覧", "issue list"],
+    "syntax": "gh issue list",
+    "summary": "リポジトリの開いている[[Issue]]を一覧表示します。",
+    "details": "番号、タイトル、ラベルが表示されます。`gh issue view <番号>` で詳しく見られます。",
+    "examples": [
+      {"cmd": "gh issue list", "desc": "開いている Issue を表示します。"},
+      {"cmd": "gh issue list --assignee \"@me\"", "desc": "自分が担当の Issue を表示します。"},
+      {"cmd": "gh issue list --label bug", "desc": "bug ラベルの Issue を表示します。"},
+      {"cmd": "gh issue list --state closed", "desc": "閉じた Issue を表示します。"}
+    ],
+    "danger": "safe",
+    "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
+    "shellNote": "PowerShell では `@` が特別な意味を持つため、`@me` は `\"@me\"` のように \" で囲んでください。",
+    "related": ["gh-issue-create", "gh-pr-list"],
+    "docUrl": "https://cli.github.com/manual/gh_issue_list",
+    "tags": ["Issue", "確認"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "gh-browse",
+    "tool": "gh",
+    "category": "other",
+    "title": "リポジトリの GitHub のページをブラウザで開きたい",
+    "intents": ["GitHub の画面をすぐ開きたい", "ファイルを GitHub で見たい", "リポジトリの設定画面を開きたい"],
+    "keywords": ["ぶらうざ", "ひらく", "開く", "ページ", "browse"],
+    "syntax": "gh browse",
+    "summary": "今いるリポジトリの GitHub のページを、ブラウザで開きます。",
+    "details": "ファイル名や Issue・PR の番号を付けると、そのページを直接開きます。",
+    "examples": [
+      {"cmd": "gh browse", "desc": "リポジトリのトップページを開きます。"},
+      {"cmd": "gh browse README.md", "desc": "README.md のページを開きます。"},
+      {"cmd": "gh browse 123", "desc": "123 番の Issue または PR を開きます。"},
+      {"cmd": "gh browse --settings", "desc": "リポジトリの設定画面を開きます。"}
+    ],
+    "danger": "safe",
+    "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
+    "related": ["gh-pr-view", "web-pages"],
+    "docUrl": "https://cli.github.com/manual/gh_browse",
+    "tags": ["確認"],
+    "verified": false,
+    "verifiedNote": ""
+  }
+]

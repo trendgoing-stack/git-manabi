@@ -79,6 +79,12 @@ export function replace(path) {
   history.replaceState(history.state, '', '#' + path);
 }
 
+/** 今の履歴エントリを別の画面に置き換えて描画する（保存後に編集画面を履歴に残さないときなど） */
+export function redirect(path) {
+  history.replaceState(history.state, '', '#' + path);
+  dispatch();
+}
+
 /** アプリ内で前の画面があれば戻り、なければ指定の画面へ */
 export function back(fallbackPath = '/search') {
   if (depth > 0) {

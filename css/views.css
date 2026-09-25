@@ -314,3 +314,193 @@
   margin: 0;
   accent-color: var(--accent);
 }
+
+/* ---- 詳細（フェーズ2） ---- */
+.entry-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+.entry-title-row h1 {
+  flex: 1;
+}
+.fav-btn {
+  flex: none;
+  min-width: var(--tap);
+  min-height: var(--tap);
+  border: 0;
+  background: none;
+  color: var(--caution);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.fav-btn[aria-pressed='false'] {
+  color: var(--text-sub);
+}
+
+.opts {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.chips-wrap {
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.chip-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+.chip-opt code {
+  font-weight: 700;
+}
+.opt-details {
+  display: grid;
+  gap: 8px;
+}
+.opt-detail {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  font-size: 0.88rem;
+}
+.opt-detail p {
+  margin: 0 0 4px;
+}
+.opt-detail .field {
+  margin-top: 4px;
+}
+.opt-help summary {
+  min-height: var(--tap);
+  display: flex;
+  align-items: center;
+  color: var(--accent);
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.opt-help dl {
+  margin: 0;
+  font-size: 0.88rem;
+}
+.opt-help dt {
+  margin-top: 8px;
+  font-weight: 700;
+}
+.opt-help dd {
+  margin: 0;
+}
+
+.memo {
+  min-height: 96px;
+}
+.memo-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--text-sub);
+}
+
+/* ---- マイ ---- */
+.list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.result-meta {
+  font-size: 0.78rem;
+  color: var(--text-sub);
+}
+.result-note {
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  white-space: pre-line;
+}
+.edit-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.edit-row-main {
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- 学ぶ ---- */
+.menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.menu-card {
+  display: grid;
+  gap: 2px;
+  min-height: 64px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+.menu-card.disabled {
+  opacity: 0.5;
+}
+.term-row {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ---- フォーム・設定 ---- */
+.form {
+  display: grid;
+  gap: 14px;
+}
+.setting-note {
+  margin: 6px 0 0;
+  clear: both;
+}
+.import-modes {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.import-modes legend {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.radio-desc {
+  align-items: flex-start;
+  padding: 6px 0;
+}
+.radio-desc input {
+  margin-top: 4px;
+}
+.radio-desc span {
+  display: grid;
+}
+.file-input {
+  width: 100%;
+  min-height: var(--tap);
+}
+.or {
+  text-align: center;
+  margin: 4px 0;
+}

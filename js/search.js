@@ -37,8 +37,10 @@ const TOOL_PREFIX_RE = /^(git|gh) /;
  */
 export function buildIndex(items) {
   return items.map((item, order) => {
-    const cmdText = normalize(item.syntax || '');
-    const lines = (item.syntax || '').split('\n').map(normalize).filter(Boolean);
+    // ビルダー用の [options] は検索対象から外す
+    const syntax = (item.syntax || '').replace(/ ?\[options\]/g, '');
+    const cmdText = normalize(syntax);
+    const lines = syntax.split('\n').map(normalize).filter(Boolean);
     const cmdLines = [];
     for (const l of lines) {
       cmdLines.push(l);

@@ -6,10 +6,12 @@ import { h } from '../ui/dom.js';
 import { screen } from '../ui/chrome.js';
 import { dangerBadge, toolBadge } from '../ui/badges.js';
 import { rich } from '../ui/rich.js';
-import { copyWithToast } from '../ui/copy.js';
+import { guardedCopy } from '../ui/copy.js';
+import { renderBuilder, displaySyntax } from '../ui/builder-ui.js';
+import { toast } from '../ui/toast.js';
 import { getEntry } from '../data.js';
-import { build } from '../builder.js';
-import { categoryLabel } from '../config.js';
+import { addHistory, isFavorite, toggleFavorite, getNote, setNote } from '../storage.js';
+import { categoryLabel, NOTE_MAX_LENGTH } from '../config.js';
 
 /** @param {import('../router.js').RouteCtx} ctx */
 export function renderEntry(ctx) {
@@ -21,34 +23,56 @@ export function renderEntry(ctx) {
     );
     return;
   }
+  addHistory(entry.id);
 
   view.append(
     h(
       'article',
       { class: 'entry' },
       header(entry),
-      entry.syntax ? builderSection(entry) : null,
+      entry.syntax ? section('コマンド', ...renderBuilder(entry)) : null,
       entry.steps?.length ? stepsSection(entry) : null,
       section('説明', h('p', { class: 'summary' }, rich(entry.summary, { inline: true })), entry.details ? h('div', { class: 'rich' }, rich(entry.details)) : null),
       entry.examples?.length ? examplesSection(entry) : null,
       undoSection(entry),
       notesSection(entry),
       relatedSection(entry),
+      memoSection(entry.id),
       footer(entry)
     )
   );
 }
 
 /** @param {string} title @param {...any} body */
-function section(title, ...body) {
+export function section(title, ...body) {
   return h('section', { class: 'entry-section' }, h('h2', null, title), ...body);
+}
+
+/** お気に入りの切り替えボタン */
+export function favoriteButton(id) {
+  const btn = h('button', {
+    type: 'button',
+    class: 'fav-btn',
+    onclick: () => {
+      const on = toggleFavorite(id);
+      paint(on);
+      toast(on ? 'お気に入りに追加しました' : 'お気に入りから外しました');
+    },
+  });
+  const paint = (on) => {
+    btn.setAttribute('aria-pressed', String(on));
+    btn.setAttribute('aria-label', on ? 'お気に入りから外す' : 'お気に入りに追加');
+    btn.textContent = on ? '★' : '☆';
+  };
+  paint(isFavorite(id));
+  return btn;
 }
 
 function header(e) {
   return h(
     'header',
     { class: 'entry-head' },
-    h('h1', null, e.title),
+    h('div', { class: 'entry-title-row' }, h('h1', null, e.title), favoriteButton(e.id)),
     h(
       'div',
       { class: 'badges' },
@@ -62,69 +86,12 @@ function header(e) {
   );
 }
 
-function builderSection(e) {
-  /** @type {Object<string,string>} 入力値は保存しない（画面を離れたら消える） */
-  const values = {};
-  const out = h('pre', { class: 'cmd-out', 'aria-live': 'polite' });
-  const warn = h(
-    'p',
-    { class: 'field-note warn', hidden: true },
-    '値にシェルが解釈する文字（',
-    ['$', '`', '\\', '!'].map((c, i) => [i ? ' ' : '', h('code', null, c)]),
-    '）が含まれています。意図どおりに渡らない場合があります。'
-  );
-  let last = build(e, values);
-
-  const refresh = () => {
-    last = build(e, values);
-    out.replaceChildren(...last.parts.map((p) => (p.kind === 'text' ? p.text : h('span', { class: `ph-${p.kind}` }, p.text))));
-    warn.hidden = !last.shellWarn;
-  };
-
-  const fields = (e.placeholders || []).map((p) => {
-    const id = `ph-${p.key}`;
-    return h(
-      'div',
-      { class: 'field' },
-      h('label', { for: id }, p.label, p.quote ? h('span', { class: 'field-hint' }, '（" で囲みます）') : null),
-      h('input', {
-        id,
-        type: 'text',
-        class: 'input',
-        placeholder: `例：${p.example}`,
-        autocomplete: 'off',
-        autocapitalize: 'off',
-        spellcheck: 'false',
-        oninput: (ev) => {
-          values[p.key] = ev.target.value;
-          refresh();
-        },
-      })
-    );
-  });
-
-  refresh();
-  return section(
-    'コマンド',
-    h('div', { class: 'syntax' }, h('span', { class: 'syntax-label' }, '構文'), h('code', null, e.syntax)),
-    fields.length ? h('div', { class: 'fields' }, fields) : null,
-    h('div', { class: 'cmd-box' }, h('span', { class: 'syntax-label' }, '完成形'), out),
-    warn,
-    h(
-      'button',
-      {
-        type: 'button',
-        class: 'btn btn-primary btn-block',
-        // コピーはタップ処理の中で同期的に開始する
-        onclick: () => copyWithToast(last.text, { missing: last.missing, selectEl: out }),
-      },
-      'コピー'
-    )
-  );
-}
-
 function stepsSection(e) {
-  return section('手順', h('ol', { class: 'steps' }, e.steps.map((s) => h('li', null, rich(s, { inline: true })))));
+  return section(
+    '手順',
+    h('ol', { class: 'steps' }, e.steps.map((s) => h('li', null, rich(s, { inline: true })))),
+    h('p', { class: 'sub' }, 'GitHub の画面は変わる場合があります。見つからないときは公式ドキュメントも確認してください。')
+  );
 }
 
 function examplesSection(e) {
@@ -142,7 +109,7 @@ function examplesSection(e) {
             'div',
             { class: 'example-cmd' },
             code,
-            h('button', { type: 'button', class: 'btn-small', 'aria-label': `${ex.cmd} をコピー`, onclick: () => copyWithToast(ex.cmd, { selectEl: code }) }, 'コピー')
+            h('button', { type: 'button', class: 'btn-small', 'aria-label': `${ex.cmd} をコピー`, onclick: () => guardedCopy(e, ex.cmd, { selectEl: code }) }, 'コピー')
           ),
           h('p', { class: 'example-desc' }, rich(ex.desc, { inline: true }))
         );
@@ -182,16 +149,57 @@ function relatedSection(e) {
     h(
       'ul',
       { class: 'link-list' },
-      rel.map((r) => h('li', null, h('a', { href: `#/entry/${r.id}` }, r.syntax ? h('code', null, r.syntax.split('\n')[0]) : null, h('span', null, r.title))))
+      rel.map((r) => h('li', null, h('a', { href: `#/entry/${r.id}` }, r.syntax ? h('code', null, displaySyntax(r.syntax).split('\n')[0]) : null, h('span', null, r.title))))
     )
   );
+}
+
+/** 自分用メモ（入力のたびに少し待って保存） */
+function memoSection(id) {
+  const status = h('span', { class: 'memo-status', 'aria-live': 'polite' });
+  const counter = h('span', { class: 'memo-count' });
+  let timer = 0;
+  const ta = h('textarea', {
+    class: 'textarea memo',
+    rows: 4,
+    maxlength: NOTE_MAX_LENGTH,
+    placeholder: '自分用のメモ（この端末のこのブラウザにだけ保存されます）',
+    'aria-label': '自分用メモ',
+    value: getNote(id),
+    oninput: () => {
+      paintCount();
+      status.textContent = '';
+      clearTimeout(timer);
+      timer = setTimeout(save, 600);
+    },
+    onblur: () => {
+      clearTimeout(timer);
+      save();
+    },
+  });
+  const paintCount = () => (counter.textContent = `${ta.value.length} / ${NOTE_MAX_LENGTH}`);
+  let lastSaved = ta.value;
+  const save = () => {
+    if (ta.value === lastSaved) return;
+    const r = setNote(id, ta.value);
+    if (r === 'ok') {
+      lastSaved = ta.value;
+      status.textContent = '保存しました';
+    } else if (r === 'too-large') {
+      toast('メモとスニペットの合計が大きすぎます（目安 1MB）。不要なものを削除してください', { kind: 'error', ms: 4000 });
+    } else if (r === 'too-long') {
+      toast(`メモは ${NOTE_MAX_LENGTH} 文字までです`, { kind: 'error' });
+    }
+  };
+  paintCount();
+  return section('自分用メモ', ta, h('div', { class: 'memo-foot' }, status, counter));
 }
 
 function footer(e) {
   return h(
     'footer',
     { class: 'entry-foot' },
-    e.docUrl ? h('p', null, h('a', { href: e.docUrl, target: '_blank', rel: 'noopener' }, '公式ドキュメント（英語）↗')) : null,
+    e.docUrl ? h('p', null, h('a', { href: e.docUrl, target: '_blank', rel: 'noopener' }, '公式ドキュメント ↗')) : null,
     h('p', { class: 'sub' }, e.verified ? `確認済み：${e.verifiedNote || '環境の記載なし'}` : '未確認：実機での動作確認前の下書きです。'),
     h('p', { class: 'sub' }, '説明はオリジナルの要約です。正確な仕様は公式ドキュメントを確認してください。')
   );

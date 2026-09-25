@@ -6,7 +6,7 @@ Git・GitHub CLI・GitHub の操作を「やりたいこと」と「コマンド
 - ビルド不要（バニラ JavaScript の ES Modules ＋ HTML ＋ CSS）。外部ライブラリや CDN は使いません。
 - ユーザーデータ（お気に入り、メモなど）はブラウザの localStorage にだけ保存し、外部には送りません。
 
-> 開発中（フェーズ1）です。公開手順、ホーム画面への追加手順、更新手順はフェーズ4で追記します。
+> 開発中（フェーズ2）です。公開手順、ホーム画面への追加手順、更新手順はフェーズ4で追記します。
 
 ## ローカルで動かす
 
@@ -45,6 +45,7 @@ js/search.js      検索
 js/builder.js     コマンドの完成形の組み立て
 js/clipboard.js   コピー処理
 js/markup.js      本文の記法（[[用語]]、`code`）
+js/snippets.js    自作スニペットをエントリ形式に変換
 js/ui/            共通 UI 部品
 js/views/         各画面
 data/             辞書データ（書き方は CONTENT.md）

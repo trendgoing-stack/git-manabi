@@ -1,7 +1,8 @@
 // 起動処理：設定の反映 → データ読込 → ルーター開始
 
 import * as storage from './storage.js';
-import { loadAll, db } from './data.js';
+import { loadAll, db, setExtraItems, invalidateIndex } from './data.js';
+import { snippetToItem } from './snippets.js';
 import { route, fallback, start, go } from './router.js';
 import { toast } from './ui/toast.js';
 import { showBanner } from './ui/chrome.js';
@@ -10,10 +11,16 @@ import { renderSearch } from './views/search.js';
 import { renderEntry } from './views/entry.js';
 import { renderSettings } from './views/settings.js';
 import { renderPlaceholder } from './views/placeholder.js';
+import { renderMy } from './views/my.js';
+import { renderSnippet, renderSnippetEdit } from './views/snippet.js';
+import { renderLearn, renderGlossary } from './views/learn.js';
 
 storage.onWriteError(() => toast('保存できませんでした（容量不足の可能性があります）', { kind: 'error', ms: 4000 }));
 storage.init();
 applySettings();
+// 自作スニペットも検索対象にする
+setExtraItems(() => storage.getSnippets().map(snippetToItem));
+storage.onChange(invalidateIndex);
 
 // ---- スクロール位置の復元 ----
 // 各履歴エントリの state に y を保存し、戻ったときに復元する。
@@ -41,9 +48,13 @@ function withScroll(render) {
 
 route('/search', withScroll(renderSearch));
 route('/entry/:id', withScroll(renderEntry));
+route('/snippet/new', withScroll(renderSnippetEdit));
+route('/snippet/:id', withScroll(renderSnippet));
+route('/snippet/:id/edit', withScroll(renderSnippetEdit));
 route('/trouble', withScroll(() => renderPlaceholder({ title: '困った', tab: 'trouble', lines: ['トラブル脱出フローチャートはフェーズ3で追加します。'] })));
-route('/learn', withScroll(() => renderPlaceholder({ title: '学ぶ', tab: 'learn', lines: ['クイズ、フラッシュカード、用語集はフェーズ2〜3で追加します。'] })));
-route('/my', withScroll(() => renderPlaceholder({ title: 'マイ', tab: 'my', lines: ['お気に入り、履歴、メモ、スニペットはフェーズ2で追加します。'] })));
+route('/learn', withScroll(renderLearn));
+route('/learn/glossary', withScroll(renderGlossary));
+route('/my', withScroll(renderMy));
 route('/settings', withScroll(renderSettings));
 fallback(() => go('/search'));
 

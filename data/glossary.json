@@ -145,5 +145,54 @@
     "aliases": ["gitignore", "無視ファイル"],
     "def": "Git に管理させたくないファイル（ビルド結果やパスワードを含む設定ファイルなど）の名前やパターンを書いておくファイルです。既に管理しているファイルには効きません。",
     "related": ["git-status"]
+  },
+  {
+    "term": "プルリクエスト",
+    "reading": "ぷるりくえすと",
+    "aliases": ["PR", "プルリク", "pull request"],
+    "def": "自分のブランチの変更を、別のブランチ（main など）に取り込んでほしいと依頼する GitHub の仕組みです。変更内容の確認、コメント、[[CI]]の結果の確認、マージまでをまとめて行えます。",
+    "related": ["gh-pr-create", "web-create-pr"]
+  },
+  {
+    "term": "Issue",
+    "reading": "いしゅー",
+    "aliases": ["イシュー", "issue"],
+    "def": "バグの報告、やることのメモ、議論などを書いておく GitHub の掲示板のような機能です。番号が付き、プルリクエストから `#123` のように参照できます。",
+    "related": ["gh-issue-create", "gh-issue-list"]
+  },
+  {
+    "term": "CI",
+    "reading": "しーあい",
+    "aliases": ["継続的インテグレーション", "GitHub Actions"],
+    "def": "push やプルリクエストのたびに、テストやビルドを自動で実行する仕組みです。GitHub では GitHub Actions がよく使われ、結果が PR の画面に表示されます。",
+    "related": ["gh-pr-checks"]
+  },
+  {
+    "term": "スカッシュマージ",
+    "reading": "すかっしゅまーじ",
+    "aliases": ["squash", "スカッシュ", "Squash and merge"],
+    "def": "プルリクエストの複数のコミットを1つにまとめてから取り込む[[マージ]]の方法です。マージ先の履歴がすっきりしますが、個々のコミットは残りません。",
+    "related": ["gh-pr-merge", "web-merge-pr"]
+  },
+  {
+    "term": "フォーク",
+    "reading": "ふぉーく",
+    "aliases": ["fork"],
+    "def": "他の人のリポジトリを、自分のアカウントに丸ごとコピーすることです。書き込み権限がないリポジトリに変更を提案するときは、フォークで作業してからプルリクエストを出します。",
+    "related": ["gh-repo-clone"]
+  },
+  {
+    "term": "GitHub CLI",
+    "reading": "ぎっとはぶしーえるあい",
+    "aliases": ["gh"],
+    "def": "GitHub の操作（プルリクエスト、Issue、リポジトリの作成など）をターミナルから行うための公式ツールです。コマンド名は `gh` です。",
+    "related": ["gh-auth-login"]
+  },
+  {
+    "term": "GitHub Pages",
+    "reading": "ぎっとはぶぺーじず",
+    "aliases": ["Pages"],
+    "def": "リポジトリに置いた HTML などのファイルを、ウェブサイトとして公開できる GitHub の機能です。",
+    "related": ["web-pages"]
   }
 ]
