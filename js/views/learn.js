@@ -23,8 +23,8 @@ export function renderLearn() {
     h(
       'ul',
       { class: 'menu-list' },
-      card('#/learn/quiz', 'クイズ', 'フェーズ3で追加予定です', true),
-      card('#/learn/cards', 'フラッシュカード', 'フェーズ3で追加予定です', true),
+      card('#/learn/quiz', 'クイズ', '4択で10問。苦手な問題の復習もできます'),
+      card('#/learn/cards', 'フラッシュカード', '表にやりたいこと、裏にコマンド'),
       card('#/learn/glossary', '用語集', `${db.glossary.length} 語を五十音順に`)
     )
   );

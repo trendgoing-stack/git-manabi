@@ -8,6 +8,7 @@ import { dangerBadge, toolBadge } from '../ui/badges.js';
 import { rich } from '../ui/rich.js';
 import { guardedCopy } from '../ui/copy.js';
 import { renderBuilder, displaySyntax } from '../ui/builder-ui.js';
+import { renderDiagram } from '../diagram.js';
 import { toast } from '../ui/toast.js';
 import { getEntry } from '../data.js';
 import { addHistory, isFavorite, toggleFavorite, getNote, setNote } from '../storage.js';
@@ -34,6 +35,7 @@ export function renderEntry(ctx) {
       entry.steps?.length ? stepsSection(entry) : null,
       section('説明', h('p', { class: 'summary' }, rich(entry.summary, { inline: true })), entry.details ? h('div', { class: 'rich' }, rich(entry.details)) : null),
       entry.examples?.length ? examplesSection(entry) : null,
+      entry.diagram ? diagramSection(entry.diagram) : null,
       undoSection(entry),
       notesSection(entry),
       relatedSection(entry),
@@ -115,6 +117,17 @@ function examplesSection(e) {
         );
       })
     )
+  );
+}
+
+/** ブランチ図（実行前と実行後を縦に並べる。横に長い図は図だけ横スクロール） */
+function diagramSection(d) {
+  const fig = (state, caption) =>
+    h('figure', { class: 'diagram-fig' }, h('figcaption', null, caption), h('div', { class: 'diagram-scroll' }, renderDiagram(state, caption)));
+  return section(
+    'ブランチ図',
+    h('div', { class: 'diagram' }, fig(d.before, '実行前'), h('div', { class: 'diagram-arrow', 'aria-hidden': 'true' }, '↓'), fig(d.after, '実行後')),
+    d.note ? h('p', { class: 'diagram-note' }, rich(d.note, { inline: true })) : null
   );
 }
 

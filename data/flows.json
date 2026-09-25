@@ -1,1 +1,225 @@
-[]
+[
+  {
+    "id": "undo-commit",
+    "title": "コミットを取り消したい",
+    "start": "q-pushed",
+    "nodes": [
+      {
+        "id": "q-pushed",
+        "question": "そのコミットは、もう push しましたか？",
+        "choices": [
+          {"label": "まだ push していない", "next": "q-how"},
+          {"label": "push した", "next": "r-revert"},
+          {"label": "わからない", "next": "r-check"}
+        ]
+      },
+      {
+        "id": "q-how",
+        "question": "どうしたいですか？",
+        "choices": [
+          {"label": "メッセージや内容を少し直したい", "next": "r-amend"},
+          {"label": "コミットを取り消して作り直したい", "next": "q-keep"},
+          {"label": "変更ごと完全に捨てたい", "next": "r-hard"}
+        ]
+      },
+      {
+        "id": "q-keep",
+        "question": "取り消したコミットの変更は、どこに残したいですか？",
+        "choices": [
+          {"label": "ステージに残して、すぐコミットし直したい", "next": "r-soft"},
+          {"label": "ステージからも下ろして、選び直したい", "next": "r-mixed"}
+        ]
+      },
+      {"id": "r-revert", "entryIds": ["git-revert"], "note": "共有済みのコミットは履歴を書き換えず、打ち消しのコミットを追加するのが安全です。"},
+      {
+        "id": "r-check",
+        "entryIds": ["git-status", "git-log"],
+        "note": "`git status` に「Your branch is ahead of」と出ていれば、そのコミットはまだ push されていません。`git log --oneline` で origin/… の位置も確認できます。確認できたら最初からやり直してください。"
+      },
+      {"id": "r-amend", "entryIds": ["git-commit-amend"], "note": "直前のコミットだけなら、作り直さずに修正できます。"},
+      {"id": "r-soft", "entryIds": ["git-reset-soft"], "note": "`git reset --soft HEAD~1` で取り消すと、変更はステージに残ります。"},
+      {"id": "r-mixed", "entryIds": ["git-reset-mixed"], "note": "`git reset HEAD~1` で取り消すと、変更は作業ツリーにだけ残ります。"},
+      {"id": "r-hard", "entryIds": ["git-reset-hard", "git-reflog"], "note": "変更は取り戻せなくなります。実行前に `git branch backup` などで目印を付けておくと安心です。"}
+    ]
+  },
+  {
+    "id": "discard-changes",
+    "title": "変更を捨てたい",
+    "start": "q-staged",
+    "nodes": [
+      {
+        "id": "q-staged",
+        "question": "捨てたい変更は、もう `git add`（ステージ）しましたか？",
+        "choices": [
+          {"label": "まだ add していない", "next": "q-what"},
+          {"label": "add した", "next": "q-unstage"}
+        ]
+      },
+      {
+        "id": "q-what",
+        "question": "何を捨てたいですか？",
+        "choices": [
+          {"label": "特定のファイルの編集", "next": "r-restore"},
+          {"label": "すべてのファイルの編集", "next": "r-restore-all"},
+          {"label": "新しく作ったファイル", "next": "r-clean"}
+        ]
+      },
+      {
+        "id": "q-unstage",
+        "question": "どこまで戻したいですか？",
+        "choices": [
+          {"label": "ステージだけ取り消したい（編集は残す）", "next": "r-unstage"},
+          {"label": "ステージも編集も捨てたい", "next": "r-both"}
+        ]
+      },
+      {"id": "r-restore", "entryIds": ["git-restore", "git-stash"], "note": "`git restore <ファイル>` で最後にコミットした状態に戻ります。捨てた編集は戻せないので、迷うときは `git stash` で退避しておきましょう。"},
+      {"id": "r-restore-all", "entryIds": ["git-restore", "git-stash"], "note": "`git restore .` ですべての編集を捨てます。迷うときは先に `git stash` で退避しておくと、後から取り戻せます。"},
+      {"id": "r-clean", "entryIds": ["git-clean"], "note": "Git がまだ管理していないファイルは `git restore` では消えません。`git clean -n` で確認してから `git clean -f` を実行します。"},
+      {"id": "r-unstage", "entryIds": ["git-restore-staged"], "note": "`git restore --staged <ファイル>` でステージから下ろせます。編集はそのまま残ります。"},
+      {
+        "id": "r-both",
+        "entryIds": ["git-restore-staged", "git-restore"],
+        "note": "先に `git restore --staged <ファイル>` でステージから下ろし、続けて `git restore <ファイル>` で編集を捨てます。捨てた編集は戻せません。"
+      }
+    ]
+  },
+  {
+    "id": "wrong-branch",
+    "title": "間違ったブランチで作業・コミットした",
+    "start": "q-committed",
+    "nodes": [
+      {
+        "id": "q-committed",
+        "question": "もうコミットしましたか？",
+        "choices": [
+          {"label": "まだ（編集しただけ）", "next": "r-move-changes"},
+          {"label": "コミットした", "next": "q-pushed"}
+        ]
+      },
+      {
+        "id": "q-pushed",
+        "question": "そのコミットは push しましたか？",
+        "choices": [
+          {"label": "まだ push していない", "next": "q-target"},
+          {"label": "push した", "next": "r-pushed"}
+        ]
+      },
+      {
+        "id": "q-target",
+        "question": "移したい先のブランチは、もうありますか？",
+        "choices": [
+          {"label": "ない（新しく作りたい）", "next": "r-new-branch"},
+          {"label": "ある", "next": "r-cherry"}
+        ]
+      },
+      {
+        "id": "r-move-changes",
+        "entryIds": ["git-switch", "git-stash", "git-stash-pop"],
+        "note": "コミットしていない編集は、たいてい `git switch <正しいブランチ>` でそのまま持っていけます。切り替えを断られたら、`git stash` → `git switch` → `git stash pop` の順で移します。"
+      },
+      {
+        "id": "r-new-branch",
+        "entryIds": ["git-switch-create", "git-reset-hard", "git-switch"],
+        "note": "1. `git branch <新しい名前>` で今の位置に目印を作る\n2. 未コミットの変更がないことを確かめてから `git reset --hard HEAD~1` で今のブランチを1つ戻す\n3. `git switch <新しい名前>` で移る"
+      },
+      {
+        "id": "r-cherry",
+        "entryIds": ["git-cherry-pick", "git-reset-hard", "git-log"],
+        "note": "1. `git log --oneline` で移したいコミットのハッシュを控える\n2. `git switch <正しいブランチ>` → `git cherry-pick <ハッシュ>`\n3. 元のブランチに戻り、未コミットの変更がないことを確かめてから `git reset --hard HEAD~1`"
+      },
+      {"id": "r-pushed", "entryIds": ["git-cherry-pick", "git-revert"], "note": "正しいブランチに `git cherry-pick` でコピーし、間違えた方のブランチでは `git revert` で打ち消すのが安全です。"}
+    ]
+  },
+  {
+    "id": "fix-after-push",
+    "title": "push した後に修正したい",
+    "start": "q-what",
+    "nodes": [
+      {
+        "id": "q-what",
+        "question": "何をしたいですか？",
+        "choices": [
+          {"label": "内容の間違いを直したい・足したい", "next": "r-new-commit"},
+          {"label": "push したコミットを取り消したい", "next": "r-revert"},
+          {"label": "メッセージや履歴をきれいにしたい", "next": "q-shared"}
+        ]
+      },
+      {
+        "id": "q-shared",
+        "question": "そのブランチを使っているのは自分だけですか？",
+        "choices": [
+          {"label": "自分だけ（個人の作業ブランチ）", "next": "r-force"},
+          {"label": "他の人も使っている・わからない", "next": "r-dont"}
+        ]
+      },
+      {"id": "r-new-commit", "entryIds": ["git-commit", "git-push"], "note": "修正のコミットを追加して、もう一度 push するのが最も安全です。プルリクエストの途中なら、同じブランチに push すれば PR にも反映されます。"},
+      {"id": "r-revert", "entryIds": ["git-revert", "git-push"], "note": "`git revert` で打ち消しのコミットを作り、push します。履歴は書き換えません。"},
+      {
+        "id": "r-force",
+        "entryIds": ["git-commit-amend", "git-rebase", "git-push"],
+        "note": "手元で `git commit --amend` や `git rebase -i` で直したあと、`git push --force-with-lease` で送ります。他の人の変更があれば止まるので、`--force` より安全です。"
+      },
+      {"id": "r-dont", "entryIds": ["git-revert", "git-commit"], "note": "共有しているブランチの履歴は書き換えないでください。修正のコミットを追加するか、`git revert` で打ち消します。"}
+    ]
+  },
+  {
+    "id": "conflict",
+    "title": "コンフリクトした",
+    "start": "q-when",
+    "nodes": [
+      {
+        "id": "q-when",
+        "question": "何をしていたときにコンフリクトしましたか？",
+        "choices": [
+          {"label": "merge または pull", "next": "q-merge"},
+          {"label": "rebase", "next": "q-rebase"},
+          {"label": "stash pop", "next": "r-stash"},
+          {"label": "cherry-pick", "next": "q-cherry"}
+        ]
+      },
+      {
+        "id": "q-merge",
+        "question": "どうしますか？",
+        "choices": [
+          {"label": "解決して続けたい", "next": "r-merge-resolve"},
+          {"label": "いったん中止したい", "next": "r-merge-abort"}
+        ]
+      },
+      {
+        "id": "q-rebase",
+        "question": "どうしますか？",
+        "choices": [
+          {"label": "解決して続けたい", "next": "r-rebase-resolve"},
+          {"label": "いったん中止したい", "next": "r-rebase-abort"}
+        ]
+      },
+      {
+        "id": "q-cherry",
+        "question": "どうしますか？",
+        "choices": [
+          {"label": "解決して続けたい", "next": "r-cherry-resolve"},
+          {"label": "いったん中止したい", "next": "r-cherry-abort"}
+        ]
+      },
+      {
+        "id": "r-merge-resolve",
+        "entryIds": ["git-status", "git-add", "git-commit"],
+        "note": "1. `git status` でコンフリクトしたファイルを確認\n2. ファイルの `<<<<<<<` 〜 `>>>>>>>` の部分を正しい内容に直す\n3. `git add <ファイル>`\n4. `git commit` でマージを完了"
+      },
+      {"id": "r-merge-abort", "entryIds": ["git-merge"], "note": "`git merge --abort` で、マージを始める前の状態に戻ります。"},
+      {
+        "id": "r-rebase-resolve",
+        "entryIds": ["git-status", "git-add", "git-rebase"],
+        "note": "1. `git status` でコンフリクトしたファイルを確認\n2. ファイルを正しい内容に直す\n3. `git add <ファイル>`\n4. `git rebase --continue`（コミットごとに繰り返すことがあります）"
+      },
+      {"id": "r-rebase-abort", "entryIds": ["git-rebase"], "note": "`git rebase --abort` で、リベースを始める前の状態に戻ります。"},
+      {
+        "id": "r-stash",
+        "entryIds": ["git-stash-pop", "git-status", "git-add"],
+        "note": "コンフリクトした場合、stash は一覧に残っています。ファイルを直して `git add` したら、不要になった stash を `git stash drop` で消します。"
+      },
+      {"id": "r-cherry-resolve", "entryIds": ["git-status", "git-add", "git-cherry-pick"], "note": "ファイルを直して `git add` し、`git cherry-pick --continue` で続けます。"},
+      {"id": "r-cherry-abort", "entryIds": ["git-cherry-pick"], "note": "`git cherry-pick --abort` で、始める前の状態に戻ります。"}
+    ]
+  }
+]

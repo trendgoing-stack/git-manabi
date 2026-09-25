@@ -1,1 +1,112 @@
-[]
+[
+  {
+    "id": "quiz-add-then-edit",
+    "question": "`git add` した後に同じファイルをさらに編集し、そのまま `git commit` しました。記録されるのは？",
+    "choices": ["追加の編集も含めた最新の内容", "`git add` した時点の内容だけ", "何も記録されずエラーになる", "ファイルは記録されない"],
+    "answer": 1,
+    "explain": "コミットされるのはステージにある内容です。追加の編集は、もう一度 `git add` するまで入りません。",
+    "entryId": "git-add",
+    "tool": "git",
+    "category": "basic",
+    "verified": false
+  },
+  {
+    "id": "quiz-undo-pushed",
+    "question": "push 済みで、他の人も使っているブランチのコミットを取り消す方法として最も安全なのは？",
+    "choices": ["`git reset --hard HEAD~1`", "`git revert <コミット>`", "`git commit --amend`", "`git branch -D main`"],
+    "answer": 1,
+    "explain": "`git revert` は打ち消しのコミットを追加するだけなので、他の人の履歴と食い違いません。",
+    "entryId": "git-revert",
+    "tool": "git",
+    "category": "undo",
+    "verified": false
+  },
+  {
+    "id": "quiz-fetch",
+    "question": "手元のブランチを変えずに、リモートの最新状態だけを取得するコマンドは？",
+    "choices": ["`git pull`", "`git fetch`", "`git push`", "`git clone`"],
+    "answer": 1,
+    "explain": "`git pull` は取得したあと取り込みまで行います。取得だけなら `git fetch` です。",
+    "entryId": "git-fetch",
+    "tool": "git",
+    "category": "remote",
+    "verified": false
+  },
+  {
+    "id": "quiz-restore-lost",
+    "question": "`git restore <ファイル>` で捨てた編集について、正しいものは？",
+    "choices": ["`git reflog` で戻せる", "自動で stash に保存される", "Git の機能では取り戻せない", "次のコミットに含まれる"],
+    "answer": 2,
+    "explain": "コミットもステージもしていない編集は Git に記録されていないため、戻せません。迷うときは先に `git stash` を使いましょう。",
+    "entryId": "git-restore",
+    "tool": "git",
+    "category": "undo",
+    "verified": false
+  },
+  {
+    "id": "quiz-origin",
+    "question": "`origin` は何を表していますか？",
+    "choices": ["最初のコミット", "既定のリモートの名前", "main ブランチの別名", "GitHub のユーザー名"],
+    "answer": 1,
+    "explain": "clone すると、複製元のリモートが origin という名前で登録されます。",
+    "entryId": "git-remote-add",
+    "tool": "git",
+    "category": "remote",
+    "verified": false
+  },
+  {
+    "id": "quiz-ff",
+    "question": "fast-forward でマージしたときに起きることは？",
+    "choices": ["マージコミットが必ず作られる", "ブランチの目印が進むだけで、新しいコミットは作られない", "相手のブランチが削除される", "コンフリクトが必ず起きる"],
+    "answer": 1,
+    "explain": "取り込む側が進んでいなければ、目印を相手の先端まで進めるだけで済みます。",
+    "entryId": "git-merge",
+    "tool": "git",
+    "category": "integrate",
+    "verified": false
+  },
+  {
+    "id": "quiz-force-lease",
+    "question": "履歴を書き換えた後に push するとき、`--force` より安全なオプションは？",
+    "choices": ["`--dry-run`", "`--tags`", "`--force-with-lease`", "`--set-upstream`"],
+    "answer": 2,
+    "explain": "`--force-with-lease` は、自分の知らない変更がリモートにあれば上書きせずに止まります。",
+    "entryId": "git-push",
+    "tool": "git",
+    "category": "remote",
+    "verified": false
+  },
+  {
+    "id": "quiz-soft-mixed",
+    "question": "`git reset --soft HEAD~1` と `git reset HEAD~1` の違いは？",
+    "choices": ["違いはない", "--soft は変更をステージに残し、何も付けないと作業ツリーにだけ残す", "--soft は変更を消し、何も付けないと残す", "--soft はリモートも戻す"],
+    "answer": 1,
+    "explain": "どちらもブランチを1つ戻します。違うのは、取り消したコミットの変更が残る場所です。",
+    "entryId": "git-reset-soft",
+    "tool": "git",
+    "category": "undo",
+    "verified": false
+  },
+  {
+    "id": "quiz-squash",
+    "question": "プルリクエストの「Squash and merge」の説明として正しいのは？",
+    "choices": ["PR のコミットを1つにまとめて取り込む", "PR を閉じてブランチを削除する", "PR のコミットをそのまま並べて取り込む", "PR の変更を打ち消す"],
+    "answer": 0,
+    "explain": "取り込み先の履歴に、PR 全体が1つのコミットとして記録されます。",
+    "entryId": "web-merge-pr",
+    "tool": "github-web",
+    "category": "pr",
+    "verified": false
+  },
+  {
+    "id": "quiz-pr-checkout",
+    "question": "他の人のプルリクエスト（123番）を手元で動かして確かめたいときのコマンドは？",
+    "choices": ["`gh pr checkout 123`", "`gh pr view 123`", "`git switch 123`", "`gh pr merge 123`"],
+    "answer": 0,
+    "explain": "`gh pr checkout` は PR のブランチを取得して切り替えます。",
+    "entryId": "gh-pr-checkout",
+    "tool": "gh",
+    "category": "pr",
+    "verified": false
+  }
+]

@@ -154,6 +154,31 @@
     "danger": "safe",
     "undo": "直前のコミットを取り消すには `git reset --soft HEAD~1`（変更はステージに残る）を使います。メッセージだけ直すなら `git commit --amend` です。",
     "shellNote": "mac/Linux（bash・zsh）では、\" で囲んでもメッセージ中の `$` やバッククォートは展開されます。Windows の PowerShell は \" の扱いが異なるので、メッセージに \" を含めたいときはエディタで書くのが確実です。",
+    "diagram": {
+      "before": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]}
+        ],
+        "branches": {
+          "main": "B"
+        },
+        "head": "main"
+      },
+      "after": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"]}
+        ],
+        "branches": {
+          "main": "C"
+        },
+        "head": "main",
+        "highlight": ["C"]
+      },
+      "note": "HEAD が指しているブランチ（main）の目印が、新しいコミット C に進みます。"
+    },
     "related": ["git-add", "git-commit-amend", "git-reset-soft", "git-log"],
     "docUrl": "https://git-scm.com/docs/git-commit",
     "tags": ["毎日", "記録"],
@@ -254,6 +279,30 @@
     "danger": "safe",
     "undo": "別のブランチに移ってから `git branch -d <branch>` で削除できます。",
     "since": "2.23",
+    "diagram": {
+      "before": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]}
+        ],
+        "branches": {
+          "main": "B"
+        },
+        "head": "main"
+      },
+      "after": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]}
+        ],
+        "branches": {
+          "main": "B",
+          "feature": "B"
+        },
+        "head": "feature"
+      },
+      "note": "新しい目印 feature が今の位置（B）に作られ、[[HEAD]] が feature に移ります。この時点ではコミットは増えません。"
+    },
     "related": ["git-switch", "git-branch-list", "git-branch-delete", "git-push-upstream"],
     "docUrl": "https://git-scm.com/docs/git-switch",
     "tags": ["ブランチ", "作成"],
@@ -335,6 +384,39 @@
     "dangerNote": "[[コンフリクト]]が起きると、解決するまで途中の状態になります。",
     "undo": "途中なら `git merge --abort` で中止できます。完了直後で、まだ push していなければ `git reset --hard ORIG_HEAD` でマージ前に戻せます（未コミットの変更も消えるので注意）。push 後なら `git revert -m 1 <merge-commit>` を使います。",
     "alternatives": "履歴を一直線にしたい場合は `git rebase` を使う方法もあります。",
+    "diagram": {
+      "before": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"]},
+          {"id": "D", "parents": ["B"]},
+          {"id": "E", "parents": ["D"]}
+        ],
+        "branches": {
+          "main": "C",
+          "feature": "E"
+        },
+        "head": "main"
+      },
+      "after": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"]},
+          {"id": "D", "parents": ["B"]},
+          {"id": "E", "parents": ["D"]},
+          {"id": "M", "parents": ["C", "E"]}
+        ],
+        "branches": {
+          "main": "M",
+          "feature": "E"
+        },
+        "head": "main",
+        "highlight": ["M"]
+      },
+      "note": "main で `git merge feature` を実行した例です。両方の変更を合わせたマージコミット M ができます。main が C から進んでいなかった場合は M は作られず、main の目印が E まで進むだけです（[[fast-forward]]）。"
+    },
     "related": ["git-rebase", "git-switch", "git-pull", "git-revert"],
     "docUrl": "https://git-scm.com/docs/git-merge",
     "tags": ["統合", "コンフリクト"],
@@ -364,9 +446,104 @@
     "dangerNote": "コミットが作り直されるため、既に push して他の人も使っているブランチで行うと、相手の履歴と食い違います。その場合は[[強制プッシュ]]が必要になります。",
     "undo": "途中なら `git rebase --abort`。完了後は `git reset --hard ORIG_HEAD` か、`git reflog` で開始前の位置を探して戻します。",
     "alternatives": "共有しているブランチでは、履歴を書き換えない `git merge` の方が安全です。",
+    "diagram": {
+      "before": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"]},
+          {"id": "D", "parents": ["C"]},
+          {"id": "E", "parents": ["B"]}
+        ],
+        "branches": {
+          "main": "E",
+          "feature": "D"
+        },
+        "head": "feature"
+      },
+      "after": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"], "ghost": true},
+          {"id": "D", "parents": ["C"], "ghost": true},
+          {"id": "E", "parents": ["B"]},
+          {"id": "C2", "parents": ["E"], "label": "C'"},
+          {"id": "D2", "parents": ["C2"], "label": "D'"}
+        ],
+        "branches": {
+          "main": "E",
+          "feature": "D2"
+        },
+        "head": "feature",
+        "highlight": ["C2", "D2"]
+      },
+      "note": "feature で `git rebase main` を実行した例です。C と D が main の先端 E の後ろに C' と D' として作り直されます。元の C と D はどのブランチからも辿れなくなります。"
+    },
     "related": ["git-merge", "git-pull", "git-reflog", "git-fetch"],
     "docUrl": "https://git-scm.com/docs/git-rebase",
     "tags": ["統合", "履歴の書き換え"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-cherry-pick",
+    "tool": "git",
+    "category": "integrate",
+    "title": "別のブランチの特定のコミットだけを取り込みたい",
+    "intents": ["1つのコミットだけ持ってきたい", "コミットを別のブランチにコピーしたい", "間違ったブランチでしたコミットを移したい"],
+    "keywords": ["ちぇりーぴっく", "こぴー", "取り込み", "つまみ食い", "cherry-pick"],
+    "syntax": "git cherry-pick <commit>",
+    "placeholders": [
+      {"key": "commit", "label": "取り込むコミット", "example": "a1b2c3d"}
+    ],
+    "summary": "指定した[[コミット]]と同じ変更を持つ新しいコミットを、今のブランチに作ります。",
+    "details": "ブランチ全体ではなく、特定の変更だけを取り込みたいときに使います。できるコミットは内容が同じでも別のコミットなので、[[ハッシュ]]は変わります。\n\n[[コンフリクト]]したら、ファイルを直して `git add` し、`git cherry-pick --continue` で続けます。",
+    "examples": [
+      {"cmd": "git cherry-pick a1b2c3d", "desc": "1つのコミットを取り込みます。"},
+      {"cmd": "git cherry-pick a1b2c3d e4f5g6h", "desc": "複数のコミットを順に取り込みます。"},
+      {"cmd": "git cherry-pick -x a1b2c3d", "desc": "メッセージに「どのコミットから取り込んだか」を書き添えます。"},
+      {"cmd": "git cherry-pick --abort", "desc": "コンフリクト中に中止して、開始前に戻します。"}
+    ],
+    "danger": "caution",
+    "dangerNote": "取り込む変更が今のブランチと食い違っていると[[コンフリクト]]になります。",
+    "undo": "途中なら `git cherry-pick --abort`。完了直後で、未コミットの変更がなければ `git reset --hard HEAD~1` で取り込む前に戻せます。push 済みなら `git revert` を使います。",
+    "diagram": {
+      "before": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"]},
+          {"id": "D", "parents": ["B"]},
+          {"id": "E", "parents": ["D"]}
+        ],
+        "branches": {
+          "main": "C",
+          "feature": "E"
+        },
+        "head": "main"
+      },
+      "after": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"]},
+          {"id": "D", "parents": ["B"]},
+          {"id": "E", "parents": ["D"]},
+          {"id": "E2", "parents": ["C"], "label": "E'"}
+        ],
+        "branches": {
+          "main": "E2",
+          "feature": "E"
+        },
+        "head": "main",
+        "highlight": ["E2"]
+      },
+      "note": "main で `git cherry-pick E` を実行した例です。E の変更だけをコピーした E' が main に作られます。元の E はそのまま残ります。"
+    },
+    "related": ["git-merge", "git-rebase", "git-log", "git-revert"],
+    "docUrl": "https://git-scm.com/docs/git-cherry-pick",
+    "tags": ["統合", "コピー"],
     "verified": false,
     "verifiedNote": ""
   },
@@ -487,7 +664,7 @@
     "undo": "Git の機能では戻せません。エディタの取り消し履歴やバックアップが頼りです。",
     "alternatives": "捨てるか迷うときは、`git stash` で一時退避しておくと後から取り戻せます。",
     "since": "2.23",
-    "related": ["git-restore-staged", "git-stash", "git-status", "git-reset-hard"],
+    "related": ["git-restore-staged", "git-stash", "git-status", "git-reset-hard", "git-clean"],
     "docUrl": "https://git-scm.com/docs/git-restore",
     "tags": ["取り消し", "破棄"],
     "verified": false,
@@ -521,6 +698,32 @@
     "verifiedNote": ""
   },
   {
+    "id": "git-clean",
+    "tool": "git",
+    "category": "undo",
+    "title": "Git が管理していない新しいファイルを削除したい",
+    "intents": ["未追跡のファイルを消したい", "作業フォルダを最後のコミットの状態に掃除したい", "ビルドで出来たファイルを片付けたい"],
+    "keywords": ["くりーん", "そうじ", "掃除", "未追跡", "untracked", "clean"],
+    "syntax": "git clean -f",
+    "summary": "Git がまだ管理していない（一度も `git add` していない）ファイルを削除します。",
+    "details": "`git restore` では消えない「新しく作ったファイル」を片付けるためのコマンドです。安全のため `-f` を付けないと実行されない設定が一般的です。\n\n実行前に `-n` で、何が消えるかを必ず確認してください。",
+    "examples": [
+      {"cmd": "git clean -n", "desc": "実際には消さず、削除されるファイルの一覧を表示します。"},
+      {"cmd": "git clean -f", "desc": "未追跡のファイルを削除します。"},
+      {"cmd": "git clean -fd", "desc": "未追跡のフォルダも削除します。"},
+      {"cmd": "git clean -fdx", "desc": "[[.gitignore]] で無視しているファイルも含めて削除します。"}
+    ],
+    "danger": "danger",
+    "dangerNote": "未追跡のファイルは Git の履歴にないので、削除すると Git では取り戻せません。",
+    "undo": "Git の機能では戻せません。ごみ箱にも入らないため、バックアップが頼りです。",
+    "alternatives": "迷うときは `git stash -u` で、新しいファイルも含めて一時退避しておくと後から取り戻せます。",
+    "related": ["git-restore", "git-status", "git-stash"],
+    "docUrl": "https://git-scm.com/docs/git-clean",
+    "tags": ["取り消し", "破棄", "片付け"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
     "id": "git-commit-amend",
     "tool": "git",
     "category": "undo",
@@ -542,6 +745,33 @@
     "undo": "直後なら `git reset --soft HEAD@{1}` で修正前のコミットに戻せます（変更はステージに残ります）。",
     "alternatives": "push 済みなら、修正用の新しいコミットを追加する方が安全です。",
     "shellNote": "PowerShell では `HEAD@{1}` を `'HEAD@{1}'` のように ' で囲んでください。",
+    "diagram": {
+      "before": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"]}
+        ],
+        "branches": {
+          "main": "C"
+        },
+        "head": "main"
+      },
+      "after": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"], "ghost": true},
+          {"id": "C2", "parents": ["B"], "label": "C'"}
+        ],
+        "branches": {
+          "main": "C2"
+        },
+        "head": "main",
+        "highlight": ["C2"]
+      },
+      "note": "直前のコミット C が、修正した内容の C' に置き換わります。C' は新しいコミットなので[[ハッシュ]]も変わります。"
+    },
     "related": ["git-commit", "git-reset-soft", "git-reflog", "git-push"],
     "docUrl": "https://git-scm.com/docs/git-commit",
     "tags": ["取り消し", "修正", "履歴の書き換え"],
@@ -571,7 +801,88 @@
     "undo": "直後なら `git reset --soft ORIG_HEAD` で元の位置に戻せます。`git reflog` でも戻る位置を探せます。",
     "alternatives": "push 済みのコミットは `git revert` で打ち消す方が安全です。",
     "shellNote": "Windows のコマンドプロンプトでは `^` が特殊文字なので、`HEAD^` ではなく `HEAD~1` と書くのが無難です。",
-    "related": ["git-reset-hard", "git-revert", "git-commit-amend", "git-reflog"],
+    "diagram": {
+      "before": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"]}
+        ],
+        "branches": {
+          "main": "C"
+        },
+        "head": "main"
+      },
+      "after": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"], "ghost": true}
+        ],
+        "branches": {
+          "main": "B"
+        },
+        "head": "main",
+        "highlight": ["B"]
+      },
+      "note": "main の目印が B に戻ります。C で行った変更は[[ステージ]]に残っているので、すぐにコミットし直せます。ブランチの動きは `--mixed`／`--hard` でも同じで、違うのは変更が残る場所です。"
+    },
+    "related": ["git-reset-hard", "git-reset-mixed", "git-revert", "git-commit-amend", "git-reflog"],
+    "docUrl": "https://git-scm.com/docs/git-reset",
+    "tags": ["取り消し", "履歴の書き換え"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-reset-mixed",
+    "tool": "git",
+    "category": "undo",
+    "title": "直前のコミットを取り消して、変更は作業ツリーに戻したい",
+    "intents": ["コミットとステージを両方取り消したい", "コミットを取り消して変更を選び直したい", "reset の既定の動きを知りたい"],
+    "keywords": ["りせっと", "みっくすど", "とりけし", "コミット取り消し", "reset --mixed", "reset HEAD~1"],
+    "syntax": "git reset HEAD~<n>",
+    "placeholders": [
+      {"key": "n", "label": "取り消すコミット数", "example": "1"}
+    ],
+    "summary": "ブランチの位置を n 個前に戻し、取り消したコミットの変更を[[ステージ]]からも下ろして[[作業ツリー]]に残します。",
+    "details": "`--mixed` はオプションを付けないときの既定の動きなので、`git reset --mixed HEAD~1` と `git reset HEAD~1` は同じです。\n\nファイルの中身は変わらないので、`git add` からやり直して、コミットを分け直したいときに便利です。",
+    "examples": [
+      {"cmd": "git reset HEAD~1", "desc": "直前のコミットを取り消し、変更は作業ツリーに残します。"},
+      {"cmd": "git reset --mixed HEAD~1", "desc": "上と同じ動きです。"},
+      {"cmd": "git reset HEAD~2", "desc": "直近2件を取り消します。"}
+    ],
+    "danger": "caution",
+    "dangerNote": "既に push したコミットを取り消すと、リモートと履歴が食い違います。",
+    "undo": "直後なら `git reset ORIG_HEAD` で元の位置に戻せます。`git reflog` でも戻る位置を探せます。",
+    "alternatives": "push 済みのコミットは `git revert` で打ち消す方が安全です。",
+    "shellNote": "Windows のコマンドプロンプトでは `^` が特殊文字なので、`HEAD^` ではなく `HEAD~1` と書くのが無難です。",
+    "diagram": {
+      "before": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"]}
+        ],
+        "branches": {
+          "main": "C"
+        },
+        "head": "main"
+      },
+      "after": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"], "ghost": true}
+        ],
+        "branches": {
+          "main": "B"
+        },
+        "head": "main",
+        "highlight": ["B"]
+      },
+      "note": "main の目印が B に戻ります。C で行った変更は[[ステージ]]からも下ろされ、[[作業ツリー]]にだけ残ります。"
+    },
+    "related": ["git-reset-soft", "git-reset-hard", "git-revert", "git-add"],
     "docUrl": "https://git-scm.com/docs/git-reset",
     "tags": ["取り消し", "履歴の書き換え"],
     "verified": false,
@@ -600,7 +911,33 @@
     "undo": "コミットは `git reflog` で元の位置を探し、`git reset --hard HEAD@{1}` などで戻せます。未コミットの変更は戻せません。",
     "alternatives": "実行前に `git stash` で未コミットの変更を退避するか、`git branch backup` で今の位置に目印を付けておくと安心です。push 済みのコミットは `git revert` で打ち消します。",
     "shellNote": "PowerShell では `HEAD@{1}` を `'HEAD@{1}'` のように ' で囲んでください。",
-    "related": ["git-reset-soft", "git-reflog", "git-revert", "git-stash", "git-restore"],
+    "diagram": {
+      "before": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"]}
+        ],
+        "branches": {
+          "main": "C"
+        },
+        "head": "main"
+      },
+      "after": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"], "ghost": true}
+        ],
+        "branches": {
+          "main": "B"
+        },
+        "head": "main",
+        "highlight": ["B"]
+      },
+      "note": "main の目印が B に戻り、ファイルの中身も B の状態になります。C の変更と、まだコミットしていない変更はすべて消えます。C 自体はしばらく `git reflog` から辿れます。"
+    },
+    "related": ["git-reset-soft", "git-reset-mixed", "git-reflog", "git-revert", "git-stash", "git-restore"],
     "docUrl": "https://git-scm.com/docs/git-reset",
     "tags": ["取り消し", "破棄", "履歴の書き換え"],
     "verified": false,
@@ -626,6 +963,33 @@
     ],
     "danger": "safe",
     "undo": "作られた打ち消しコミットを、さらに `git revert` すれば元に戻ります。",
+    "diagram": {
+      "before": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"]}
+        ],
+        "branches": {
+          "main": "C"
+        },
+        "head": "main"
+      },
+      "after": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "C", "parents": ["B"]},
+          {"id": "R", "parents": ["C"]}
+        ],
+        "branches": {
+          "main": "R"
+        },
+        "head": "main",
+        "highlight": ["R"]
+      },
+      "note": "R は C と逆の変更を持つ新しいコミットです。C は履歴に残ったままなので、push 済みでも他の人の履歴と食い違いません。"
+    },
     "related": ["git-reset-soft", "git-reset-hard", "git-log", "git-merge"],
     "docUrl": "https://git-scm.com/docs/git-revert",
     "tags": ["取り消し", "共有ブランチ"],
@@ -791,6 +1155,32 @@
     ],
     "danger": "safe",
     "undo": "`git stash pop` で取り出せば元に戻ります。",
+    "diagram": {
+      "before": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]}
+        ],
+        "branches": {
+          "main": "B"
+        },
+        "head": "main"
+      },
+      "after": {
+        "commits": [
+          {"id": "A"},
+          {"id": "B", "parents": ["A"]},
+          {"id": "W", "parents": ["B"]}
+        ],
+        "branches": {
+          "main": "B",
+          "stash": "W"
+        },
+        "head": "main",
+        "highlight": ["W"]
+      },
+      "note": "まだコミットしていない変更が、B を元にした特別なコミット W としてしまわれ、作業ツリーは B の状態に戻ります。main は動きません。（実際の内部構造を簡略化した図です）"
+    },
     "related": ["git-stash-pop", "git-switch", "git-pull"],
     "docUrl": "https://git-scm.com/docs/git-stash",
     "tags": ["退避", "stash"],

@@ -26,6 +26,16 @@
   --mine: #6b3fb3;
   --mine-bg: #efe7fb;
 
+  /* ブランチ図 */
+  --lane-0: #0b6bcb;
+  --lane-1: #c2410c;
+  --lane-2: #15803d;
+  --lane-3: #7c3aed;
+  --lane-4: #be185d;
+  --dg-ghost: #8a93a0;
+  --dg-commit-fill: #ffffff;
+  --dg-highlight: #f59e0b;
+
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   --radius: 12px;
   --tap: 44px;
@@ -64,6 +74,15 @@
     --unverified-bg: #30343c;
     --mine: #c7a6ff;
     --mine-bg: #33284a;
+
+    --lane-0: #5aa9f5;
+    --lane-1: #fb923c;
+    --lane-2: #4ade80;
+    --lane-3: #c4a5ff;
+    --lane-4: #f472b6;
+    --dg-ghost: #7b8490;
+    --dg-commit-fill: #1f2228;
+    --dg-highlight: #fbbf24;
 
     --shadow: none;
   }

@@ -121,13 +121,15 @@ before と after をそれぞれ次の形式で書きます。SVG は手描き�
     "branches": { "main": "B" },
     "head": "main",
     "highlight": ["B"]
-  }
+  },
+  "note": "図の補足。[[用語]] も使えます"
 }
 ```
 
 - commits は親が先に来る順に並べる（親より前に子を書かない）。
 - branches のキーの順番がレーン（段）の順番になる。main を先頭に書く。
 - head はブランチ名、またはコミット id（detached HEAD の場合）。
+- `note`（任意）は図の下に表示する補足。コミットの形では違いが出ない操作（`reset` の `--soft`／`--mixed`／`--hard` など）は、ここで違いを説明する。
 - `highlight` は強調するコミット。`ghost: true` はどのブランチからも辿れなくなったコミット（薄く表示）。`label` で表示名を変えられる（リベース後の `C'` など）。
 
 ## フローチャート（flows.json）
@@ -150,6 +152,29 @@ before と after をそれぞれ次の形式で書きます。SVG は手描き�
 
 - 質問ノードは `question` と `choices`、結果ノードは `entryIds` と `note` を持つ。
 - 深さは 5 段以内を目安にする（超えると検証ページで警告）。
+
+- 結果ノードの `note` は改行で箇条書き風に書ける（`1. …
+2. …`）。
+
+## クイズ（quiz.json）
+
+```json
+{
+  "id": "quiz-fetch",
+  "question": "手元のブランチを変えずに、リモートの最新状態だけを取得するコマンドは？",
+  "choices": ["`git pull`", "`git fetch`", "`git push`", "`git clone`"],
+  "answer": 1,
+  "explain": "解説",
+  "entryId": "git-fetch",
+  "tool": "git",
+  "category": "remote",
+  "verified": false
+}
+```
+
+- `choices` は4件、`answer` は正解の添字（0〜3）。表示時に選択肢は並べ替えられる。
+- 出題されるのは `verified: true` の手書き問題と、`verified: true` でコマンドのあるエントリから自動で作る問題だけ（設定の「未確認項目の表示」とは無関係）。
+- エントリを確認したら、そのエントリを参照する手書き問題も確認して `verified: true` にする。
 
 ## シーン（scenes.json）
 

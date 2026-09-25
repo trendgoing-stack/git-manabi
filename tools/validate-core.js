@@ -141,6 +141,8 @@ export function validateAll(input) {
       for (const side of ['before', 'after']) {
         for (const m of checkDiagram(e.diagram?.[side])) err(`diagram.${side}: ${m}`);
       }
+      if (e.diagram.note != null && !isStr(e.diagram.note)) err('diagram.note は文字列にしてください');
+      for (const t of extractTerms(e.diagram.note)) if (!terms.has(t)) err(`用語集にない [[${t}]] があります`);
     }
   }
 
@@ -215,6 +217,8 @@ export function validateAll(input) {
     if (!TOOL_IDS.includes(q?.tool)) err(`tool が不正です：${q?.tool}`);
     if (!CAT_IDS.includes(q?.category)) err(`category が固定リストにありません：${q?.category}`);
     if (q?.entryId != null && !ids.has(q.entryId)) err(`entryId のリンク切れ：${q.entryId}`);
+    if (typeof q?.verified !== 'boolean') err('verified は true/false で書いてください');
+    else if (q.verified && q.entryId && all.find((x) => x.e.id === q.entryId)?.e.verified !== true) add('warn', 'quiz.json', where, 'verified: true ですが、関連エントリが未確認です');
   });
 
   // ---- シーン ----
@@ -245,6 +249,7 @@ export function validateAll(input) {
 
   // ---- 集計 ----
   const unverified = all.filter(({ e }) => e.verified !== true);
+  const quizVerified = (input.quiz || []).filter((q) => q?.verified === true).length;
   const stats = {
     エントリ: all.length,
     確認済み: all.length - unverified.length,
@@ -253,6 +258,7 @@ export function validateAll(input) {
     用語: glossary.length,
     フロー: actual.flows,
     クイズ: actual.quiz,
+    '出題できるクイズ（確認済み）': quizVerified,
     エラー: issues.filter((x) => x.level === 'error').length,
     警告: issues.filter((x) => x.level === 'warn').length,
   };

@@ -3,6 +3,9 @@
 import { normalize, splitWords } from '../js/normalize.js';
 import { build, quoteValue, blockedFlags, extractPlaceholderKeys } from '../js/builder.js';
 import { buildIndex, search } from '../js/search.js';
+import { layout, describe } from '../js/diagram.js';
+import { buildQuiz, eligible, wrongRate } from '../js/quiz.js';
+import { validPath } from '../js/flow.js';
 
 /** @returns {{name: string, ok: boolean, detail?: string}[]} */
 export function runTests() {
@@ -65,6 +68,48 @@ export function runTests() {
   eq('未確認を隠す', ids('ブランチ', { showUnverified: false }), ['a']);
   eq('0 件', ids('存在しない語'), []);
   eq('件数の上限', search(idx, '', { limit: 2 }).items.length, 2);
+
+  // ---- ブランチ図のレイアウト ----
+  const merge = {
+    commits: [{ id: 'A' }, { id: 'B', parents: ['A'] }, { id: 'C', parents: ['B'] }, { id: 'D', parents: ['B'] }, { id: 'M', parents: ['C', 'D'] }],
+    branches: { main: 'M', feature: 'D' },
+    head: 'main',
+  };
+  const L = layout(merge);
+  const at = (id) => L.commits.find((k) => k.c.id === id);
+  eq('図：main の最初の親の列はレーン0', ['A', 'B', 'C', 'M'].map((id) => at(id).lane), [0, 0, 0, 0]);
+  eq('図：feature だけのコミットはレーン1', at('D').lane, 1);
+  eq('図：列は親の列＋1', [at('C').col, at('D').col, at('M').col], [2, 2, 3]);
+  const reset = { commits: [{ id: 'A' }, { id: 'B', parents: ['A'] }, { id: 'C', parents: ['B'], ghost: true }], branches: { main: 'B' }, head: 'main' };
+  const LR = layout(reset);
+  eq('図：ghost は最下段のレーン', [LR.ghostLane, LR.commits[2].lane, LR.laneCount], [1, 1, 2]);
+  eq('図：説明文', describe({ ...reset, head: 'A' }), 'main は B を指す。HEAD は A を直接指す。C はどのブランチからも辿れない。');
+
+  // ---- クイズ ----
+  const mk = (id, cat, verified = true) => ({ id, tool: 'git', category: cat, title: `t-${id}`, intents: [`i-${id}`], syntax: `git ${id} [options]`, summary: 's', verified });
+  const ents = [mk('a', 'x'), mk('b', 'x'), mk('c', 'x'), mk('d', 'y'), mk('e', 'y'), mk('u', 'x', false)];
+  let seed = 1;
+  const rng = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  const qs = buildQuiz({ entries: ents, quizItems: [], stats: {}, rng });
+  eq('クイズ：確認済みだけ出題', qs.map((q) => q.statId).sort(), ['a', 'b', 'c', 'd', 'e']);
+  eq('クイズ：未確認は選択肢にも出ない', qs.every((q) => !q.choices.some((c) => c.includes(' u') || c === 't-u')), true);
+  eq('クイズ：正解が選択肢に入っている', qs.every((q) => q.answer >= 0 && q.choices.length === 4), true);
+  eq('クイズ：[options] は表示しない', qs.every((q) => !(q.prompt + q.choices.join()).includes('[options]')), true);
+  eq('クイズ：4件未満は開始できない', buildQuiz({ entries: ents.slice(0, 3), quizItems: [], stats: {} }).length, 0);
+  eq('クイズ：範囲で絞り込み', eligible(ents, [], { category: 'y' }).total, 0);
+  const manual = [0, 1, 2, 3].map((n) => ({ id: `m${n}`, question: 'q', choices: ['w', 'x', 'y', 'z'], answer: 2, tool: 'git', category: 'y', verified: true }));
+  const mq = buildQuiz({ entries: [], quizItems: manual, stats: {}, rng });
+  eq('クイズ：手書き問題の正解を並べ替え後も追跡', mq.every((q) => q.choices[q.answer] === 'y'), true);
+  eq('クイズ：未確認の手書き問題は出ない', buildQuiz({ entries: [], quizItems: manual.map((m) => ({ ...m, verified: false })), stats: {} }).length, 0);
+  const stats = { a: { ok: 1, ng: 3 }, b: { ok: 3, ng: 1 }, c: { ok: 0, ng: 1 }, d: { ok: 5, ng: 0 } };
+  eq('クイズ：苦手は不正解率の高い順', buildQuiz({ entries: ents, quizItems: [], stats, mode: 'weak', rng }).map((q) => q.statId), ['c', 'a', 'b']);
+  eq('クイズ：不正解率', [wrongRate({ ok: 1, ng: 1 }), wrongRate(undefined)], [0.5, -1]);
+
+  // ---- フローチャートの経路 ----
+  const flow = { id: 'f', title: 't', start: 'q1', nodes: [{ id: 'q1', question: '?', choices: [{ label: 'a', next: 'q2' }, { label: 'b', next: 'r1' }] }, { id: 'q2', question: '?', choices: [{ label: 'c', next: 'r1' }] }, { id: 'r1', entryIds: [], note: '' }] };
+  eq('フロー：正しい経路', validPath(flow, ['q1', 'q2', 'r1']), ['q1', 'q2', 'r1']);
+  eq('フロー：start は省略可', validPath(flow, ['q2']), ['q1', 'q2']);
+  eq('フロー：つながらない所で切る', validPath(flow, ['q1', 'r1', 'q2']), ['q1', 'r1']);
 
   return results;
 }

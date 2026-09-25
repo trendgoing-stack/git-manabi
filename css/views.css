@@ -504,3 +504,347 @@
   text-align: center;
   margin: 4px 0;
 }
+
+/* ---- ブランチ図 ---- */
+.diagram {
+  display: grid;
+  gap: 4px;
+}
+.diagram-fig {
+  margin: 0;
+}
+.diagram-fig figcaption {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+.diagram-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+.diagram-svg {
+  display: block;
+  max-width: none;
+}
+.diagram-arrow {
+  text-align: center;
+  color: var(--text-sub);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+.diagram-note {
+  margin: 8px 0 0;
+  font-size: 0.88rem;
+}
+.dg-edge {
+  fill: none;
+  stroke-width: 3;
+}
+.dg-edge.is-ghost {
+  stroke-dasharray: 4 4;
+}
+.dg-commit circle {
+  fill: var(--dg-commit-fill);
+  stroke-width: 3;
+}
+.dg-commit text {
+  font: 700 12px ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+.dg-commit.is-ghost circle {
+  stroke-dasharray: 3 3;
+}
+.dg-commit.is-ghost text {
+  fill: var(--dg-ghost);
+}
+.dg-commit.is-highlight .dg-halo {
+  fill: none;
+  stroke: var(--dg-highlight);
+  stroke-width: 3;
+}
+.dg-tag rect {
+  stroke-width: 1.5;
+  fill: var(--dg-commit-fill);
+}
+.dg-tag text {
+  font: 700 11.5px ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+.dg-tag-head rect {
+  stroke-width: 2.5;
+}
+.dg-ghost-caption {
+  font-size: 10px;
+  fill: var(--dg-ghost);
+}
+.dg-lane-0 .dg-edge, .dg-edge.dg-lane-0 { stroke: var(--lane-0); }
+.dg-commit.dg-lane-0 circle, .dg-tag.dg-lane-0 rect { stroke: var(--lane-0); }
+.dg-commit.dg-lane-0 text, .dg-tag.dg-lane-0 text { fill: var(--lane-0); }
+.dg-lane-1 .dg-edge, .dg-edge.dg-lane-1 { stroke: var(--lane-1); }
+.dg-commit.dg-lane-1 circle, .dg-tag.dg-lane-1 rect { stroke: var(--lane-1); }
+.dg-commit.dg-lane-1 text, .dg-tag.dg-lane-1 text { fill: var(--lane-1); }
+.dg-lane-2 .dg-edge, .dg-edge.dg-lane-2 { stroke: var(--lane-2); }
+.dg-commit.dg-lane-2 circle, .dg-tag.dg-lane-2 rect { stroke: var(--lane-2); }
+.dg-commit.dg-lane-2 text, .dg-tag.dg-lane-2 text { fill: var(--lane-2); }
+.dg-lane-3 .dg-edge, .dg-edge.dg-lane-3 { stroke: var(--lane-3); }
+.dg-commit.dg-lane-3 circle, .dg-tag.dg-lane-3 rect { stroke: var(--lane-3); }
+.dg-commit.dg-lane-3 text, .dg-tag.dg-lane-3 text { fill: var(--lane-3); }
+.dg-lane-4 .dg-edge, .dg-edge.dg-lane-4 { stroke: var(--lane-4); }
+.dg-commit.dg-lane-4 circle, .dg-tag.dg-lane-4 rect { stroke: var(--lane-4); }
+.dg-commit.dg-lane-4 text, .dg-tag.dg-lane-4 text { fill: var(--lane-4); }
+.dg-edge.dg-ghost { stroke: var(--dg-ghost); }
+.dg-commit.dg-ghost circle, .dg-tag.dg-ghost rect { stroke: var(--dg-ghost); }
+.dg-tag.dg-ghost text { fill: var(--dg-ghost); }
+.dg-tag-detached rect { stroke: var(--text); }
+.dg-tag-detached text { fill: var(--text); }
+
+/* ---- 困った（フローチャート） ---- */
+.lead {
+  margin: 0 0 12px;
+}
+.crumbs {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.crumb {
+  display: grid;
+  min-height: var(--tap);
+  padding: 6px 12px;
+  border-left: 3px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+.crumb-q {
+  color: var(--text-sub);
+}
+.crumb-a {
+  font-weight: 700;
+}
+.flow-card {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.flow-result {
+  border-color: var(--safe);
+}
+.flow-step {
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+.flow-q {
+  margin: 0 0 14px;
+  font-size: 1.15rem;
+}
+.flow-choices {
+  display: grid;
+  gap: 8px;
+}
+.flow-choice {
+  justify-content: flex-start;
+  min-height: 52px;
+  text-align: left;
+}
+.flow-result .result-list {
+  margin-top: 12px;
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---- クイズ ---- */
+.quiz-setup {
+  display: grid;
+  gap: 12px;
+}
+.field-label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.quiz-status {
+  margin: 0;
+  font-size: 0.9rem;
+}
+.quiz-status.warn {
+  color: var(--caution);
+}
+.quiz-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--text-sub);
+}
+.quiz-progress progress {
+  flex: 1;
+  height: 6px;
+  accent-color: var(--accent);
+}
+.quiz-lead {
+  margin: 16px 0 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+.quiz-prompt {
+  margin-bottom: 14px;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.quiz-prompt code {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  word-break: break-all;
+}
+.quiz-choices {
+  display: grid;
+  gap: 8px;
+}
+.quiz-choice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+.quiz-choice code {
+  word-break: break-all;
+}
+.quiz-choice:disabled {
+  cursor: default;
+}
+.quiz-mark {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.quiz-choice.is-correct {
+  border-color: var(--safe);
+  background: var(--safe-bg);
+}
+.quiz-choice.is-wrong {
+  border-color: var(--danger);
+  background: var(--danger-bg);
+}
+.quiz-feedback {
+  margin: 12px 0;
+}
+.quiz-feedback p {
+  margin: 0 0 4px;
+}
+.quiz-ok {
+  color: var(--safe);
+  font-weight: 700;
+}
+.quiz-ng {
+  color: var(--danger);
+  font-weight: 700;
+}
+.quiz-score {
+  margin: 8px 0 16px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+}
+.quiz-result .action-col {
+  margin-top: 16px;
+}
+
+/* ---- フラッシュカード ---- */
+.cards-filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.cards-filters .chip {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+.flashcard {
+  display: grid;
+  min-height: 240px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y; /* 縦スクロールはブラウザに任せ、横スワイプだけ扱う */
+  transition: transform 0.15s;
+}
+.flashcard.is-flipped {
+  background: var(--accent-soft);
+}
+.card-face {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+}
+.card-hint {
+  font-size: 0.78rem;
+  color: var(--text-sub);
+}
+.card-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.card-cmd {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-size: 1rem;
+  word-break: break-all;
+}
+.card-summary {
+  margin: 0;
+}
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+}
+.cards-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 12px 0 8px;
+}
+.cards-counter {
+  font-size: 0.9rem;
+  color: var(--text-sub);
+}
+.cards-help {
+  text-align: center;
+}

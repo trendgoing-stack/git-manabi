@@ -64,7 +64,7 @@
  * @property {string} [prereq]
  * @property {string} [since]
  * @property {string} [shellNote]
- * @property {{before: DiagState, after: DiagState}} [diagram]
+ * @property {{before: DiagState, after: DiagState, note?: string}} [diagram]  note は図の補足（[[用語]] 可）
  * @property {string[]} [related]
  * @property {string} [docUrl]
  * @property {string[]} [tags]
@@ -121,6 +121,7 @@
  * @property {string} [entryId]
  * @property {Tool} tool
  * @property {string} category
+ * @property {boolean} verified  true のものだけ出題する
  */
 
 /**
