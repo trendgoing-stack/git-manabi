@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gitまなび帳</title>
+  <meta name="description" content="Git・GitHub CLI・GitHub の操作を「やりたいこと」と「コマンド名」の両方から引ける学習向け辞典">
+  <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#16181d" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/views.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <header class="appbar">
+    <button id="appbar-back" class="appbar-back" type="button" aria-label="戻る" hidden>
+      <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path d="M15.4 5.4 14 4l-8 8 8 8 1.4-1.4L8.8 12z"/></svg>
+    </button>
+    <h1 id="appbar-title" class="appbar-title">Gitまなび帳</h1>
+  </header>
+  <div id="banners" class="banners"></div>
+  <main id="view" class="view" tabindex="-1">
+    <p class="loading">読み込み中…</p>
+  </main>
+  <nav class="tabbar" aria-label="メインメニュー">
+    <a href="#/search" data-tab="search">
+      <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path d="M10 3a7 7 0 0 1 5.6 11.2l5 5-1.4 1.4-5-5A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>
+      <span>検索</span>
+    </a>
+    <a href="#/trouble" data-tab="trouble">
+      <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm-1 11h2v2h-2v-2zm1-9a3.5 3.5 0 0 1 1.2 6.8c-.2.1-.2.2-.2.4V14h-2v-1.8c0-1 .6-1.9 1.5-2.2A1.5 1.5 0 1 0 10.5 8.5h-2A3.5 3.5 0 0 1 12 6z"/></svg>
+      <span>困った</span>
+    </a>
+    <a href="#/learn" data-tab="learn">
+      <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path d="M3 5c3-1.5 6-1.5 9 0 3-1.5 6-1.5 9 0v14c-3-1.5-6-1.5-9 0-3-1.5-6-1.5-9 0V5zm2 1.3v10c2-.6 4-.6 6 .1v-10c-2-.8-4-.8-6-.1zm8 .1v10c2-.7 4-.7 6-.1v-10c-2-.7-4-.7-6 .1z"/></svg>
+      <span>学ぶ</span>
+    </a>
+    <a href="#/my" data-tab="my">
+      <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.2l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8zm0 4.6-1.6 3.3-3.6.4 2.7 2.5-.7 3.6 3.2-1.8 3.2 1.8-.7-3.6 2.7-2.5-3.6-.4z"/></svg>
+      <span>マイ</span>
+    </a>
+    <a href="#/settings" data-tab="settings">
+      <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path d="M3 6h9.2a3 3 0 0 1 5.6 0H21v2h-3.2a3 3 0 0 1-5.6 0H3V6zm12 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zM3 16h3.2a3 3 0 0 1 5.6 0H21v2h-9.2a3 3 0 0 1-5.6 0H3v-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
+      <span>設定</span>
+    </a>
+  </nav>
+  <noscript><p class="noscript">このアプリの利用には JavaScript を有効にしてください。</p></noscript>
+</body>
+</html>

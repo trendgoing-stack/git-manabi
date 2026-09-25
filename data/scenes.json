@@ -1,0 +1,32 @@
+[
+  {
+    "id": "start",
+    "title": "はじめての準備",
+    "desc": "最初に一度だけやること",
+    "entryIds": ["git-config-user", "git-init", "git-clone", "git-remote-add"]
+  },
+  {
+    "id": "daily",
+    "title": "毎日の作業",
+    "desc": "変更して記録して送る、の基本サイクル",
+    "entryIds": ["git-status", "git-add", "git-commit", "git-pull", "git-push"]
+  },
+  {
+    "id": "branch-work",
+    "title": "ブランチで作業する",
+    "desc": "作業を分けて、終わったら合流させる",
+    "entryIds": ["git-switch-create", "git-switch", "git-push-upstream", "git-merge", "git-branch-delete"]
+  },
+  {
+    "id": "oops",
+    "title": "やり直したいとき",
+    "desc": "安全なものから順に並べています",
+    "entryIds": ["git-restore-staged", "git-commit-amend", "git-reset-soft", "git-revert", "git-reflog"]
+  },
+  {
+    "id": "team",
+    "title": "他の人と一緒に作業する",
+    "desc": "リモートの変更を確認して取り込む",
+    "entryIds": ["git-fetch", "git-pull", "git-rebase", "git-stash", "git-stash-pop"]
+  }
+]

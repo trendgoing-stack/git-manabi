@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "type": "module",
+  "description": "開発用：Node.js で tools/*.mjs を実行するためだけの設定。アプリはビルド不要。"
+}

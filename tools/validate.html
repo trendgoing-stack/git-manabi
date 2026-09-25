@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>データ検証 - Gitまなび帳</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#fff; --text:#1c1f24; --sub:#5b6470; --border:#d9dde3; --err:#b3261e; --warn:#8a5a00; --ok:#1f7a3d; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#16181d; --text:#e8eaed; --sub:#a3abb6; --border:#3a3f48; --err:#ff8a80; --warn:#f5c46b; --ok:#7ddc9b; } }
+    body { margin: 0; padding: 16px; background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; line-height: 1.6; }
+    h1 { font-size: 1.3rem; margin: 0 0 12px; }
+    .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .stat { padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; }
+    .stat b { display: block; font-size: 1.2rem; }
+    .summary { font-weight: 700; margin: 8px 0 16px; }
+    .summary.ok { color: var(--ok); }
+    .summary.ng { color: var(--err); }
+    label { margin-right: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    td.error { color: var(--err); font-weight: 700; white-space: nowrap; }
+    td.warn { color: var(--warn); font-weight: 700; white-space: nowrap; }
+    td.info { color: var(--sub); white-space: nowrap; }
+    code { font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <h1>辞書データの検証</h1>
+  <p id="status">読み込み中…</p>
+  <div id="stats" class="stats"></div>
+  <p id="summary" class="summary"></p>
+  <div>
+    <label><input type="checkbox" data-level="error" checked> エラー</label>
+    <label><input type="checkbox" data-level="warn" checked> 警告</label>
+    <label><input type="checkbox" data-level="info"> 未確認の一覧</label>
+  </div>
+  <table>
+    <thead><tr><th>種類</th><th>ファイル</th><th>id</th><th>内容</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <script type="module">
+    import { validateAll } from './validate-core.js';
+
+    const LABEL = { error: 'エラー', warn: '警告', info: '情報' };
+
+    async function load(path) {
+      const res = await fetch('../data/' + path, { cache: 'no-store' });
+      if (!res.ok) throw new Error(res.status);
+      return res.json();
+    }
+
+    async function main() {
+      const loadErrors = [];
+      const get = (p) => load(p).catch(() => { loadErrors.push(p); return null; });
+      const meta = await get('meta.json');
+      const files = meta?.entryFiles ?? ['entries/git.json', 'entries/gh.json', 'entries/github-web.json'];
+      const [entryData, flows, glossary, quiz, scenes] = await Promise.all([
+        Promise.all(files.map(get)),
+        get('flows.json'), get('glossary.json'), get('quiz.json'), get('scenes.json'),
+      ]);
+      const entryFiles = files.map((name, i) => ({ name, entries: entryData[i] ?? [] }));
+      const { issues, stats } = validateAll({ meta, entryFiles, flows, glossary, quiz, scenes, loadErrors });
+
+      document.getElementById('status').textContent = `データバージョン：${meta?.dataVersion ?? '不明'}`;
+      document.getElementById('stats').replaceChildren(...Object.entries(stats).map(([k, v]) => {
+        const d = document.createElement('div');
+        d.className = 'stat';
+        d.innerHTML = `<b></b>`;
+        d.firstChild.textContent = v;
+        d.append(k);
+        return d;
+      }));
+      const sum = document.getElementById('summary');
+      sum.textContent = stats['エラー'] ? `エラーが ${stats['エラー']} 件あります` : 'エラーはありません';
+      sum.className = 'summary ' + (stats['エラー'] ? 'ng' : 'ok');
+
+      const render = () => {
+        const on = new Set([...document.querySelectorAll('[data-level]')].filter((c) => c.checked).map((c) => c.dataset.level));
+        document.getElementById('rows').replaceChildren(...issues.filter((x) => on.has(x.level)).map((x) => {
+          const tr = document.createElement('tr');
+          for (const [text, cls] of [[LABEL[x.level], x.level], [x.file], [x.id], [x.msg]]) {
+            const td = document.createElement('td');
+            td.textContent = text;
+            if (cls) td.className = cls;
+            tr.append(td);
+          }
+          return tr;
+        }));
+      };
+      document.querySelectorAll('[data-level]').forEach((c) => c.addEventListener('change', render));
+      render();
+    }
+    main();
+  </script>
+</body>
+</html>

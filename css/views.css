@@ -1,0 +1,316 @@
+/* ---- 検索 ---- */
+.search-bar {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.search-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.search-input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.filters {
+  display: grid;
+  gap: 8px;
+}
+.result-count {
+  margin: 4px 0 8px;
+  color: var(--text-sub);
+  font-size: 0.85rem;
+}
+.result-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.result {
+  display: grid;
+  gap: 4px;
+  min-height: var(--tap);
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+.result:active {
+  background: var(--surface-2);
+}
+.result-cmd {
+  color: var(--code-text);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.result-title {
+  font-weight: 600;
+}
+
+.section-title {
+  margin: 20px 0 8px;
+  font-size: 1rem;
+}
+.cat-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+.cat-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+.cat-card .count {
+  color: var(--text-sub);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+.scene {
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.scene h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+.scene .sub {
+  margin: 2px 0 4px;
+}
+.scene-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.scene-list a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: var(--tap);
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+}
+.scene-list li:last-child a {
+  border-bottom: 0;
+}
+.scene-list code {
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+.scene-list span {
+  font-size: 0.85rem;
+  color: var(--text-sub);
+}
+.home-note {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* ---- 詳細 ---- */
+.entry-head h1 {
+  margin: 4px 0 8px;
+  font-size: 1.35rem;
+}
+.entry-section {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.entry-section > h2 {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  color: var(--text-sub);
+}
+.entry-section h3 {
+  margin: 0 0 4px;
+  font-size: 0.92rem;
+}
+.entry-section .kv + .kv {
+  margin-top: 14px;
+}
+.summary {
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+
+.syntax {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 12px;
+}
+.syntax code {
+  white-space: pre-wrap;
+  color: var(--text-sub);
+}
+.syntax-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+.fields {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.field label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.field-hint {
+  margin-left: 4px;
+  color: var(--text-sub);
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+.field-note {
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+}
+.field-note.warn {
+  color: var(--caution);
+}
+.cmd-box {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 12px;
+}
+.cmd-out {
+  margin: 0;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  -webkit-user-select: text;
+  user-select: text;
+}
+.ph-missing {
+  color: var(--ph-missing);
+  font-style: italic;
+}
+.ph-value {
+  color: var(--ph-value);
+  font-weight: 700;
+}
+
+.steps {
+  margin: 0;
+  padding-left: 1.4em;
+}
+.steps li + li {
+  margin-top: 6px;
+}
+
+.examples {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.examples li + li {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.example-cmd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.example-cmd code {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.example-desc {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: var(--text-sub);
+}
+
+.entry-foot {
+  margin-top: 16px;
+}
+.entry-foot p {
+  margin: 4px 0;
+}
+
+/* ---- 設定 ---- */
+.settings {
+  display: grid;
+  gap: 12px;
+}
+.setting {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.setting legend,
+.setting h2 {
+  padding: 0;
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.setting legend {
+  float: left;
+  width: 100%;
+}
+.radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--tap);
+  clear: both;
+  cursor: pointer;
+}
+.radio input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--accent);
+}

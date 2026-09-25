@@ -1,0 +1,149 @@
+[
+  {
+    "term": "リポジトリ",
+    "reading": "りぽじとり",
+    "aliases": ["repository", "レポジトリ", "リポ"],
+    "def": "ファイルと、その変更履歴をまとめて保存している場所です。手元のパソコンにあるものをローカルリポジトリ、GitHub などにあるものを[[リモート]]リポジトリと呼びます。",
+    "related": ["git-init", "git-clone"]
+  },
+  {
+    "term": "コミット",
+    "reading": "こみっと",
+    "aliases": ["commit"],
+    "def": "ある時点のファイルの状態を、メッセージや作者と一緒に記録したものです。コミットは1つ前のコミット（親）を覚えていて、つながりが履歴になります。",
+    "related": ["git-commit", "git-log"]
+  },
+  {
+    "term": "ブランチ",
+    "reading": "ぶらんち",
+    "aliases": ["branch"],
+    "def": "特定の[[コミット]]を指す名前付きの目印です。新しくコミットすると、今いるブランチの目印が新しいコミットへ進みます。作業ごとにブランチを分けると、互いに影響せずに並行して進められます。",
+    "related": ["git-branch-list", "git-switch-create", "git-switch"]
+  },
+  {
+    "term": "main",
+    "reading": "めいん",
+    "aliases": ["master", "デフォルトブランチ"],
+    "def": "多くのリポジトリで基本となるブランチの名前です。以前は master がよく使われていましたが、現在の GitHub では main が既定です。",
+    "related": ["git-init"]
+  },
+  {
+    "term": "HEAD",
+    "reading": "へっど",
+    "aliases": ["ヘッド"],
+    "def": "「今自分がいる位置」を表す目印です。ふだんは今いる[[ブランチ]]を指しています。`HEAD~1` は HEAD の1つ前のコミット、`HEAD~2` は2つ前を意味します。",
+    "related": ["git-reflog", "git-show"]
+  },
+  {
+    "term": "detached HEAD",
+    "reading": "でたっちどへっど",
+    "aliases": ["デタッチドHEAD", "HEAD が切り離された状態"],
+    "def": "[[HEAD]] がブランチではなく、特定のコミットを直接指している状態です。この状態でコミットしても、どのブランチにも属さないので、切り替えると見失いやすくなります。残したいときは `git switch -c <名前>` でブランチを作ります。",
+    "related": ["git-switch-create"]
+  },
+  {
+    "term": "作業ツリー",
+    "reading": "さぎょうつりー",
+    "aliases": ["ワーキングツリー", "ワーキングディレクトリ", "working tree"],
+    "def": "実際に編集しているファイルが置かれているフォルダの中身です。ここでの変更は、[[ステージ]]して[[コミット]]するまで履歴には残りません。",
+    "related": ["git-status", "git-diff", "git-restore"]
+  },
+  {
+    "term": "ステージ",
+    "reading": "すてーじ",
+    "aliases": ["ステージング", "ステージングエリア", "インデックス", "index", "stage"],
+    "def": "次の[[コミット]]に含める変更を置いておく場所です。`git add` で載せ、`git commit` でまとめて記録します。コミットに入れる変更を選ぶための待合室のようなものです。",
+    "related": ["git-add", "git-restore-staged", "git-diff-staged"]
+  },
+  {
+    "term": "ハッシュ",
+    "reading": "はっしゅ",
+    "aliases": ["コミットID", "SHA", "hash"],
+    "def": "各[[コミット]]に付く、英数字の長い識別子です。`a1b2c3d` のように先頭の数文字だけでも、他と区別できればコミットを指定できます。",
+    "related": ["git-log", "git-show"]
+  },
+  {
+    "term": "リモート",
+    "reading": "りもーと",
+    "aliases": ["remote", "リモートリポジトリ"],
+    "def": "GitHub など、ネットワーク越しにある[[リポジトリ]]のことです。手元のリポジトリには、リモートを名前（ふつうは [[origin]]）付きで登録して使います。",
+    "related": ["git-remote-add", "git-push", "git-fetch"]
+  },
+  {
+    "term": "origin",
+    "reading": "おりじん",
+    "aliases": ["オリジン"],
+    "def": "[[リモート]]の既定の名前です。`git clone` すると複製元が自動で origin として登録されます。名前は慣習なので、変えることもできます。",
+    "related": ["git-remote-add", "git-clone"]
+  },
+  {
+    "term": "上流ブランチ",
+    "reading": "じょうりゅうぶらんち",
+    "aliases": ["upstream", "アップストリーム", "追跡ブランチ"],
+    "def": "手元のブランチと対応付けられた[[リモート]]側のブランチです。設定しておくと、`git push` や `git pull` を引数なしで実行したときの相手になります。",
+    "related": ["git-push-upstream", "git-push", "git-pull"]
+  },
+  {
+    "term": "リモート追跡ブランチ",
+    "reading": "りもーとついせきぶらんち",
+    "aliases": ["origin/main", "remote-tracking branch"],
+    "def": "`origin/main` のように、最後に `git fetch` した時点のリモートのブランチの位置を手元に記録したものです。直接コミットすることはできません。",
+    "related": ["git-fetch", "git-branch-list"]
+  },
+  {
+    "term": "マージ",
+    "reading": "まーじ",
+    "aliases": ["merge", "マージコミット"],
+    "def": "別々に進んだ2つの[[ブランチ]]の変更を1つに合わせることです。両方が進んでいる場合は、親を2つ持つマージコミットが作られます。",
+    "related": ["git-merge", "git-pull"]
+  },
+  {
+    "term": "fast-forward",
+    "reading": "ふぁすとふぉわーど",
+    "aliases": ["ファストフォワード", "早送り", "ff"],
+    "def": "取り込む側のブランチが相手の途中から何も進んでいないとき、ブランチの目印を相手の先端まで進めるだけで[[マージ]]を終える方法です。新しいコミットは作られません。",
+    "related": ["git-merge", "git-pull"]
+  },
+  {
+    "term": "リベース",
+    "reading": "りべーす",
+    "aliases": ["rebase"],
+    "def": "ブランチのコミットを、別の位置を土台にして作り直すことです。履歴が一直線になりますが、コミットの[[ハッシュ]]が変わるため、共有済みのブランチで行うと他の人と食い違います。",
+    "related": ["git-rebase", "git-pull"]
+  },
+  {
+    "term": "コンフリクト",
+    "reading": "こんふりくと",
+    "aliases": ["競合", "衝突", "conflict"],
+    "def": "[[マージ]]や[[リベース]]で、両方が同じ箇所を違う内容に変えていて、Git が自動で合わせられない状態です。ファイル内の `<<<<<<<` から `>>>>>>>` の部分を手で直し、`git add` してから続けます。",
+    "related": ["git-merge", "git-rebase", "git-pull"]
+  },
+  {
+    "term": "強制プッシュ",
+    "reading": "きょうせいぷっしゅ",
+    "aliases": ["force push", "フォースプッシュ", "push -f"],
+    "def": "リモートの履歴を、手元の履歴で上書きする push です。他の人のコミットを消してしまうおそれがあるため、使うときは `--force-with-lease`（他の人の変更があれば止まる）を選ぶのが安全です。",
+    "related": ["git-push"]
+  },
+  {
+    "term": "stash",
+    "reading": "すたっしゅ",
+    "aliases": ["スタッシュ", "退避"],
+    "def": "まだコミットしていない変更を一時的にしまっておく場所です。しまった変更は積み重なり、`stash@{0}` が最新になります。",
+    "related": ["git-stash", "git-stash-pop"]
+  },
+  {
+    "term": "ORIG_HEAD",
+    "reading": "おりぐへっど",
+    "aliases": [],
+    "def": "`git reset`、`git merge`、`git rebase` など、大きく位置を動かす操作の直前に [[HEAD]] があった位置を Git が覚えておく目印です。直後なら、ここへ戻せば操作前の状態に戻れます。",
+    "related": ["git-reset-soft", "git-merge", "git-rebase"]
+  },
+  {
+    "term": ".gitignore",
+    "reading": "ぎっといぐのあ",
+    "aliases": ["gitignore", "無視ファイル"],
+    "def": "Git に管理させたくないファイル（ビルド結果やパスワードを含む設定ファイルなど）の名前やパターンを書いておくファイルです。既に管理しているファイルには効きません。",
+    "related": ["git-status"]
+  }
+]

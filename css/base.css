@@ -1,0 +1,264 @@
+/* ---- 配色（ライト） ---- */
+:root {
+  color-scheme: light dark;
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #eef0f3;
+  --text: #1c1f24;
+  --text-sub: #5b6470;
+  --border: #d9dde3;
+  --accent: #0b6bcb;
+  --accent-text: #ffffff;
+  --accent-soft: #e3effb;
+  --code-bg: #eef1f5;
+  --code-text: #1c2b3a;
+  --ph-missing: #b3261e;
+  --ph-value: #0b6b3a;
+
+  --safe: #1f7a3d;
+  --safe-bg: #e3f4e8;
+  --caution: #8a5a00;
+  --caution-bg: #fff2d6;
+  --danger: #b3261e;
+  --danger-bg: #fde4e1;
+  --unverified: #5b6470;
+  --unverified-bg: #eceef1;
+  --mine: #6b3fb3;
+  --mine-bg: #efe7fb;
+
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+  --tap: 44px;
+  --appbar-h: 48px;
+  --tabbar-h: 56px;
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+}
+
+/* ---- 配色（ダーク） ---- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16181d;
+    --surface: #1f2228;
+    --surface-2: #2a2e36;
+    --text: #e8eaed;
+    --text-sub: #a3abb6;
+    --border: #3a3f48;
+    --accent: #5aa9f5;
+    --accent-text: #0d1117;
+    --accent-soft: #1c3048;
+    --code-bg: #272b33;
+    --code-text: #dbe6f3;
+    --ph-missing: #ff8a80;
+    --ph-value: #7ddc9b;
+
+    --safe: #7ddc9b;
+    --safe-bg: #1c3526;
+    --caution: #f5c46b;
+    --caution-bg: #3a2f17;
+    --danger: #ff8a80;
+    --danger-bg: #43201e;
+    --unverified: #b6bdc7;
+    --unverified-bg: #30343c;
+    --mine: #c7a6ff;
+    --mine-bg: #33284a;
+
+    --shadow: none;
+  }
+}
+
+/* ---- リセットと基本 ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+html[data-font='large'] {
+  font-size: 118.75%; /* 19px */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic UI', 'Meiryo', system-ui, sans-serif;
+  line-height: 1.7;
+  -webkit-tap-highlight-color: transparent;
+  overflow-wrap: anywhere;
+}
+
+code,
+pre,
+kbd {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+a {
+  color: var(--accent);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* iOS は 16px 未満の入力欄にフォーカスすると拡大するため、常に 16px 以上 */
+input,
+select,
+textarea {
+  font-size: max(16px, 1rem);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.4;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ---- 外枠 ---- */
+.appbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: calc(var(--appbar-h) + var(--sat));
+  padding: var(--sat) calc(12px + var(--sar)) 0 calc(4px + var(--sal));
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.appbar-title {
+  margin: 0 0 0 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.appbar-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap);
+  min-height: var(--tap);
+  border: 0;
+  background: none;
+  color: var(--accent);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.appbar-back + .appbar-title {
+  margin-left: 0;
+}
+
+.view {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 12px calc(16px + var(--sar)) calc(var(--tabbar-h) + var(--sab) + 32px) calc(16px + var(--sal));
+  outline: none;
+}
+
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 0 var(--sar) var(--sab) var(--sal);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-top: 1px solid var(--border);
+}
+.tabbar a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: var(--tabbar-h);
+  color: var(--text-sub);
+  text-decoration: none;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+.tabbar a.active {
+  color: var(--accent);
+}
+.tabbar .icon {
+  width: 24px;
+  height: 24px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  flex: none;
+}
+
+.banners {
+  position: sticky;
+  top: calc(var(--appbar-h) + var(--sat));
+  z-index: 15;
+}
+.banner {
+  display: block;
+  width: 100%;
+  padding: 10px calc(16px + var(--sar)) 10px calc(16px + var(--sal));
+  border: 0;
+  text-align: left;
+  font-size: 0.9rem;
+  min-height: var(--tap);
+}
+.banner-info {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+.banner-warn {
+  background: var(--caution-bg);
+  color: var(--caution);
+}
+button.banner {
+  cursor: pointer;
+}
+
+.loading,
+.noscript {
+  padding: 24px 16px;
+  color: var(--text-sub);
+  text-align: center;
+}

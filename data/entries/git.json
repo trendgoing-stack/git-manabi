@@ -1,0 +1,776 @@
+[
+  {
+    "id": "git-config-user",
+    "tool": "git",
+    "category": "setup",
+    "title": "コミットに記録する名前とメールアドレスを設定したい",
+    "intents": ["名前とメールアドレスを登録したい", "最初にやる設定をしたい", "コミットの作者名を変えたい"],
+    "keywords": ["なまえ", "めーる", "user.name", "user.email", "global", "しょきせってい", "作者", "author", "config"],
+    "syntax": "git config --global user.name <name>\ngit config --global user.email <email>",
+    "placeholders": [
+      { "key": "name", "label": "名前", "example": "Taro Yamada", "quote": true },
+      { "key": "email", "label": "メールアドレス", "example": "taro@example.com" }
+    ],
+    "summary": "これから作る[[コミット]]に、誰が作ったかとして記録される名前とメールアドレスを登録します。",
+    "details": "Git はコミットごとに作者の名前とメールアドレスを残します。`--global` を付けると、このパソコンのユーザー全体の既定値になります。\n\n特定の[[リポジトリ]]だけ別の名前にしたいときは、そのリポジトリの中で `--global` を外して実行します。GitHub にメールアドレスを公開したくない場合は、GitHub の設定画面にある noreply 形式のアドレスを使えます。",
+    "examples": [
+      { "cmd": "git config --global user.name \"Taro Yamada\"", "desc": "名前を設定します。空白を含むので \" で囲みます。" },
+      { "cmd": "git config --global user.email taro@example.com", "desc": "メールアドレスを設定します。" },
+      { "cmd": "git config --global --list", "desc": "いまの設定を一覧表示して確認します。" },
+      { "cmd": "git config user.name \"Work Name\"", "desc": "今いるリポジトリだけ別の名前にします。" }
+    ],
+    "danger": "safe",
+    "undo": "もう一度同じコマンドで正しい値を設定し直せば上書きされます。設定そのものを消すときは `git config --global --unset user.name` を使います。",
+    "shellNote": "名前に空白がある場合、mac/Linux でも Windows でも \" で囲めば動きます。",
+    "related": ["git-init", "git-clone"],
+    "docUrl": "https://git-scm.com/docs/git-config",
+    "tags": ["初回", "設定"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-init",
+    "tool": "git",
+    "category": "setup",
+    "title": "今のフォルダを Git で管理し始めたい",
+    "intents": ["新しくリポジトリを作りたい", "フォルダを Git 管理にしたい", "ゼロからプロジェクトを始めたい"],
+    "keywords": ["いにっと", "しょきか", "初期化", "新規", "作成", "init", "リポジトリ作成"],
+    "syntax": "git init -b main",
+    "summary": "今いるフォルダを新しい[[リポジトリ]]にして、履歴を記録できる状態にします。",
+    "details": "実行するとフォルダの中に隠しフォルダ `.git` が作られ、ここに履歴がすべて保存されます。`-b main` で最初の[[ブランチ]]の名前を main にします。\n\n毎回 `-b main` を書かなくて済むように、`git config --global init.defaultBranch main` を一度実行しておく方法もあります。",
+    "examples": [
+      { "cmd": "git init -b main", "desc": "今いるフォルダをリポジトリにします。" },
+      { "cmd": "git init -b main my-project", "desc": "my-project フォルダを作って、その中をリポジトリにします。" },
+      { "cmd": "git config --global init.defaultBranch main", "desc": "今後 git init したときのブランチ名を main にします。" }
+    ],
+    "danger": "safe",
+    "undo": "Git 管理をやめたいときは、フォルダ内の `.git` フォルダを削除します。ファイル自体は残りますが、履歴はすべて消えます。",
+    "alternatives": "GitHub に既にリポジトリがある場合は、`git init` ではなく `git clone` で手元に持ってきます。",
+    "since": "2.28",
+    "related": ["git-config-user", "git-clone", "git-remote-add"],
+    "docUrl": "https://git-scm.com/docs/git-init",
+    "tags": ["初回", "作成"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-clone",
+    "tool": "git",
+    "category": "setup",
+    "title": "GitHub のリポジトリを手元にコピーしたい",
+    "intents": ["リポジトリをダウンロードしたい", "他人のプロジェクトを手元に持ってきたい", "既存のリポジトリで作業を始めたい"],
+    "keywords": ["くろーん", "複製", "ふくせい", "ダウンロード", "取得", "clone", "download"],
+    "syntax": "git clone <url>",
+    "placeholders": [
+      { "key": "url", "label": "リポジトリのURL", "example": "https://github.com/owner/repo.git" }
+    ],
+    "summary": "[[リモート]]にある[[リポジトリ]]を、履歴ごと手元に複製します。",
+    "details": "URL の最後の名前（例：repo）でフォルダが作られ、その中に全履歴と最新のファイルが入ります。複製元は自動的に [[origin]] という名前で登録されるので、そのまま `git pull` や `git push` ができます。\n\nURL は GitHub のリポジトリ画面にある「Code」ボタンからコピーできます。",
+    "examples": [
+      { "cmd": "git clone https://github.com/owner/repo.git", "desc": "repo フォルダに複製します。" },
+      { "cmd": "git clone https://github.com/owner/repo.git my-dir", "desc": "フォルダ名を my-dir にして複製します。" },
+      { "cmd": "git clone --depth 1 https://github.com/owner/repo.git", "desc": "最新のコミットだけを取得して、容量と時間を節約します。" }
+    ],
+    "danger": "safe",
+    "undo": "不要になったら、作られたフォルダを削除するだけです。リモート側には影響しません。",
+    "prereq": "非公開リポジトリの場合は、GitHub への認証（gh auth login や SSH 鍵など）が必要です。",
+    "related": ["git-init", "git-remote-add", "git-pull"],
+    "docUrl": "https://git-scm.com/docs/git-clone",
+    "tags": ["初回", "取得"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-status",
+    "tool": "git",
+    "category": "basic",
+    "title": "今の状態（変更したファイルなど）を確認したい",
+    "intents": ["どのファイルを変更したか見たい", "ステージした内容を確認したい", "今どのブランチにいるか知りたい"],
+    "keywords": ["すてーたす", "じょうたい", "状況", "変更一覧", "status"],
+    "syntax": "git status",
+    "summary": "今いる[[ブランチ]]、変更したファイル、[[ステージ]]済みのファイルなどをまとめて表示します。",
+    "details": "迷ったらまず実行するコマンドです。表示は「コミット予定の変更（ステージ済み）」「まだステージしていない変更」「Git がまだ管理していないファイル」に分かれます。\n\n次に打つべきコマンドのヒントも表示されるので、読んでみると理解が進みます。",
+    "examples": [
+      { "cmd": "git status", "desc": "詳しい形式で表示します。" },
+      { "cmd": "git status -s", "desc": "1ファイル1行の短い形式で表示します。" }
+    ],
+    "danger": "safe",
+    "related": ["git-add", "git-diff", "git-restore"],
+    "docUrl": "https://git-scm.com/docs/git-status",
+    "tags": ["確認", "毎日"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-add",
+    "tool": "git",
+    "category": "basic",
+    "title": "変更をコミットの対象に加えたい（ステージする）",
+    "intents": ["ファイルをステージしたい", "コミットするファイルを選びたい", "新しいファイルを Git に追加したい", "全部の変更をまとめて追加したい"],
+    "keywords": ["あど", "ついか", "すてーじ", "ステージング", "インデックス", "add", "stage"],
+    "syntax": "git add <path>",
+    "placeholders": [
+      { "key": "path", "label": "ファイルまたはフォルダ", "example": "index.html" }
+    ],
+    "summary": "指定したファイルの今の内容を[[ステージ]]に載せ、次の[[コミット]]に含まれるようにします。",
+    "details": "Git では「変更する」と「コミットする」の間に、コミットに含める変更を選ぶ段階があります。`git add` はその選ぶ操作です。\n\n`git add` した後にさらにファイルを編集した場合、その追加の変更はもう一度 `git add` しないとコミットに入りません。",
+    "examples": [
+      { "cmd": "git add index.html", "desc": "1つのファイルをステージします。" },
+      { "cmd": "git add .", "desc": "今いるフォルダ以下の変更をすべてステージします。" },
+      { "cmd": "git add -p", "desc": "変更を小さな塊ごとに確認しながら、ステージするか選びます。" }
+    ],
+    "danger": "safe",
+    "undo": "ステージを取り消すには `git restore --staged <path>` を使います。ファイルの中身は変わりません。",
+    "related": ["git-restore-staged", "git-commit", "git-status", "git-diff-staged"],
+    "docUrl": "https://git-scm.com/docs/git-add",
+    "tags": ["毎日", "ステージ"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-commit",
+    "tool": "git",
+    "category": "basic",
+    "title": "ステージした変更を記録したい（コミットする）",
+    "intents": ["変更を保存したい", "コミットしたい", "メッセージ付きで記録したい"],
+    "keywords": ["こみっと", "きろく", "保存", "ほぞん", "メッセージ", "commit"],
+    "syntax": "git commit -m <message>",
+    "placeholders": [
+      { "key": "message", "label": "コミットメッセージ", "example": "ログイン画面を追加", "quote": true }
+    ],
+    "summary": "[[ステージ]]にある変更を、メッセージを付けて1つの[[コミット]]として履歴に残します。",
+    "details": "コミットは「この時点の状態」を記録したものです。後から履歴を見返したり、この時点に戻したりできます。メッセージには「何のために変えたか」を短く書くと、後で探しやすくなります。\n\n`-m` を付けずに実行するとエディタが開き、複数行のメッセージを書けます。",
+    "examples": [
+      { "cmd": "git commit -m \"ログイン画面を追加\"", "desc": "メッセージを付けてコミットします。" },
+      { "cmd": "git commit", "desc": "エディタを開いてメッセージを書きます。" },
+      { "cmd": "git commit -am \"誤字を修正\"", "desc": "既に Git が管理しているファイルの変更を、ステージとコミットを一度に行います。新しいファイルは含まれません。" }
+    ],
+    "danger": "safe",
+    "undo": "直前のコミットを取り消すには `git reset --soft HEAD~1`（変更はステージに残る）を使います。メッセージだけ直すなら `git commit --amend` です。",
+    "shellNote": "mac/Linux（bash・zsh）では、\" で囲んでもメッセージ中の `$` やバッククォートは展開されます。Windows の PowerShell は \" の扱いが異なるので、メッセージに \" を含めたいときはエディタで書くのが確実です。",
+    "related": ["git-add", "git-commit-amend", "git-reset-soft", "git-log"],
+    "docUrl": "https://git-scm.com/docs/git-commit",
+    "tags": ["毎日", "記録"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-diff",
+    "tool": "git",
+    "category": "basic",
+    "title": "まだステージしていない変更の中身を見たい",
+    "intents": ["どこを変更したか行単位で見たい", "差分を確認したい", "編集内容を見直したい"],
+    "keywords": ["でぃふ", "さぶん", "差分", "変更点", "diff"],
+    "syntax": "git diff",
+    "summary": "[[作業ツリー]]で変更したけれど、まだ[[ステージ]]していない部分を行単位で表示します。",
+    "details": "行頭が `+` の行は追加、`-` の行は削除です。既に `git add` した変更は表示されないので、それを見たいときは `git diff --staged` を使います。\n\n表示が長いときは画面がページ送りになります。`q` で終了します。",
+    "examples": [
+      { "cmd": "git diff", "desc": "すべてのファイルの未ステージの変更を表示します。" },
+      { "cmd": "git diff index.html", "desc": "特定のファイルだけ表示します。" },
+      { "cmd": "git diff main feature", "desc": "2つのブランチの先端どうしの違いを表示します。" },
+      { "cmd": "git diff --stat", "desc": "ファイルごとの変更行数だけを表示します。" }
+    ],
+    "danger": "safe",
+    "related": ["git-diff-staged", "git-status", "git-add"],
+    "docUrl": "https://git-scm.com/docs/git-diff",
+    "tags": ["確認", "差分"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-diff-staged",
+    "tool": "git",
+    "category": "basic",
+    "title": "コミットする予定の変更（ステージ済み）を確認したい",
+    "intents": ["add した内容を見たい", "コミット前に最終確認したい", "ステージした差分を見たい"],
+    "keywords": ["すてーじど", "きゃっしゅど", "cached", "staged", "コミット前", "差分"],
+    "syntax": "git diff --staged",
+    "summary": "[[ステージ]]に載っていて、次の[[コミット]]に入る予定の変更を表示します。",
+    "details": "コミット直前に「余計なものが入っていないか」を確かめるのに便利です。`--staged` と `--cached` は同じ意味です。",
+    "examples": [
+      { "cmd": "git diff --staged", "desc": "ステージ済みの変更をすべて表示します。" },
+      { "cmd": "git diff --staged --stat", "desc": "ステージ済みのファイル一覧と行数だけ表示します。" }
+    ],
+    "danger": "safe",
+    "related": ["git-diff", "git-add", "git-commit", "git-restore-staged"],
+    "docUrl": "https://git-scm.com/docs/git-diff",
+    "tags": ["確認", "差分"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-branch-list",
+    "tool": "git",
+    "category": "branch",
+    "title": "ブランチの一覧を見たい",
+    "intents": ["どんなブランチがあるか知りたい", "今いるブランチを確認したい", "リモートのブランチも見たい"],
+    "keywords": ["ぶらんち", "いちらん", "一覧", "branch", "list"],
+    "syntax": "git branch",
+    "summary": "手元にある[[ブランチ]]を一覧表示します。今いるブランチには `*` が付きます。",
+    "details": "`-a` を付けるとリモート側のブランチ（`remotes/origin/...`）も表示します。リモートの情報は最後に `git fetch` した時点のものです。",
+    "examples": [
+      { "cmd": "git branch", "desc": "手元のブランチを表示します。" },
+      { "cmd": "git branch -a", "desc": "リモートのブランチも含めて表示します。" },
+      { "cmd": "git branch -vv", "desc": "各ブランチの最新コミットと、対応する上流ブランチも表示します。" }
+    ],
+    "danger": "safe",
+    "related": ["git-switch", "git-switch-create", "git-branch-delete", "git-fetch"],
+    "docUrl": "https://git-scm.com/docs/git-branch",
+    "tags": ["確認", "ブランチ"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-switch-create",
+    "tool": "git",
+    "category": "branch",
+    "title": "新しいブランチを作って切り替えたい",
+    "intents": ["ブランチを作りたい", "作業用のブランチを切りたい", "新機能用に分岐したい"],
+    "keywords": ["すいっち", "ぶらんちさくせい", "作成", "新規ブランチ", "checkout -b", "switch -c", "create"],
+    "syntax": "git switch -c <branch>",
+    "placeholders": [
+      { "key": "branch", "label": "新しいブランチ名", "example": "feature/login" }
+    ],
+    "summary": "今いる位置から新しい[[ブランチ]]を作り、すぐにそのブランチへ移ります。",
+    "details": "作業中でまだコミットしていない変更は、そのまま新しいブランチに持っていけます。\n\n以前からある書き方 `git checkout -b <branch>` でも同じことができます。",
+    "examples": [
+      { "cmd": "git switch -c feature/login", "desc": "今の位置から feature/login を作って移ります。" },
+      { "cmd": "git switch -c hotfix main", "desc": "main の位置から hotfix を作って移ります。" },
+      { "cmd": "git checkout -b feature/login", "desc": "古い書き方。上の1つ目と同じ動きです。" }
+    ],
+    "danger": "safe",
+    "undo": "別のブランチに移ってから `git branch -d <branch>` で削除できます。",
+    "since": "2.23",
+    "related": ["git-switch", "git-branch-list", "git-branch-delete", "git-push-upstream"],
+    "docUrl": "https://git-scm.com/docs/git-switch",
+    "tags": ["ブランチ", "作成"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-switch",
+    "tool": "git",
+    "category": "branch",
+    "title": "別のブランチに切り替えたい",
+    "intents": ["ブランチを移動したい", "main に戻りたい", "直前のブランチに戻りたい"],
+    "keywords": ["すいっち", "きりかえ", "移動", "チェックアウト", "checkout", "switch"],
+    "syntax": "git switch <branch>",
+    "placeholders": [
+      { "key": "branch", "label": "ブランチ名", "example": "main" }
+    ],
+    "summary": "作業する[[ブランチ]]を切り替え、ファイルの内容をそのブランチの状態にします。",
+    "details": "まだコミットしていない変更は、切り替え先でも問題なければそのまま持っていかれます。切り替え先と衝突する場合は Git が止めてくれるので、先にコミットするか `git stash` で退避してください。\n\n手元にないブランチ名を指定しても、origin に同じ名前のブランチがあれば自動で作って切り替わります。以前の書き方は `git checkout <branch>` です。",
+    "examples": [
+      { "cmd": "git switch main", "desc": "main ブランチに切り替えます。" },
+      { "cmd": "git switch -", "desc": "直前にいたブランチに戻ります。" },
+      { "cmd": "git checkout main", "desc": "古い書き方。1つ目と同じ動きです。" }
+    ],
+    "danger": "safe",
+    "since": "2.23",
+    "related": ["git-switch-create", "git-branch-list", "git-stash"],
+    "docUrl": "https://git-scm.com/docs/git-switch",
+    "tags": ["ブランチ", "移動"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-branch-delete",
+    "tool": "git",
+    "category": "branch",
+    "title": "不要になったブランチを削除したい",
+    "intents": ["ブランチを消したい", "マージ済みのブランチを片付けたい", "リモートのブランチも削除したい"],
+    "keywords": ["さくじょ", "けす", "削除", "delete", "branch -d", "branch -D"],
+    "syntax": "git branch -d <branch>",
+    "placeholders": [
+      { "key": "branch", "label": "削除するブランチ名", "example": "feature/login" }
+    ],
+    "summary": "手元の[[ブランチ]]を削除します。`-d` はマージ済みのブランチだけを消します。",
+    "details": "`-d` は、まだどこにも[[マージ]]されていないコミットがあると削除を断ってくれます。本当に捨ててよいときだけ `-D` で強制削除します。\n\n今いるブランチは削除できないので、先に別のブランチへ切り替えてください。GitHub 側のブランチは別の操作で削除します。",
+    "examples": [
+      { "cmd": "git branch -d feature/login", "desc": "マージ済みなら削除します。" },
+      { "cmd": "git branch -D feature/login", "desc": "マージされていなくても強制的に削除します。" },
+      { "cmd": "git push origin --delete feature/login", "desc": "GitHub 側のブランチを削除します。" }
+    ],
+    "danger": "caution",
+    "dangerNote": "`-D` で消したブランチにしかないコミットは、どのブランチからも見えなくなります。",
+    "undo": "消した直後なら `git reflog` で消えたブランチの最後のコミットの[[ハッシュ]]を探し、`git branch <branch> <hash>` で作り直せます。",
+    "related": ["git-branch-list", "git-switch", "git-reflog", "git-merge"],
+    "docUrl": "https://git-scm.com/docs/git-branch",
+    "tags": ["ブランチ", "削除", "片付け"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-merge",
+    "tool": "git",
+    "category": "integrate",
+    "title": "別のブランチの変更を今のブランチに取り込みたい",
+    "intents": ["ブランチを合流させたい", "feature を main にマージしたい", "作業ブランチを統合したい"],
+    "keywords": ["まーじ", "とうごう", "統合", "合流", "取り込み", "merge"],
+    "syntax": "git merge <branch>",
+    "placeholders": [
+      { "key": "branch", "label": "取り込むブランチ名", "example": "feature/login" }
+    ],
+    "summary": "指定した[[ブランチ]]の変更を、今いるブランチに合流させます。",
+    "details": "取り込む側に切り替えてから実行します（例：main に取り込むなら先に `git switch main`）。\n\n今のブランチが相手の途中から進んでいなければ、ブランチの位置を進めるだけの [[fast-forward]] になります。両方が進んでいる場合は、合流を表すマージコミットが作られます。同じ箇所を両方で変えていると[[コンフリクト]]になり、手で直す必要があります。",
+    "examples": [
+      { "cmd": "git merge feature/login", "desc": "feature/login を今のブランチに取り込みます。" },
+      { "cmd": "git merge --no-ff feature/login", "desc": "fast-forward できる場合でも、必ずマージコミットを作ります。" },
+      { "cmd": "git merge --abort", "desc": "コンフリクト中のマージを中止して、開始前の状態に戻します。" }
+    ],
+    "danger": "caution",
+    "dangerNote": "[[コンフリクト]]が起きると、解決するまで途中の状態になります。",
+    "undo": "途中なら `git merge --abort` で中止できます。完了直後で、まだ push していなければ `git reset --hard ORIG_HEAD` でマージ前に戻せます（未コミットの変更も消えるので注意）。push 後なら `git revert -m 1 <merge-commit>` を使います。",
+    "alternatives": "履歴を一直線にしたい場合は `git rebase` を使う方法もあります。",
+    "related": ["git-rebase", "git-switch", "git-pull", "git-revert"],
+    "docUrl": "https://git-scm.com/docs/git-merge",
+    "tags": ["統合", "コンフリクト"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-rebase",
+    "tool": "git",
+    "category": "integrate",
+    "title": "今のブランチを最新の main の上に載せ直したい",
+    "intents": ["ブランチの分岐元を最新にしたい", "履歴を一直線にしたい", "main の変更を取り込んで作業を続けたい"],
+    "keywords": ["りべーす", "のせかえ", "載せ替え", "付け替え", "rebase"],
+    "syntax": "git rebase <base>",
+    "placeholders": [
+      { "key": "base", "label": "土台にするブランチ", "example": "main" }
+    ],
+    "summary": "今のブランチで作ったコミットを、指定したブランチの先端の後ろに作り直して並べ直します。",
+    "details": "[[マージ]]と違い合流の記録を残さないので、履歴が一直線になります。その代わり、コミットは作り直されて新しい[[ハッシュ]]になります。\n\n途中で[[コンフリクト]]が起きたら、ファイルを直して `git add` し、`git rebase --continue` で続けます。",
+    "examples": [
+      { "cmd": "git rebase main", "desc": "今のブランチを main の先端の上に載せ直します。" },
+      { "cmd": "git rebase --continue", "desc": "コンフリクトを解決した後、続きを進めます。" },
+      { "cmd": "git rebase --abort", "desc": "リベースを中止して、開始前の状態に戻します。" },
+      { "cmd": "git rebase -i HEAD~3", "desc": "直近3件のコミットをまとめたり並べ替えたりします（エディタが開きます）。" }
+    ],
+    "danger": "caution",
+    "dangerNote": "コミットが作り直されるため、既に push して他の人も使っているブランチで行うと、相手の履歴と食い違います。その場合は[[強制プッシュ]]が必要になります。",
+    "undo": "途中なら `git rebase --abort`。完了後は `git reset --hard ORIG_HEAD` か、`git reflog` で開始前の位置を探して戻します。",
+    "alternatives": "共有しているブランチでは、履歴を書き換えない `git merge` の方が安全です。",
+    "related": ["git-merge", "git-pull", "git-reflog", "git-fetch"],
+    "docUrl": "https://git-scm.com/docs/git-rebase",
+    "tags": ["統合", "履歴の書き換え"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-log",
+    "tool": "git",
+    "category": "history",
+    "title": "コミットの履歴を見たい",
+    "intents": ["過去のコミットを一覧したい", "誰がいつ変更したか見たい", "ブランチの分岐をグラフで見たい", "履歴を1行ずつ短く見たい"],
+    "keywords": ["ろぐ", "りれき", "履歴", "一覧", "グラフ", "log", "history"],
+    "syntax": "git log",
+    "summary": "今のブランチの[[コミット]]履歴を、新しいものから順に表示します。",
+    "details": "各コミットの[[ハッシュ]]、作者、日時、メッセージが表示されます。長いときはページ送りになり、`q` で終了します。\n\n`--oneline` で1行表示、`--graph` で分岐の様子を線で表示できます。",
+    "examples": [
+      { "cmd": "git log --oneline", "desc": "1コミット1行で表示します。" },
+      { "cmd": "git log --oneline --graph --all", "desc": "すべてのブランチの分岐と合流を線で表示します。" },
+      { "cmd": "git log -n 5", "desc": "新しい5件だけ表示します。" },
+      { "cmd": "git log -- index.html", "desc": "特定のファイルを変更したコミットだけ表示します。" },
+      { "cmd": "git log -p", "desc": "各コミットの変更内容も一緒に表示します。" }
+    ],
+    "danger": "safe",
+    "related": ["git-show", "git-reflog", "git-diff"],
+    "docUrl": "https://git-scm.com/docs/git-log",
+    "tags": ["確認", "履歴"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-show",
+    "tool": "git",
+    "category": "history",
+    "title": "特定のコミットの内容を詳しく見たい",
+    "intents": ["あるコミットで何を変えたか見たい", "直前のコミットの差分を見たい", "過去のファイルの中身を見たい"],
+    "keywords": ["しょう", "詳細", "コミット内容", "show"],
+    "syntax": "git show <commit>",
+    "placeholders": [
+      { "key": "commit", "label": "コミット（ハッシュなど）", "example": "HEAD" }
+    ],
+    "summary": "指定した[[コミット]]のメッセージと、そのコミットで変更した内容を表示します。",
+    "details": "コミットは[[ハッシュ]]の先頭数文字、ブランチ名、`HEAD`（今の位置）、`HEAD~1`（1つ前）などで指定できます。\n\n`<コミット>:<ファイル>` の形で、その時点のファイルの中身も表示できます。",
+    "examples": [
+      { "cmd": "git show", "desc": "直前のコミット（HEAD）を表示します。" },
+      { "cmd": "git show HEAD~1", "desc": "1つ前のコミットを表示します。" },
+      { "cmd": "git show a1b2c3d --stat", "desc": "変更したファイルの一覧と行数だけ表示します。" },
+      { "cmd": "git show main:README.md", "desc": "main ブランチにある README.md の中身を表示します。" }
+    ],
+    "danger": "safe",
+    "related": ["git-log", "git-diff"],
+    "docUrl": "https://git-scm.com/docs/git-show",
+    "tags": ["確認", "履歴"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-reflog",
+    "tool": "git",
+    "category": "history",
+    "title": "消えてしまったコミットを探したい",
+    "intents": ["reset する前の状態に戻りたい", "HEAD が過去にどこにあったか見たい", "間違って消したブランチを復活させたい"],
+    "keywords": ["りふろぐ", "ふっかつ", "復活", "復元", "救出", "reflog"],
+    "syntax": "git reflog",
+    "summary": "[[HEAD]] がこれまでにどのコミットを指していたかの記録を表示します。",
+    "details": "`git reset` や `git rebase`、ブランチ削除で見えなくなったコミットも、しばらくはこの記録から探せます。各行の `HEAD@{n}` は「n 回前の移動の時点」を意味します。\n\n戻りたい位置が分かったら、`git reset --hard` や `git branch` でその位置を指定します。記録は手元のリポジトリだけにあり、一定期間（既定では30〜90日）が過ぎると消えます。",
+    "examples": [
+      { "cmd": "git reflog", "desc": "HEAD の移動履歴を表示します。" },
+      { "cmd": "git reflog -n 20", "desc": "直近20件だけ表示します。" },
+      { "cmd": "git branch rescue HEAD@{2}", "desc": "2回前の位置に rescue ブランチを作って救出します。" },
+      { "cmd": "git reset --hard HEAD@{1}", "desc": "1回前の位置に戻します（未コミットの変更は消えます）。" }
+    ],
+    "danger": "safe",
+    "shellNote": "PowerShell では `{}` が特別な意味を持つため、`'HEAD@{1}'` のように ' で囲んでください。",
+    "related": ["git-reset-hard", "git-branch-delete", "git-log", "git-rebase"],
+    "docUrl": "https://git-scm.com/docs/git-reflog",
+    "tags": ["確認", "救出", "取り消し"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-restore",
+    "tool": "git",
+    "category": "undo",
+    "title": "ファイルの変更を捨てて元に戻したい",
+    "intents": ["編集をなかったことにしたい", "最後にコミットした状態に戻したい", "間違えて編集したファイルを戻したい"],
+    "keywords": ["りすとあ", "もどす", "破棄", "はき", "変更を捨てる", "checkout --", "restore", "discard"],
+    "syntax": "git restore <path>",
+    "placeholders": [
+      { "key": "path", "label": "ファイルまたはフォルダ", "example": "index.html" }
+    ],
+    "summary": "[[作業ツリー]]での変更を捨てて、[[ステージ]]にある内容（通常は最後のコミット時点）に戻します。",
+    "details": "まだ `git add` していない変更が対象です。既にステージしたものは、先に `git restore --staged` でステージから下ろします。\n\n以前の書き方は `git checkout -- <path>` です。",
+    "examples": [
+      { "cmd": "git restore index.html", "desc": "index.html の変更を捨てます。" },
+      { "cmd": "git restore .", "desc": "今いるフォルダ以下の変更をすべて捨てます。" },
+      { "cmd": "git restore --source HEAD~1 index.html", "desc": "1つ前のコミット時点の内容に戻します。" },
+      { "cmd": "git checkout -- index.html", "desc": "古い書き方。1つ目と同じ動きです。" }
+    ],
+    "danger": "danger",
+    "dangerNote": "捨てた変更はコミットされていないので、Git では取り戻せません。",
+    "undo": "Git の機能では戻せません。エディタの取り消し履歴やバックアップが頼りです。",
+    "alternatives": "捨てるか迷うときは、`git stash` で一時退避しておくと後から取り戻せます。",
+    "since": "2.23",
+    "related": ["git-restore-staged", "git-stash", "git-status", "git-reset-hard"],
+    "docUrl": "https://git-scm.com/docs/git-restore",
+    "tags": ["取り消し", "破棄"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-restore-staged",
+    "tool": "git",
+    "category": "undo",
+    "title": "間違えてステージしたファイルを取り消したい（add の取り消し）",
+    "intents": ["git add を取り消したい", "コミットに含めたくないファイルを外したい", "ステージを解除したい"],
+    "keywords": ["あんすてーじ", "add取り消し", "とりけし", "unstage", "reset HEAD", "restore --staged"],
+    "syntax": "git restore --staged <path>",
+    "placeholders": [
+      { "key": "path", "label": "ファイルまたはフォルダ", "example": "secret.txt" }
+    ],
+    "summary": "[[ステージ]]からファイルを下ろします。ファイルの中身（編集内容）はそのまま残ります。",
+    "details": "コミットに入れる予定だった変更を「まだ入れない」状態に戻すだけなので、安全に使えます。\n\n以前の書き方は `git reset HEAD <path>` です。",
+    "examples": [
+      { "cmd": "git restore --staged secret.txt", "desc": "secret.txt をステージから外します。" },
+      { "cmd": "git restore --staged .", "desc": "ステージしたものをすべて外します。" },
+      { "cmd": "git reset HEAD secret.txt", "desc": "古い書き方。1つ目と同じ動きです。" }
+    ],
+    "danger": "safe",
+    "undo": "もう一度 `git add` すればステージに戻せます。",
+    "since": "2.23",
+    "related": ["git-add", "git-restore", "git-diff-staged"],
+    "docUrl": "https://git-scm.com/docs/git-restore",
+    "tags": ["取り消し", "ステージ"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-commit-amend",
+    "tool": "git",
+    "category": "undo",
+    "title": "直前のコミットのメッセージや内容を修正したい",
+    "intents": ["コミットメッセージを直したい", "コミットにファイルを入れ忘れた", "直前のコミットに変更を追加したい"],
+    "keywords": ["あめんど", "しゅうせい", "修正", "やり直し", "入れ忘れ", "amend", "なおす", "とりけし"],
+    "syntax": "git commit --amend -m <message>",
+    "placeholders": [
+      { "key": "message", "label": "新しいメッセージ", "example": "ログイン画面を追加", "quote": true }
+    ],
+    "summary": "直前の[[コミット]]を、今の[[ステージ]]の内容と新しいメッセージで作り直します。",
+    "details": "入れ忘れたファイルがあるときは、先に `git add` してから実行します。メッセージを変えずに内容だけ足すなら `--no-edit` を使います。\n\n見た目は「直前のコミットを修正」ですが、実際には新しいコミットに置き換わり[[ハッシュ]]も変わります。",
+    "examples": [
+      { "cmd": "git commit --amend -m \"ログイン画面を追加\"", "desc": "メッセージを書き直します。" },
+      { "cmd": "git commit --amend --no-edit", "desc": "ステージした変更を足し、メッセージはそのままにします。" }
+    ],
+    "danger": "caution",
+    "dangerNote": "既に push したコミットを直すと、リモートと履歴が食い違い、[[強制プッシュ]]が必要になります。",
+    "undo": "直後なら `git reset --soft HEAD@{1}` で修正前のコミットに戻せます（変更はステージに残ります）。",
+    "alternatives": "push 済みなら、修正用の新しいコミットを追加する方が安全です。",
+    "shellNote": "PowerShell では `HEAD@{1}` を `'HEAD@{1}'` のように ' で囲んでください。",
+    "related": ["git-commit", "git-reset-soft", "git-reflog", "git-push"],
+    "docUrl": "https://git-scm.com/docs/git-commit",
+    "tags": ["取り消し", "修正", "履歴の書き換え"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-reset-soft",
+    "tool": "git",
+    "category": "undo",
+    "title": "直前のコミットを取り消したい（変更は残す）",
+    "intents": ["コミットだけなかったことにしたい", "コミットをやり直したい", "複数のコミットを1つにまとめ直したい"],
+    "keywords": ["りせっと", "そふと", "コミット取り消し", "やり直し", "reset --soft", "undo commit", "とりけし"],
+    "syntax": "git reset --soft HEAD~<n>",
+    "placeholders": [
+      { "key": "n", "label": "取り消すコミット数", "example": "1" }
+    ],
+    "summary": "ブランチの位置を n 個前のコミットまで戻し、取り消したコミットの変更は[[ステージ]]に残します。",
+    "details": "ファイルの中身は一切変わらないので、コミットをやり直したいときに安全に使えます。`--soft` の代わりに何も付けない（`--mixed`）と、変更はステージからも下ろされて[[作業ツリー]]に残ります。\n\n`HEAD~1` は「[[HEAD]] の1つ前」という意味です。",
+    "examples": [
+      { "cmd": "git reset --soft HEAD~1", "desc": "直前のコミットを取り消し、変更はステージに残します。" },
+      { "cmd": "git reset HEAD~1", "desc": "直前のコミットを取り消し、変更はステージから下ろして残します。" },
+      { "cmd": "git reset --soft HEAD~3", "desc": "直近3件を取り消します。続けて commit すれば1つにまとまります。" }
+    ],
+    "danger": "caution",
+    "dangerNote": "既に push したコミットを取り消すと、リモートと履歴が食い違います。",
+    "undo": "直後なら `git reset --soft ORIG_HEAD` で元の位置に戻せます。`git reflog` でも戻る位置を探せます。",
+    "alternatives": "push 済みのコミットは `git revert` で打ち消す方が安全です。",
+    "shellNote": "Windows のコマンドプロンプトでは `^` が特殊文字なので、`HEAD^` ではなく `HEAD~1` と書くのが無難です。",
+    "related": ["git-reset-hard", "git-revert", "git-commit-amend", "git-reflog"],
+    "docUrl": "https://git-scm.com/docs/git-reset",
+    "tags": ["取り消し", "履歴の書き換え"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-reset-hard",
+    "tool": "git",
+    "category": "undo",
+    "title": "指定したコミットの状態まで完全に戻したい",
+    "intents": ["変更もコミットもまとめて捨てたい", "リモートと同じ状態にしたい", "過去の時点に強制的に戻したい"],
+    "keywords": ["りせっとはーど", "かんぜん", "強制", "全部捨てる", "reset --hard", "もどす", "とりけし"],
+    "syntax": "git reset --hard <commit>",
+    "placeholders": [
+      { "key": "commit", "label": "戻す先のコミット", "example": "HEAD~1" }
+    ],
+    "summary": "ブランチの位置、[[ステージ]]、[[作業ツリー]]のすべてを、指定したコミットの状態にそろえます。",
+    "details": "指定したコミットより後のコミットはブランチから外れ、まだコミットしていない変更もすべて消えます。\n\n`origin/main` を指定すると、手元の main をリモートと同じ状態にそろえられます（先に `git fetch` が必要です）。",
+    "examples": [
+      { "cmd": "git reset --hard HEAD~1", "desc": "直前のコミットと未コミットの変更を捨てます。" },
+      { "cmd": "git reset --hard HEAD", "desc": "コミットはそのままで、未コミットの変更だけすべて捨てます。" },
+      { "cmd": "git reset --hard origin/main", "desc": "手元の今のブランチをリモートの main と同じにします。" }
+    ],
+    "danger": "danger",
+    "dangerNote": "まだコミットしていない変更は完全に消え、Git でも取り戻せません。外れたコミットも普通の方法では見えなくなります。",
+    "undo": "コミットは `git reflog` で元の位置を探し、`git reset --hard HEAD@{1}` などで戻せます。未コミットの変更は戻せません。",
+    "alternatives": "実行前に `git stash` で未コミットの変更を退避するか、`git branch backup` で今の位置に目印を付けておくと安心です。push 済みのコミットは `git revert` で打ち消します。",
+    "shellNote": "PowerShell では `HEAD@{1}` を `'HEAD@{1}'` のように ' で囲んでください。",
+    "related": ["git-reset-soft", "git-reflog", "git-revert", "git-stash", "git-restore"],
+    "docUrl": "https://git-scm.com/docs/git-reset",
+    "tags": ["取り消し", "破棄", "履歴の書き換え"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-revert",
+    "tool": "git",
+    "category": "undo",
+    "title": "push 済みのコミットを安全に取り消したい",
+    "intents": ["過去のコミットを打ち消したい", "履歴を残したまま変更を元に戻したい", "公開したコミットを取り消したい"],
+    "keywords": ["りばーと", "うちけし", "打ち消し", "逆コミット", "revert", "とりけし"],
+    "syntax": "git revert <commit>",
+    "placeholders": [
+      { "key": "commit", "label": "打ち消すコミット", "example": "a1b2c3d" }
+    ],
+    "summary": "指定した[[コミット]]と逆の変更を持つ、新しいコミットを作ります。",
+    "details": "過去の履歴は書き換えず、「取り消した」という記録を追加する形なので、既に push して共有しているブランチでも安全に使えます。\n\n実行するとメッセージ編集のためにエディタが開きます。そのままでよければ保存して閉じます。",
+    "examples": [
+      { "cmd": "git revert HEAD", "desc": "直前のコミットを打ち消します。" },
+      { "cmd": "git revert a1b2c3d --no-edit", "desc": "エディタを開かず、既定のメッセージで打ち消します。" },
+      { "cmd": "git revert -m 1 a1b2c3d", "desc": "マージコミットを打ち消します。`-m 1` は取り込む前の側を残す指定です。" }
+    ],
+    "danger": "safe",
+    "undo": "作られた打ち消しコミットを、さらに `git revert` すれば元に戻ります。",
+    "related": ["git-reset-soft", "git-reset-hard", "git-log", "git-merge"],
+    "docUrl": "https://git-scm.com/docs/git-revert",
+    "tags": ["取り消し", "共有ブランチ"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-remote-add",
+    "tool": "git",
+    "category": "remote",
+    "title": "手元のリポジトリを GitHub のリポジトリと結び付けたい",
+    "intents": ["リモートを登録したい", "origin を設定したい", "GitHub の URL を登録したい"],
+    "keywords": ["りもーと", "とうろく", "登録", "接続", "origin", "remote add"],
+    "syntax": "git remote add origin <url>",
+    "placeholders": [
+      { "key": "url", "label": "リポジトリのURL", "example": "https://github.com/owner/repo.git" }
+    ],
+    "summary": "[[リモート]]の[[リポジトリ]]を [[origin]] という名前で登録し、push や pull の送り先にします。",
+    "details": "`git init` で始めたリポジトリを GitHub に上げるときに使います。`git clone` した場合は自動で登録済みなので不要です。\n\n登録後、最初の push は `git push -u origin main` で行います。",
+    "examples": [
+      { "cmd": "git remote add origin https://github.com/owner/repo.git", "desc": "origin として登録します。" },
+      { "cmd": "git remote -v", "desc": "登録されているリモートと URL を確認します。" },
+      { "cmd": "git remote set-url origin https://github.com/owner/new-repo.git", "desc": "origin の URL を変更します。" }
+    ],
+    "danger": "safe",
+    "undo": "`git remote remove origin` で登録を解除できます。",
+    "related": ["git-init", "git-push-upstream", "git-clone"],
+    "docUrl": "https://git-scm.com/docs/git-remote",
+    "tags": ["リモート", "初回"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-push",
+    "tool": "git",
+    "category": "remote",
+    "title": "コミットを GitHub に送りたい（push する）",
+    "intents": ["リモートにアップロードしたい", "変更を GitHub に反映したい", "プッシュしたい"],
+    "keywords": ["ぷっしゅ", "そうしん", "送信", "アップロード", "反映", "push", "upload"],
+    "syntax": "git push",
+    "summary": "今のブランチの新しい[[コミット]]を、対応する[[リモート]]のブランチに送ります。",
+    "details": "[[上流ブランチ]]が設定されていれば、引数なしで送れます。初めて送るブランチは `git push -u origin <branch>` を使います。\n\nリモート側に自分が持っていないコミットがあると拒否されます（rejected）。その場合は先に `git pull` で取り込んでから、もう一度 push します。",
+    "examples": [
+      { "cmd": "git push", "desc": "上流ブランチに送ります。" },
+      { "cmd": "git push origin main", "desc": "送り先を明示して main を送ります。" },
+      { "cmd": "git push --force-with-lease", "desc": "履歴を書き換えた後に強制的に送ります。他の人が送った変更があれば止まります。" }
+    ],
+    "danger": "safe",
+    "undo": "送ったコミットを取り消すには、`git revert` で打ち消すコミットを作り、それを push します。",
+    "related": ["git-push-upstream", "git-pull", "git-fetch", "git-revert"],
+    "docUrl": "https://git-scm.com/docs/git-push",
+    "tags": ["毎日", "リモート"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-push-upstream",
+    "tool": "git",
+    "category": "remote",
+    "title": "新しいブランチを初めて GitHub に送りたい",
+    "intents": ["ブランチをリモートに作りたい", "上流ブランチを設定したい", "no upstream branch と言われた"],
+    "keywords": ["あっぷすとりーむ", "じょうりゅう", "上流", "初回プッシュ", "set-upstream", "-u", "no upstream"],
+    "syntax": "git push -u origin <branch>",
+    "placeholders": [
+      { "key": "branch", "label": "ブランチ名", "example": "feature/login" }
+    ],
+    "summary": "ブランチを [[origin]] に送り、同時に[[上流ブランチ]]として結び付けます。",
+    "details": "`-u`（`--set-upstream`）を一度付けておけば、以降はこのブランチで `git push` や `git pull` を引数なしで使えます。\n\n`<branch>` に `HEAD` と書くと、今いるブランチと同じ名前で送ります。",
+    "examples": [
+      { "cmd": "git push -u origin feature/login", "desc": "feature/login を送り、上流として設定します。" },
+      { "cmd": "git push -u origin HEAD", "desc": "今いるブランチを同じ名前で送ります。" }
+    ],
+    "danger": "safe",
+    "undo": "GitHub 側のブランチを消すには `git push origin --delete <branch>` を使います。",
+    "related": ["git-push", "git-switch-create", "git-remote-add"],
+    "docUrl": "https://git-scm.com/docs/git-push",
+    "tags": ["リモート", "初回"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-fetch",
+    "tool": "git",
+    "category": "remote",
+    "title": "GitHub の最新状態を取得したい（手元のブランチは変えずに）",
+    "intents": ["リモートの変更を確認したい", "他の人の push を取り込む前に見たい", "リモートのブランチ一覧を更新したい"],
+    "keywords": ["ふぇっち", "しゅとく", "取得", "更新", "fetch"],
+    "syntax": "git fetch",
+    "summary": "[[リモート]]の新しいコミットやブランチを取得します。手元の作業中のブランチは変わりません。",
+    "details": "取得した内容は `origin/main` のような「リモート追跡ブランチ」に入ります。`git log main..origin/main` で、まだ取り込んでいないコミットを確認できます。\n\n確認してから取り込みたいときは、`git fetch` のあとに `git merge` や `git rebase` を行います。",
+    "examples": [
+      { "cmd": "git fetch", "desc": "origin から最新の情報を取得します。" },
+      { "cmd": "git fetch --prune", "desc": "リモートで削除されたブランチの情報も手元から消します。" },
+      { "cmd": "git log --oneline main..origin/main", "desc": "取得したけれどまだ取り込んでいないコミットを見ます。" }
+    ],
+    "danger": "safe",
+    "related": ["git-pull", "git-merge", "git-rebase", "git-branch-list"],
+    "docUrl": "https://git-scm.com/docs/git-fetch",
+    "tags": ["リモート", "確認"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-pull",
+    "tool": "git",
+    "category": "remote",
+    "title": "GitHub の最新の変更を取り込みたい",
+    "intents": ["リモートの変更を手元に反映したい", "他の人の変更を取り込みたい", "プルしたい", "push が拒否された"],
+    "keywords": ["ぷる", "とりこみ", "取り込み", "同期", "最新化", "pull", "rejected"],
+    "syntax": "git pull",
+    "summary": "[[リモート]]から新しいコミットを取得し、今のブランチに取り込みます。",
+    "details": "中身は `git fetch` と、取り込み（[[マージ]]または[[リベース]]）の2段階です。手元にも新しいコミットがある場合は、どちらで取り込むかで履歴の形が変わります。\n\n取り込み方を決めていないと警告が出ることがあります。`git config --global pull.rebase false`（マージ）か `true`（リベース）を一度設定しておくと出なくなります。",
+    "examples": [
+      { "cmd": "git pull", "desc": "上流ブランチから取り込みます。" },
+      { "cmd": "git pull --rebase", "desc": "手元のコミットをリモートの最新の上に載せ直して取り込みます。" },
+      { "cmd": "git pull --ff-only", "desc": "fast-forward できるときだけ取り込みます。できなければ何もしません。" }
+    ],
+    "danger": "caution",
+    "dangerNote": "手元とリモートで同じ箇所を変えていると[[コンフリクト]]になります。",
+    "undo": "マージで取り込んだ直後なら `git reset --hard ORIG_HEAD` で取り込み前に戻せます（未コミットの変更も消えるので注意）。コンフリクト中なら `git merge --abort` か `git rebase --abort` で中止します。",
+    "alternatives": "先に `git fetch` で中身を確認してから、`git merge` で取り込むと慎重に進められます。",
+    "related": ["git-fetch", "git-merge", "git-rebase", "git-push"],
+    "docUrl": "https://git-scm.com/docs/git-pull",
+    "tags": ["毎日", "リモート", "コンフリクト"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-stash",
+    "tool": "git",
+    "category": "stash",
+    "title": "作業中の変更を一時的に退避したい",
+    "intents": ["コミットせずに変更をしまいたい", "急ぎで別のブランチに移りたい", "変更を一時保存したい"],
+    "keywords": ["すたっしゅ", "たいひ", "退避", "一時保存", "しまう", "stash", "save"],
+    "syntax": "git stash push -m <message>",
+    "placeholders": [
+      { "key": "message", "label": "メモ", "example": "ログイン画面の途中", "quote": true }
+    ],
+    "summary": "まだコミットしていない変更を[[stash]]にしまい、[[作業ツリー]]を最後のコミットの状態に戻します。",
+    "details": "作業途中で別のブランチに切り替えたいときや、`git pull` の前に変更を一度どけたいときに使います。しまった変更は `git stash pop` で取り出せます。\n\n何も付けないと、Git がまだ管理していない新しいファイルはしまわれません。含めたいときは `-u` を付けます。",
+    "examples": [
+      { "cmd": "git stash", "desc": "メモなしで退避します。" },
+      { "cmd": "git stash push -m \"ログイン画面の途中\"", "desc": "メモを付けて退避します。" },
+      { "cmd": "git stash -u", "desc": "まだ管理していない新しいファイルも含めて退避します。" },
+      { "cmd": "git stash list", "desc": "退避した一覧を表示します。" }
+    ],
+    "danger": "safe",
+    "undo": "`git stash pop` で取り出せば元に戻ります。",
+    "related": ["git-stash-pop", "git-switch", "git-pull"],
+    "docUrl": "https://git-scm.com/docs/git-stash",
+    "tags": ["退避", "stash"],
+    "verified": false,
+    "verifiedNote": ""
+  },
+  {
+    "id": "git-stash-pop",
+    "tool": "git",
+    "category": "stash",
+    "title": "退避した変更を取り出したい",
+    "intents": ["stash を戻したい", "しまった変更を復元したい", "一時保存した作業を再開したい"],
+    "keywords": ["すたっしゅぽっぷ", "とりだし", "取り出し", "復元", "apply", "pop"],
+    "syntax": "git stash pop",
+    "summary": "最後に退避した変更を[[作業ツリー]]に戻し、成功したら[[stash]]の一覧から削除します。",
+    "details": "退避したときと違うブランチでも取り出せます。取り出した変更が今のファイルと衝突すると[[コンフリクト]]になり、その場合 stash は一覧に残ったままになります。\n\n一覧から消さずに取り出したいときは `git stash apply` を使います。",
+    "examples": [
+      { "cmd": "git stash pop", "desc": "最新の退避を取り出します。" },
+      { "cmd": "git stash apply stash@{1}", "desc": "2番目に新しい退避を、一覧に残したまま取り出します。" },
+      { "cmd": "git stash drop stash@{0}", "desc": "最新の退避を取り出さずに削除します。" }
+    ],
+    "danger": "caution",
+    "dangerNote": "今のファイルと衝突すると[[コンフリクト]]になり、手で直す必要があります。",
+    "undo": "取り出した変更をもう一度しまうには `git stash` を実行します。コンフリクトしたときは stash が一覧に残っているので、ファイルを直して `git add` し、不要になった stash を `git stash drop` で消します。",
+    "shellNote": "PowerShell では `stash@{1}` を `'stash@{1}'` のように ' で囲んでください。",
+    "related": ["git-stash", "git-restore"],
+    "docUrl": "https://git-scm.com/docs/git-stash",
+    "tags": ["退避", "stash", "コンフリクト"],
+    "verified": false,
+    "verifiedNote": ""
+  }
+]
