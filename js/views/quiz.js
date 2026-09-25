@@ -145,9 +145,11 @@ function play(view) {
               else if (j === idx) b.classList.add('is-wrong');
             });
             feedback.replaceChildren(
-              h('p', { class: ok ? 'quiz-ok' : 'quiz-ng' }, ok ? '正解！' : '不正解'),
-              q.explain ? h('p', { class: 'sub' }, rich(q.explain, { inline: true })) : null,
-              q.entryId ? h('a', { href: `#/entry/${q.entryId}`, class: 'sub' }, '詳しく見る（クイズは中断されます）') : null
+              ...[
+                h('p', { class: ok ? 'quiz-ok' : 'quiz-ng' }, ok ? '正解！' : '不正解'),
+                q.explain ? h('p', { class: 'sub' }, rich(q.explain, { inline: true })) : null,
+                q.entryId ? h('a', { href: `#/entry/${q.entryId}`, class: 'sub' }, '詳しく見る（クイズは中断されます）') : null,
+              ].filter(Boolean)
             );
             next.hidden = false;
             next.focus();

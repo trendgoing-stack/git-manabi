@@ -83,6 +83,13 @@ export function renderSettings() {
         },
         '未確認：作者が実際に動作を確かめる前の下書きです。クイズには出題されません。'
       ),
+      toggle(
+        'アクセス解析を送信しない',
+        s.analyticsOff,
+        (v) => setSetting('analyticsOff', v),
+        'オフのときは、アプリを開いたときに1回だけ、ページ表示の情報（固定のページ名のみ）を GoatCounter に送ります。検索語やメモの内容は送りません。変更は次回の起動から有効です。'
+      ),
+      h('a', { class: 'btn btn-block', href: '#/help' }, 'ヘルプ・注意事項'),
       dataSection(),
       h(
         'section',
@@ -98,8 +105,7 @@ export function renderSettings() {
           h('dt', null, '収録'),
           h('dd', null, `${db.entries.length} 件（確認済み ${db.entries.filter((e) => e.verified).length} 件）`)
         )
-      ),
-      h('p', { class: 'sub' }, 'アクセス解析の設定とヘルプはフェーズ4で追加します。')
+      )
     )
   );
 }

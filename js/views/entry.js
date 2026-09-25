@@ -13,6 +13,7 @@ import { toast } from '../ui/toast.js';
 import { getEntry } from '../data.js';
 import { addHistory, isFavorite, toggleFavorite, getNote, setNote } from '../storage.js';
 import { categoryLabel, NOTE_MAX_LENGTH } from '../config.js';
+import { isVisible } from '../visibility.js';
 
 /** @param {import('../router.js').RouteCtx} ctx */
 export function renderEntry(ctx) {
@@ -155,7 +156,7 @@ function notesSection(e) {
 }
 
 function relatedSection(e) {
-  const rel = (e.related || []).map(getEntry).filter(Boolean);
+  const rel = (e.related || []).map(getEntry).filter(isVisible);
   if (!rel.length) return null;
   return section(
     '関連項目',

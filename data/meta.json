@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "dataVersion": "2026.09.26-3",
+  "dataVersion": "2026.09.26-4",
   "entryFiles": ["entries/git.json", "entries/gh.json", "entries/github-web.json"],
   "counts": {
-    "git": 33,
+    "git": 82,
     "gh": 12,
     "github-web": 8,
     "flows": 5,
-    "glossary": 28,
+    "glossary": 30,
     "quiz": 10,
-    "scenes": 6
+    "scenes": 8
   }
 }

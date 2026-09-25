@@ -16,6 +16,9 @@ import { renderLearn, renderGlossary } from './views/learn.js';
 import { renderTroubleList, renderFlow } from './views/trouble.js';
 import { renderQuiz } from './views/quiz.js';
 import { renderCards } from './views/cards.js';
+import { renderHelp } from './views/help.js';
+import { registerServiceWorker } from './pwa.js';
+import { startAnalytics } from './analytics.js';
 
 storage.onWriteError(() => toast('保存できませんでした（容量不足の可能性があります）', { kind: 'error', ms: 4000 }));
 storage.init();
@@ -61,6 +64,7 @@ route('/learn/quiz', withScroll(renderQuiz));
 route('/learn/cards', withScroll(renderCards));
 route('/my', withScroll(renderMy));
 route('/settings', withScroll(renderSettings));
+route('/help', withScroll(renderHelp));
 fallback(() => go('/search'));
 
 async function boot() {
@@ -69,6 +73,9 @@ async function boot() {
     showBanner('load-failed', `読み込めなかったファイル：${db.failed.join('、')}`, { kind: 'warn' });
   }
   start();
+  registerServiceWorker();
+  // アクセス解析は起動時に1回だけ（画面遷移では送らない）
+  startAnalytics();
 }
 
 boot();

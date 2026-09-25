@@ -9,7 +9,7 @@ Gitまなび帳の辞書データ（`data/`）を追加・修正するときの�
 - `switch`／`restore` を優先して載せる。`checkout` の使い方は、対応する項目の details や examples の中で示す。
 - 下書きはすべて `verified: false` で登録する。
 - 実際にコマンドを実行して確かめた項目だけを `verified: true` にし、`verifiedNote` に確認環境を書く（例：`git 2.45 / macOS 14`）。
-- データを変更したら `meta.json` の `dataVersion` と `counts` を更新する（PWA 化後は `sw.js` のバージョンも上げる。手順は README を参照）。
+- データを変更したら `meta.json` の `dataVersion` と `counts` を更新し、`sw.js` の `VERSION` も上げる（上げないと利用者の端末に届かない。手順は README を参照）。
 - 変更後は `tools/validate.html` をブラウザで開き、エラーが 0 件であることを確認する。
 
 ## ファイル構成

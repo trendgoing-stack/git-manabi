@@ -194,5 +194,19 @@
     "aliases": ["Pages"],
     "def": "リポジトリに置いた HTML などのファイルを、ウェブサイトとして公開できる GitHub の機能です。",
     "related": ["web-pages"]
+  },
+  {
+    "term": "タグ",
+    "reading": "たぐ",
+    "aliases": ["tag", "注釈付きタグ"],
+    "def": "特定のコミットに付ける、動かない名前付きの目印です。`v1.0.0` のように、リリースしたバージョンの記録によく使います。ブランチと違い、新しくコミットしても移動しません。",
+    "related": ["git-tag", "git-tag-list"]
+  },
+  {
+    "term": "改行コード",
+    "reading": "かいぎょうこーど",
+    "aliases": ["CRLF", "LF"],
+    "def": "行の終わりを表す見えない文字です。Windows では CRLF、Mac や Linux では LF が使われることが多く、混ざると変更していない行まで差分になることがあります。",
+    "related": ["git-config-autocrlf"]
   }
 ]

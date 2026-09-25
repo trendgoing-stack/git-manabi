@@ -4,10 +4,11 @@ import { h } from './dom.js';
 import { renderRich } from '../markup.js';
 import { findTerm, getEntry } from '../data.js';
 import { openSheet } from './sheet.js';
+import { isVisible } from '../visibility.js';
 
 /** @param {import('../types.js').GlossaryTerm} t */
 export function showTerm(t) {
-  const related = (t.related || []).map(getEntry).filter(Boolean);
+  const related = (t.related || []).map(getEntry).filter(isVisible);
   openSheet(t.term, [
     h('div', { class: 'rich' }, rich(t.def)),
     related.length

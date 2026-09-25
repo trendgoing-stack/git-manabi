@@ -99,17 +99,22 @@ function runDeck(stage, deck) {
 
   const paint = () => {
     const e = deck[i];
+    // replaceChildren は null を "null" という文字として入れてしまうので除いておく
     front.replaceChildren(
-      h('span', { class: 'card-hint' }, 'やりたいこと'),
-      h('p', { class: 'card-title' }, e.title),
-      e.verified ? null : h('span', { class: 'badge badge-unverified' }, '未確認'),
-      h('span', { class: 'card-hint' }, 'タップで裏返す')
+      ...[
+        h('span', { class: 'card-hint' }, 'やりたいこと'),
+        h('p', { class: 'card-title' }, e.title),
+        e.verified ? null : h('span', { class: 'badge badge-unverified' }, '未確認'),
+        h('span', { class: 'card-hint' }, 'タップで裏返す'),
+      ].filter(Boolean)
     );
     backFace.replaceChildren(
-      h('span', { class: 'card-hint' }, e.syntax ? 'コマンド' : 'GitHub の画面で操作'),
-      e.syntax ? h('code', { class: 'card-cmd' }, commandOf(e)) : null,
-      h('p', { class: 'card-summary' }, rich(e.summary, { inline: true })),
-      h('a', { href: `#/entry/${e.id}`, class: 'card-link' }, '詳しく見る')
+      ...[
+        h('span', { class: 'card-hint' }, e.syntax ? 'コマンド' : 'GitHub の画面で操作'),
+        e.syntax ? h('code', { class: 'card-cmd' }, commandOf(e)) : null,
+        h('p', { class: 'card-summary' }, rich(e.summary, { inline: true })),
+        h('a', { href: `#/entry/${e.id}`, class: 'card-link' }, '詳しく見る'),
+      ].filter(Boolean)
     );
     card.classList.toggle('is-flipped', flipped);
     card.setAttribute('aria-label', flipped ? `裏：${e.syntax ? commandOf(e) : e.title}` : `表：${e.title}`);

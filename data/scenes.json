@@ -34,5 +34,17 @@
     "title": "GitHub でチーム開発",
     "desc": "プルリクエストでレビューしてから取り込む",
     "entryIds": ["gh-pr-create", "gh-pr-checkout", "web-review-pr", "gh-pr-checks", "gh-pr-merge"]
+  },
+  {
+    "id": "release",
+    "title": "リリースの目印を付ける",
+    "desc": "バージョンごとにタグを付けて共有する",
+    "entryIds": ["git-tag", "git-push-tag", "git-tag-list", "git-diff-commits"]
+  },
+  {
+    "id": "investigate",
+    "title": "原因を調べる",
+    "desc": "いつ・誰が・なぜ変えたかをたどる",
+    "entryIds": ["git-log-file", "git-blame", "git-log-pickaxe", "git-bisect"]
   }
 ]

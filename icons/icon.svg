@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- 仮デザイン：ブランチの分岐。マスカブルアイコンの安全領域（中央 80%）に収まるように配置 -->
+  <rect width="512" height="512" fill="#0b6bcb"/>
+  <path d="M190 128 V384" stroke="#ffffff" stroke-width="28" stroke-linecap="round" fill="none"/>
+  <path d="M190 262 C190 200 250 184 322 184" stroke="#ffb547" stroke-width="28" stroke-linecap="round" fill="none"/>
+  <circle cx="190" cy="140" r="38" fill="#ffffff"/>
+  <circle cx="190" cy="262" r="38" fill="#ffffff"/>
+  <circle cx="190" cy="384" r="38" fill="#ffffff"/>
+  <circle cx="330" cy="184" r="38" fill="#ffb547"/>
+  <circle cx="330" cy="330" r="46" fill="none" stroke="#ffffff" stroke-width="20"/>
+  <path d="M362 362 L396 396" stroke="#ffffff" stroke-width="22" stroke-linecap="round"/>
+</svg>

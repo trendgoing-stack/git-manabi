@@ -64,7 +64,8 @@ export function buildIndex(items) {
 /** 1語に対する最大の重み。一致しなければ 0。 */
 function wordScore(row, w) {
   if (row.cmdTokens.some((t) => t.startsWith(w))) return W.cmdPrefix;
-  if (row.intents.includes(w)) return W.intents;
+  // 同点になりやすいので、タイトルにも含まれていれば少しだけ上げる
+  if (row.intents.includes(w)) return W.intents + (row.title.includes(w) ? 5 : 0);
   if (row.title.includes(w)) return W.title;
   if (row.keywords.includes(w)) return W.keywords;
   if (row.tags.includes(w)) return W.tags;

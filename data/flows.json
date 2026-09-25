@@ -39,7 +39,7 @@
       {"id": "r-amend", "entryIds": ["git-commit-amend"], "note": "直前のコミットだけなら、作り直さずに修正できます。"},
       {"id": "r-soft", "entryIds": ["git-reset-soft"], "note": "`git reset --soft HEAD~1` で取り消すと、変更はステージに残ります。"},
       {"id": "r-mixed", "entryIds": ["git-reset-mixed"], "note": "`git reset HEAD~1` で取り消すと、変更は作業ツリーにだけ残ります。"},
-      {"id": "r-hard", "entryIds": ["git-reset-hard", "git-reflog"], "note": "変更は取り戻せなくなります。実行前に `git branch backup` などで目印を付けておくと安心です。"}
+      {"id": "r-hard", "entryIds": ["git-reset-hard", "git-reflog", "git-branch-from-commit"], "note": "変更は取り戻せなくなります。実行前に `git branch backup` などで目印を付けておくと安心です。"}
     ]
   },
   {
@@ -119,7 +119,7 @@
       },
       {
         "id": "r-new-branch",
-        "entryIds": ["git-switch-create", "git-reset-hard", "git-switch"],
+        "entryIds": ["git-switch-create", "git-reset-hard", "git-switch", "git-branch-from-commit"],
         "note": "1. `git branch <新しい名前>` で今の位置に目印を作る\n2. 未コミットの変更がないことを確かめてから `git reset --hard HEAD~1` で今のブランチを1つ戻す\n3. `git switch <新しい名前>` で移る"
       },
       {
@@ -156,7 +156,7 @@
       {"id": "r-revert", "entryIds": ["git-revert", "git-push"], "note": "`git revert` で打ち消しのコミットを作り、push します。履歴は書き換えません。"},
       {
         "id": "r-force",
-        "entryIds": ["git-commit-amend", "git-rebase", "git-push"],
+        "entryIds": ["git-commit-amend", "git-rebase", "git-push", "git-push-force-lease", "git-rebase-interactive"],
         "note": "手元で `git commit --amend` や `git rebase -i` で直したあと、`git push --force-with-lease` で送ります。他の人の変更があれば止まるので、`--force` より安全です。"
       },
       {"id": "r-dont", "entryIds": ["git-revert", "git-commit"], "note": "共有しているブランチの履歴は書き換えないでください。修正のコミットを追加するか、`git revert` で打ち消します。"}
@@ -203,13 +203,13 @@
       },
       {
         "id": "r-merge-resolve",
-        "entryIds": ["git-status", "git-add", "git-commit"],
+        "entryIds": ["git-status", "git-add", "git-commit", "git-conflict-ours-theirs"],
         "note": "1. `git status` でコンフリクトしたファイルを確認\n2. ファイルの `<<<<<<<` 〜 `>>>>>>>` の部分を正しい内容に直す\n3. `git add <ファイル>`\n4. `git commit` でマージを完了"
       },
-      {"id": "r-merge-abort", "entryIds": ["git-merge"], "note": "`git merge --abort` で、マージを始める前の状態に戻ります。"},
+      {"id": "r-merge-abort", "entryIds": ["git-merge", "git-merge-abort"], "note": "`git merge --abort` で、マージを始める前の状態に戻ります。"},
       {
         "id": "r-rebase-resolve",
-        "entryIds": ["git-status", "git-add", "git-rebase"],
+        "entryIds": ["git-status", "git-add", "git-rebase", "git-conflict-ours-theirs"],
         "note": "1. `git status` でコンフリクトしたファイルを確認\n2. ファイルを正しい内容に直す\n3. `git add <ファイル>`\n4. `git rebase --continue`（コミットごとに繰り返すことがあります）"
       },
       {"id": "r-rebase-abort", "entryIds": ["git-rebase"], "note": "`git rebase --abort` で、リベースを始める前の状態に戻ります。"},
