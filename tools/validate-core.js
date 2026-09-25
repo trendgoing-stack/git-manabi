@@ -14,7 +14,7 @@ const RICH_FIELDS = ['summary', 'details', 'dangerNote', 'undo', 'alternatives',
 const MAX_FLOW_DEPTH = 5;
 
 /**
- * @typedef {{level: 'error'|'warn'|'info', file: string, id: string, msg: string}} Issue
+ * @typedef {{level: 'error'|'warn', file: string, id: string, msg: string}} Issue
  * @typedef {Object} ValidateInput
  * @property {any} meta
  * @property {{name: string, entries: any[]}[]} entryFiles
@@ -78,8 +78,6 @@ export function validateAll(input) {
     if (!isStr(e.summary)) err('summary がありません');
     if (typeof e.details !== 'string') err('details がありません');
     if (!DANGERS.includes(e.danger)) err(`danger が不正です：${e.danger}`);
-    if (typeof e.verified !== 'boolean') err('verified は true/false で書いてください');
-    if (e.verified && !isStr(e.verifiedNote)) err('verified: true のときは verifiedNote（確認環境）を書いてください');
     if (e.danger && e.danger !== 'safe' && !isStr(e.dangerNote)) err('safe 以外のときは dangerNote を書いてください');
     if (e.danger === 'danger' && !isStr(e.undo)) err('danger のときは undo（元に戻す方法）を書いてください');
     if (e.docUrl != null && !/^https:\/\//.test(e.docUrl)) err('docUrl は https:// で始めてください');
@@ -217,8 +215,6 @@ export function validateAll(input) {
     if (!TOOL_IDS.includes(q?.tool)) err(`tool が不正です：${q?.tool}`);
     if (!CAT_IDS.includes(q?.category)) err(`category が固定リストにありません：${q?.category}`);
     if (q?.entryId != null && !ids.has(q.entryId)) err(`entryId のリンク切れ：${q.entryId}`);
-    if (typeof q?.verified !== 'boolean') err('verified は true/false で書いてください');
-    else if (q.verified && q.entryId && all.find((x) => x.e.id === q.entryId)?.e.verified !== true) add('warn', 'quiz.json', where, 'verified: true ですが、関連エントリが未確認です');
   });
 
   // ---- シーン ----
@@ -248,21 +244,15 @@ export function validateAll(input) {
   }
 
   // ---- 集計 ----
-  const unverified = all.filter(({ e }) => e.verified !== true);
-  const quizVerified = (input.quiz || []).filter((q) => q?.verified === true).length;
   const stats = {
     エントリ: all.length,
-    確認済み: all.length - unverified.length,
-    未確認: unverified.length,
     ...Object.fromEntries(TOOL_IDS.map((t) => [t, actual[t]])),
     用語: glossary.length,
     フロー: actual.flows,
     クイズ: actual.quiz,
-    '出題できるクイズ（確認済み）': quizVerified,
     エラー: issues.filter((x) => x.level === 'error').length,
     警告: issues.filter((x) => x.level === 'warn').length,
   };
-  for (const { file, e, where } of unverified) add('info', file, where, `未確認：${e.title ?? ''}`);
   return { issues, stats };
 }
 

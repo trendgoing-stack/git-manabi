@@ -76,12 +76,11 @@ function wordScore(row, w) {
 
 /**
  * @param {any} item
- * @param {{tool?: string, category?: string, showUnverified?: boolean}} f
+ * @param {{tool?: string, category?: string}} f
  */
 export function passesFilter(item, f) {
   if (f.tool && item.tool !== f.tool) return false;
   if (f.category && item.category !== f.category) return false;
-  if (f.showUnverified === false && !item.verified && !item.isSnippet) return false;
   return true;
 }
 
@@ -89,7 +88,7 @@ export function passesFilter(item, f) {
  * 検索する。語が空なら絞り込み条件だけで元の順に返す。
  * @param {IndexRow[]} index
  * @param {string} query
- * @param {{tool?: string, category?: string, showUnverified?: boolean, limit?: number}} [filter]
+ * @param {{tool?: string, category?: string, limit?: number}} [filter]
  * @returns {{items: any[], total: number}}
  */
 export function search(index, query, filter = {}) {

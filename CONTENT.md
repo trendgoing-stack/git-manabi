@@ -7,8 +7,7 @@ Gitまなび帳の辞書データ（`data/`）を追加・修正するときの�
 - 説明文はすべてオリジナルで書く。Git 公式マニュアル、Pro Git、GitHub Docs の文章を転載しない（リンクは `docUrl` に書く）。
 - 基準は **Git 2.30 以降**、デフォルトブランチ名は **`main`**。
 - `switch`／`restore` を優先して載せる。`checkout` の使い方は、対応する項目の details や examples の中で示す。
-- 下書きはすべて `verified: false` で登録する。
-- 実際にコマンドを実行して確かめた項目だけを `verified: true` にし、`verifiedNote` に確認環境を書く（例：`git 2.45 / macOS 14`）。
+- 内容に自信が持てない項目は、実際にコマンドを実行して確かめてから公開する。
 - データを変更したら `meta.json` の `dataVersion` と `counts` を更新し、`sw.js` の `VERSION` も上げる（上げないと利用者の端末に届かない。手順は README を参照）。
 - 変更後は `tools/validate.html` をブラウザで開き、エラーが 0 件であることを確認する。
 
@@ -43,9 +42,7 @@ Gitまなび帳の辞書データ（`data/`）を追加・修正するときの�
   "danger": "safe",
   "related": ["git-add"],
   "docUrl": "https://git-scm.com/docs/git-commit",
-  "tags": ["毎日"],
-  "verified": false,
-  "verifiedNote": ""
+  "tags": ["毎日"]
 }
 ```
 
@@ -77,8 +74,6 @@ Gitまなび帳の辞書データ（`data/`）を追加・修正するときの�
 | `related` | 任意 | 関連エントリの id |
 | `docUrl` | 任意 | 公式ドキュメントの URL（https） |
 | `tags` | 任意 | 絞り込み・検索用のタグ |
-| `verified` | ○ | 確認済みなら true |
-| `verifiedNote` | verified で○ | 確認した環境 |
 
 ### カテゴリ
 
@@ -165,14 +160,12 @@ before と after をそれぞれ次の形式で書きます。SVG は手描き�
   "explain": "解説",
   "entryId": "git-fetch",
   "tool": "git",
-  "category": "remote",
-  "verified": false
+  "category": "remote"
 }
 ```
 
 - `choices` は4件、`answer` は正解の添字（0〜3）。表示時に選択肢は並べ替えられる。
-- 出題されるのは `verified: true` の手書き問題と、`verified: true` でコマンドのあるエントリから自動で作る問題だけ（設定の「未確認項目の表示」とは無関係）。
-- エントリを確認したら、そのエントリを参照する手書き問題も確認して `verified: true` にする。
+- クイズには、手書き問題と、すべてのエントリから自動で作る問題が出題される。コマンド（`syntax`）のあるエントリは「やりたいこと ⇔ コマンド」、GitHub 画面の項目のようにコマンドのないエントリは「summary → やりたいこと（title）」の形で出題される。
 
 ## シーン（scenes.json）
 
@@ -183,6 +176,6 @@ before と after をそれぞれ次の形式で書きます。SVG は手描き�
 ## 検証
 
 - ブラウザ：ローカルサーバーを立てて `tools/validate.html` を開く（アプリ画面からはリンクしていません）。
-- Node.js（任意）：`node tools/validate-cli.mjs`（`--info` を付けると未確認の一覧も出す）。
+- Node.js（任意）：`node tools/validate-cli.mjs`。
 
-検証ページでは、スキーマ違反、id の重複、`related`／`entryIds`／`next` のリンク切れ、用語集にない `[[用語]]`、未確認の件数をチェックします。
+検証ページでは、スキーマ違反、id の重複、`related`／`entryIds`／`next` のリンク切れ、用語集にない `[[用語]]` をチェックします。

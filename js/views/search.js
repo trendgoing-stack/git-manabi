@@ -3,16 +3,16 @@
 import { h } from '../ui/dom.js';
 import { screen } from '../ui/chrome.js';
 import { itemBadges } from '../ui/badges.js';
-import { db, getIndex, getEntry, invalidateIndex } from '../data.js';
+import { db, getIndex, getEntry } from '../data.js';
 import { search } from '../search.js';
-import { getSettings, setSetting } from '../storage.js';
 import { replace } from '../router.js';
 import { displaySyntax } from '../ui/builder-ui.js';
-import { CATEGORIES, TOOLS, SEARCH_DEBOUNCE_MS, SEARCH_LIMIT } from '../config.js';
+import { APP_NAME, CATEGORIES, TOOLS, SEARCH_DEBOUNCE_MS, SEARCH_LIMIT } from '../config.js';
 
 /** @param {import('../router.js').RouteCtx} ctx */
 export function renderSearch(ctx) {
-  const view = screen({ title: '検索', tab: 'search' });
+  // 検索はアプリのトップ画面なので、ヘッダーにはアプリ名を出す
+  const view = screen({ title: APP_NAME, tab: 'search' });
   const state = {
     q: ctx.query.get('q') || '',
     tool: ctx.query.get('tool') || '',
@@ -102,15 +102,13 @@ export function renderSearch(ctx) {
 
 function renderResults(box, state) {
   box.replaceChildren();
-  const settings = getSettings();
   if (!state.q.trim() && !state.tool && !state.cat) {
-    box.append(renderHome(settings, box, state));
+    box.append(renderHome());
     return;
   }
   const { items, total } = search(getIndex(), state.q, {
     tool: state.tool,
     category: state.cat,
-    showUnverified: settings.showUnverified,
     limit: SEARCH_LIMIT,
   });
   if (total === 0) {
@@ -148,14 +146,13 @@ export function resultRow(item) {
   );
 }
 
-function renderHome(settings, box, state) {
-  const visible = db.entries.filter((e) => settings.showUnverified || e.verified);
+function renderHome() {
   const counts = new Map();
-  for (const e of visible) counts.set(e.category, (counts.get(e.category) || 0) + 1);
+  for (const e of db.entries) counts.set(e.category, (counts.get(e.category) || 0) + 1);
 
   const cats = CATEGORIES.filter((c) => counts.get(c.id));
   const scenes = db.scenes
-    .map((s) => ({ ...s, items: s.entryIds.map(getEntry).filter((e) => e && (settings.showUnverified || e.verified)) }))
+    .map((s) => ({ ...s, items: s.entryIds.map(getEntry).filter(Boolean) }))
     .filter((s) => s.items.length);
 
   return h(
@@ -179,24 +176,7 @@ function renderHome(settings, box, state) {
             )
           )
         )
-      : h(
-          'div',
-          { class: 'empty' },
-          h('p', { class: 'sub' }, '確認済みの項目がまだありません。作者が動作を確かめる前の下書き（未確認）の項目は、設定で表示できます。'),
-          h(
-            'button',
-            {
-              type: 'button',
-              class: 'btn',
-              onclick: () => {
-                setSetting('showUnverified', true);
-                invalidateIndex();
-                renderResults(box, state);
-              },
-            },
-            '未確認の項目も表示する'
-          )
-        ),
+      : h('p', { class: 'sub' }, 'カテゴリを読み込めませんでした。'),
     scenes.length ? h('h2', { class: 'section-title' }, 'シーン別チートシート') : null,
     scenes.map((s) =>
       h(

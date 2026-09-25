@@ -33,7 +33,6 @@
   <div>
     <label><input type="checkbox" data-level="error" checked> エラー</label>
     <label><input type="checkbox" data-level="warn" checked> 警告</label>
-    <label><input type="checkbox" data-level="info"> 未確認の一覧</label>
   </div>
   <table>
     <thead><tr><th>種類</th><th>ファイル</th><th>id</th><th>内容</th></tr></thead>
@@ -43,7 +42,7 @@
   <script type="module">
     import { validateAll } from './validate-core.js';
 
-    const LABEL = { error: 'エラー', warn: '警告', info: '情報' };
+    const LABEL = { error: 'エラー', warn: '警告' };
 
     async function load(path) {
       const res = await fetch('../data/' + path, { cache: 'no-store' });

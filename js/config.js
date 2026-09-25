@@ -1,7 +1,7 @@
 // アプリ全体で共有する定数。表示ラベルや既定値はここだけで管理する。
 
 export const APP_NAME = 'Gitまなび帳';
-export const APP_VERSION = '1.0.0';
+export const APP_VERSION = '1.1.0';
 
 /** @type {{id: import('./types.js').Tool, label: string, short: string}[]} */
 export const TOOLS = [
@@ -43,8 +43,6 @@ export const DANGER_LEVELS = {
 export const DEFAULT_SETTINGS = {
   fontSize: 'normal',
   confirmDanger: true,
-  // 公開向けの既定は「表示しない」（開発中は true にしていた）
-  showUnverified: false,
   analyticsOff: false,
 };
 

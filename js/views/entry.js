@@ -13,7 +13,6 @@ import { toast } from '../ui/toast.js';
 import { getEntry } from '../data.js';
 import { addHistory, isFavorite, toggleFavorite, getNote, setNote } from '../storage.js';
 import { categoryLabel, NOTE_MAX_LENGTH } from '../config.js';
-import { isVisible } from '../visibility.js';
 
 /** @param {import('../router.js').RouteCtx} ctx */
 export function renderEntry(ctx) {
@@ -80,8 +79,7 @@ function header(e) {
       'div',
       { class: 'badges' },
       dangerBadge(e.danger),
-      toolBadge(e.tool),
-      e.verified ? null : h('span', { class: 'badge badge-unverified' }, '未確認')
+      toolBadge(e.tool)
     ),
     e.danger !== 'safe' && e.dangerNote
       ? h('div', { class: `callout callout-${e.danger}` }, h('strong', null, e.danger === 'danger' ? '危険：' : '注意：'), rich(e.dangerNote, { inline: true }))
@@ -156,7 +154,7 @@ function notesSection(e) {
 }
 
 function relatedSection(e) {
-  const rel = (e.related || []).map(getEntry).filter(isVisible);
+  const rel = (e.related || []).map(getEntry).filter(Boolean);
   if (!rel.length) return null;
   return section(
     '関連項目',
@@ -214,7 +212,6 @@ function footer(e) {
     'footer',
     { class: 'entry-foot' },
     e.docUrl ? h('p', null, h('a', { href: e.docUrl, target: '_blank', rel: 'noopener' }, '公式ドキュメント ↗')) : null,
-    h('p', { class: 'sub' }, e.verified ? `確認済み：${e.verifiedNote || '環境の記載なし'}` : '未確認：実機での動作確認前の下書きです。'),
     h('p', { class: 'sub' }, '説明はオリジナルの要約です。正確な仕様は公式ドキュメントを確認してください。')
   );
 }

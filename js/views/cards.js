@@ -5,7 +5,6 @@ import { h } from '../ui/dom.js';
 import { screen } from '../ui/chrome.js';
 import { rich } from '../ui/rich.js';
 import { db } from '../data.js';
-import { getSettings } from '../storage.js';
 import { shuffle, commandOf } from '../quiz.js';
 import { TOOLS, CATEGORIES } from '../config.js';
 
@@ -17,10 +16,7 @@ export function renderCards() {
   const stage = h('div', { class: 'cards-stage' });
 
   const makeDeck = () => {
-    const showUnverified = getSettings().showUnverified;
-    const deck = db.entries.filter(
-      (e) => (showUnverified || e.verified) && (!state.tool || e.tool === state.tool) && (!state.category || e.category === state.category)
-    );
+    const deck = db.entries.filter((e) => (!state.tool || e.tool === state.tool) && (!state.category || e.category === state.category));
     return state.shuffled ? shuffle(deck) : deck;
   };
 
@@ -104,7 +100,6 @@ function runDeck(stage, deck) {
       ...[
         h('span', { class: 'card-hint' }, 'やりたいこと'),
         h('p', { class: 'card-title' }, e.title),
-        e.verified ? null : h('span', { class: 'badge badge-unverified' }, '未確認'),
         h('span', { class: 'card-hint' }, 'タップで裏返す'),
       ].filter(Boolean)
     );

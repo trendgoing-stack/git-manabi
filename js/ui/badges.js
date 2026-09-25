@@ -12,11 +12,10 @@ export function toolBadge(tool) {
   return h('span', { class: `badge badge-tool badge-tool-${tool}` }, toolLabel(tool));
 }
 
-/** 項目に応じたバッジ一式（ツール、危険度、自作、未確認） */
+/** 項目に応じたバッジ一式（ツール、危険度、自作） */
 export function itemBadges(item) {
   return [
     item.isSnippet ? h('span', { class: 'badge badge-mine' }, '自作') : toolBadge(item.tool),
     item.danger && item.danger !== 'safe' ? dangerBadge(item.danger) : null,
-    !item.isSnippet && !item.verified ? h('span', { class: 'badge badge-unverified' }, '未確認') : null,
   ];
 }

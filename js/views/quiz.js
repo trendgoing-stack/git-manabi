@@ -32,7 +32,7 @@ function setup(view) {
   const refresh = () => {
     const { total } = eligible(db.entries, db.quiz, scope);
     if (total < MIN_ITEMS) {
-      status.textContent = `この範囲で出題できる確認済みの項目は ${total} 件です。${MIN_ITEMS} 件以上になると開始できます。`;
+      status.textContent = `この範囲で出題できる項目は ${total} 件です。${MIN_ITEMS} 件以上ある範囲を選んでください。`;
       status.className = 'quiz-status warn';
       start.disabled = true;
       return;
@@ -53,7 +53,7 @@ function setup(view) {
     h(
       'div',
       { class: 'quiz-setup' },
-      h('p', { class: 'sub' }, '「やりたいこと」からコマンドを、コマンドから「やりたいこと」を4択で答えます。出題されるのは、作者が動作を確認した項目だけです。'),
+      h('p', { class: 'sub' }, '「やりたいこと」からコマンドを、コマンドから「やりたいこと」を4択で答えます。'),
       select(
         'ツール',
         [{ value: '', label: 'すべて' }, ...TOOLS.map((t) => ({ value: t.id, label: t.label }))],

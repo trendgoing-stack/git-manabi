@@ -33,7 +33,6 @@ js/diagram.js     ブランチ図のレンダラー
 js/flow.js        フローチャートの経路の検証
 js/quiz.js        クイズの出題ロジック
 js/snippets.js    自作スニペットをエントリ形式に変換
-js/visibility.js  未確認項目の表示判定
 js/pwa.js         Service Worker の登録と更新通知
 js/analytics.js   アクセス解析の読み込み
 js/ui/            共通 UI 部品
@@ -56,7 +55,7 @@ http://localhost:8765/ を開きます。localhost でも Service Worker が動�
 |---|---|
 | `tools/validate.html` | 辞書データの検証ページ（ブラウザで開く） |
 | `tools/tests.html` | 検索・正規化・コマンド組み立て・図・クイズの簡易テスト |
-| `node tools/validate-cli.mjs` | 検証を Node.js で実行（`--info` で未確認の一覧も表示） |
+| `node tools/validate-cli.mjs` | 検証を Node.js で実行 |
 | `node tools/tests-cli.mjs` | 簡易テストを Node.js で実行 |
 | `node tools/check-sw.mjs` | `sw.js` のキャッシュ一覧に漏れや余分がないか確認 |
 | `tools/make-icons.ps1` | `icons/icon.svg` と同じデザインの PNG アイコンを作る（Windows PowerShell） |

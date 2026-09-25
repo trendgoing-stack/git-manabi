@@ -69,20 +69,6 @@ export function renderSettings() {
         }
       ),
       toggle('危険なコマンドのコピー時に確認する', s.confirmDanger, (v) => setSetting('confirmDanger', v), '「危険」の項目をコピーする前に、危険な理由と元に戻す方法を表示します。'),
-      radios(
-        'unverified',
-        '未確認項目の表示',
-        [
-          { value: true, label: '表示する（未確認バッジ付き）' },
-          { value: false, label: '表示しない' },
-        ],
-        s.showUnverified,
-        (v) => {
-          setSetting('showUnverified', v);
-          invalidateIndex();
-        },
-        '未確認：作者が実際に動作を確かめる前の下書きです。クイズには出題されません。'
-      ),
       toggle(
         'アクセス解析を送信しない',
         s.analyticsOff,
@@ -103,7 +89,7 @@ export function renderSettings() {
           h('dt', null, 'データ'),
           h('dd', null, db.meta?.dataVersion ?? '不明'),
           h('dt', null, '収録'),
-          h('dd', null, `${db.entries.length} 件（確認済み ${db.entries.filter((e) => e.verified).length} 件）`)
+          h('dd', null, `${db.entries.length} 件`)
         )
       )
     )

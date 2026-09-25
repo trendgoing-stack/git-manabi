@@ -21,9 +21,7 @@ const entryFiles = await Promise.all(files.map(async (name) => ({ name, entries:
 const [flows, glossary, quiz, scenes] = await Promise.all(['flows.json', 'glossary.json', 'quiz.json', 'scenes.json'].map(get));
 
 const { issues, stats } = validateAll({ meta, entryFiles, flows, glossary, quiz, scenes, loadErrors });
-const showInfo = process.argv.includes('--info');
 for (const x of issues) {
-  if (x.level === 'info' && !showInfo) continue;
   console.log(`[${x.level}] ${x.file} ${x.id}: ${x.msg}`);
 }
 console.log(Object.entries(stats).map(([k, v]) => `${k}=${v}`).join(' '));

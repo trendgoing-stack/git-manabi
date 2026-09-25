@@ -52,9 +52,9 @@ export function runTests() {
 
   // ---- search ----
   const items = [
-    { id: 'a', tool: 'git', category: 'branch', title: 'ブランチを削除したい', intents: ['ブランチを消したい'], keywords: [], tags: [], summary: '', syntax: 'git branch -d <b>', verified: true },
-    { id: 'b', tool: 'git', category: 'basic', title: 'コミットしたい', intents: [], keywords: ['こみっと'], tags: [], summary: 'ブランチに記録', syntax: 'git commit -m <m>', verified: false },
-    { id: 'c', tool: 'gh', category: 'pr', title: 'PR を作りたい', intents: [], keywords: [], tags: ['プルリク'], summary: '', syntax: 'gh pr create', verified: true },
+    { id: 'a', tool: 'git', category: 'branch', title: 'ブランチを削除したい', intents: ['ブランチを消したい'], keywords: [], tags: [], summary: '', syntax: 'git branch -d <b>' },
+    { id: 'b', tool: 'git', category: 'basic', title: 'コミットしたい', intents: [], keywords: ['こみっと'], tags: [], summary: 'ブランチに記録', syntax: 'git commit -m <m>' },
+    { id: 'c', tool: 'gh', category: 'pr', title: 'PR を作りたい', intents: [], keywords: [], tags: ['プルリク'], summary: '', syntax: 'gh pr create' },
   ];
   const idx = buildIndex(items);
   const ids = (q, f) => search(idx, q, f).items.map((x) => x.id);
@@ -65,7 +65,6 @@ export function runTests() {
   eq('AND 検索', ids('ブランチ 消'), ['a']);
   eq('タグで検索', ids('プルリク'), ['c']);
   eq('ツールで絞り込み', ids('', { tool: 'gh' }), ['c']);
-  eq('未確認を隠す', ids('ブランチ', { showUnverified: false }), ['a']);
   eq('0 件', ids('存在しない語'), []);
   eq('件数の上限', search(idx, '', { limit: 2 }).items.length, 2);
 
@@ -86,21 +85,23 @@ export function runTests() {
   eq('図：説明文', describe({ ...reset, head: 'A' }), 'main は B を指す。HEAD は A を直接指す。C はどのブランチからも辿れない。');
 
   // ---- クイズ ----
-  const mk = (id, cat, verified = true) => ({ id, tool: 'git', category: cat, title: `t-${id}`, intents: [`i-${id}`], syntax: `git ${id} [options]`, summary: 's', verified });
-  const ents = [mk('a', 'x'), mk('b', 'x'), mk('c', 'x'), mk('d', 'y'), mk('e', 'y'), mk('u', 'x', false)];
+  const mk = (id, cat, syntax = `git ${id} [options]`) => ({ id, tool: 'git', category: cat, title: `t-${id}`, intents: [`i-${id}`], syntax, summary: 's' });
+  const ents = [mk('a', 'x'), mk('b', 'x'), mk('c', 'x'), mk('d', 'y'), mk('e', 'y'), mk('w', 'y', undefined)];
+  delete ents[5].syntax;
   let seed = 1;
   const rng = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
   const qs = buildQuiz({ entries: ents, quizItems: [], stats: {}, rng });
-  eq('クイズ：確認済みだけ出題', qs.map((q) => q.statId).sort(), ['a', 'b', 'c', 'd', 'e']);
-  eq('クイズ：未確認は選択肢にも出ない', qs.every((q) => !q.choices.some((c) => c.includes(' u') || c === 't-u')), true);
+  eq('クイズ：すべての項目を出題', qs.map((q) => q.statId).sort(), ['a', 'b', 'c', 'd', 'e', 'w']);
+  eq('クイズ：コマンドのない項目は説明から出題', qs.find((q) => q.statId === 'w').kind, 'describe');
+  eq('クイズ：コマンドの選択肢に空の項目が混ざらない', qs.every((q) => !q.choicesAreCode || q.choices.every((c) => c && c.startsWith('git '))), true);
   eq('クイズ：正解が選択肢に入っている', qs.every((q) => q.answer >= 0 && q.choices.length === 4), true);
   eq('クイズ：[options] は表示しない', qs.every((q) => !(q.prompt + q.choices.join()).includes('[options]')), true);
   eq('クイズ：4件未満は開始できない', buildQuiz({ entries: ents.slice(0, 3), quizItems: [], stats: {} }).length, 0);
-  eq('クイズ：範囲で絞り込み', eligible(ents, [], { category: 'y' }).total, 0);
-  const manual = [0, 1, 2, 3].map((n) => ({ id: `m${n}`, question: 'q', choices: ['w', 'x', 'y', 'z'], answer: 2, tool: 'git', category: 'y', verified: true }));
+  eq('クイズ：範囲で絞り込み', eligible(ents, [], { category: 'y' }).total, 3);
+  eq('クイズ：4件未満の範囲は出題しない', buildQuiz({ entries: ents, quizItems: [], stats: {}, scope: { category: 'y' } }).length, 0);
+  const manual = [0, 1, 2, 3].map((n) => ({ id: `m${n}`, question: 'q', choices: ['w', 'x', 'y', 'z'], answer: 2, tool: 'git', category: 'y' }));
   const mq = buildQuiz({ entries: [], quizItems: manual, stats: {}, rng });
   eq('クイズ：手書き問題の正解を並べ替え後も追跡', mq.every((q) => q.choices[q.answer] === 'y'), true);
-  eq('クイズ：未確認の手書き問題は出ない', buildQuiz({ entries: [], quizItems: manual.map((m) => ({ ...m, verified: false })), stats: {} }).length, 0);
   const stats = { a: { ok: 1, ng: 3 }, b: { ok: 3, ng: 1 }, c: { ok: 0, ng: 1 }, d: { ok: 5, ng: 0 } };
   eq('クイズ：苦手は不正解率の高い順', buildQuiz({ entries: ents, quizItems: [], stats, mode: 'weak', rng }).map((q) => q.statId), ['c', 'a', 'b']);
   eq('クイズ：不正解率', [wrongRate({ ok: 1, ng: 1 }), wrongRate(undefined)], [0.5, -1]);

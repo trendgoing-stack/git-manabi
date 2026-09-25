@@ -84,11 +84,6 @@
   background: var(--danger-bg);
   color: var(--danger);
 }
-.badge-unverified {
-  background: var(--unverified-bg);
-  color: var(--unverified);
-  border: 1px dashed currentColor;
-}
 .badge-mine {
   background: var(--mine-bg);
   color: var(--mine);

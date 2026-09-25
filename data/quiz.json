@@ -7,8 +7,7 @@
     "explain": "コミットされるのはステージにある内容です。追加の編集は、もう一度 `git add` するまで入りません。",
     "entryId": "git-add",
     "tool": "git",
-    "category": "basic",
-    "verified": false
+    "category": "basic"
   },
   {
     "id": "quiz-undo-pushed",
@@ -18,8 +17,7 @@
     "explain": "`git revert` は打ち消しのコミットを追加するだけなので、他の人の履歴と食い違いません。",
     "entryId": "git-revert",
     "tool": "git",
-    "category": "undo",
-    "verified": false
+    "category": "undo"
   },
   {
     "id": "quiz-fetch",
@@ -29,8 +27,7 @@
     "explain": "`git pull` は取得したあと取り込みまで行います。取得だけなら `git fetch` です。",
     "entryId": "git-fetch",
     "tool": "git",
-    "category": "remote",
-    "verified": false
+    "category": "remote"
   },
   {
     "id": "quiz-restore-lost",
@@ -40,8 +37,7 @@
     "explain": "コミットもステージもしていない編集は Git に記録されていないため、戻せません。迷うときは先に `git stash` を使いましょう。",
     "entryId": "git-restore",
     "tool": "git",
-    "category": "undo",
-    "verified": false
+    "category": "undo"
   },
   {
     "id": "quiz-origin",
@@ -51,8 +47,7 @@
     "explain": "clone すると、複製元のリモートが origin という名前で登録されます。",
     "entryId": "git-remote-add",
     "tool": "git",
-    "category": "remote",
-    "verified": false
+    "category": "remote"
   },
   {
     "id": "quiz-ff",
@@ -62,8 +57,7 @@
     "explain": "取り込む側が進んでいなければ、目印を相手の先端まで進めるだけで済みます。",
     "entryId": "git-merge",
     "tool": "git",
-    "category": "integrate",
-    "verified": false
+    "category": "integrate"
   },
   {
     "id": "quiz-force-lease",
@@ -73,8 +67,7 @@
     "explain": "`--force-with-lease` は、自分の知らない変更がリモートにあれば上書きせずに止まります。",
     "entryId": "git-push",
     "tool": "git",
-    "category": "remote",
-    "verified": false
+    "category": "remote"
   },
   {
     "id": "quiz-soft-mixed",
@@ -84,8 +77,7 @@
     "explain": "どちらもブランチを1つ戻します。違うのは、取り消したコミットの変更が残る場所です。",
     "entryId": "git-reset-soft",
     "tool": "git",
-    "category": "undo",
-    "verified": false
+    "category": "undo"
   },
   {
     "id": "quiz-squash",
@@ -95,8 +87,7 @@
     "explain": "取り込み先の履歴に、PR 全体が1つのコミットとして記録されます。",
     "entryId": "web-merge-pr",
     "tool": "github-web",
-    "category": "pr",
-    "verified": false
+    "category": "pr"
   },
   {
     "id": "quiz-pr-checkout",
@@ -106,7 +97,6 @@
     "explain": "`gh pr checkout` は PR のブランチを取得して切り替えます。",
     "entryId": "gh-pr-checkout",
     "tool": "gh",
-    "category": "pr",
-    "verified": false
+    "category": "pr"
   }
 ]

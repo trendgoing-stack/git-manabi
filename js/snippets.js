@@ -19,7 +19,6 @@ export function snippetToItem(s) {
     syntax: s.syntax,
     placeholders: extractPlaceholderKeys(s.syntax).map((key) => ({ key, label: key, example: '' })),
     danger: 'safe',
-    verified: true,
   };
 }
 

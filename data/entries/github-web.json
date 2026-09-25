@@ -12,9 +12,7 @@
     "danger": "safe",
     "related": ["gh-repo-create", "git-remote-add", "git-push-upstream"],
     "docUrl": "https://docs.github.com/ja/repositories/creating-and-managing-repositories/creating-a-new-repository",
-    "tags": ["初回", "作成"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["初回", "作成"]
   },
   {
     "id": "web-edit-file",
@@ -30,9 +28,7 @@
     "alternatives": "パソコンのブラウザでリポジトリの画面を開き、キーボードの `.` を押すと、ブラウザ版のエディタ（github.dev）が開いて複数のファイルをまとめて編集できます。",
     "related": ["git-pull", "web-create-pr"],
     "docUrl": "https://docs.github.com/ja/repositories/working-with-files/managing-files/editing-files",
-    "tags": ["ブラウザ", "修正"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["ブラウザ", "修正"]
   },
   {
     "id": "web-create-pr",
@@ -47,9 +43,7 @@
     "danger": "safe",
     "related": ["gh-pr-create", "git-push-upstream", "web-review-pr"],
     "docUrl": "https://docs.github.com/ja/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request",
-    "tags": ["PR"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["PR"]
   },
   {
     "id": "web-review-pr",
@@ -64,9 +58,7 @@
     "danger": "safe",
     "related": ["gh-pr-checkout", "web-merge-pr", "gh-pr-view"],
     "docUrl": "https://docs.github.com/ja/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/reviewing-proposed-changes-in-a-pull-request",
-    "tags": ["PR", "レビュー"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["PR", "レビュー"]
   },
   {
     "id": "web-merge-pr",
@@ -83,9 +75,7 @@
     "undo": "マージ後に PR 画面に表示される「Revert」ボタンで、打ち消しの PR を作れます。削除したブランチは「Restore branch」で戻せます。",
     "related": ["gh-pr-merge", "git-merge", "git-revert"],
     "docUrl": "https://docs.github.com/ja/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/merging-a-pull-request",
-    "tags": ["PR", "統合"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["PR", "統合"]
   },
   {
     "id": "web-pages",
@@ -100,9 +90,7 @@
     "danger": "safe",
     "related": ["git-push", "gh-browse", "web-create-repo"],
     "docUrl": "https://docs.github.com/ja/pages/getting-started-with-github-pages/creating-a-github-pages-site",
-    "tags": ["公開"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["公開"]
   },
   {
     "id": "web-add-collaborator",
@@ -118,9 +106,7 @@
     "undo": "同じ画面から、共同作業者を外すことができます。",
     "related": ["web-create-repo"],
     "docUrl": "https://docs.github.com/ja/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-access-to-your-personal-repositories/inviting-collaborators-to-a-personal-repository",
-    "tags": ["共同作業", "権限"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["共同作業", "権限"]
   },
   {
     "id": "web-delete-repo",
@@ -138,8 +124,6 @@
     "alternatives": "「Settings」の「Danger Zone」にある「Archive this repository」で、読み取り専用にして残す方法もあります。",
     "related": ["web-create-repo", "gh-repo-create"],
     "docUrl": "https://docs.github.com/ja/repositories/creating-and-managing-repositories/deleting-a-repository",
-    "tags": ["削除", "片付け"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["削除", "片付け"]
   }
 ]

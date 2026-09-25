@@ -2,7 +2,7 @@
 //
 // ★ アプリや辞書データを更新したら VERSION を必ず上げる（上げないと利用者に届かない）。
 //   SHELL にファイルを追加・削除したときも上げる。手順は README.md を参照。
-const VERSION = '1.0.0-3';
+const VERSION = '1.1.0-1';
 const CACHE = `gitdict-${VERSION}`;
 
 // アプリ本体（data/ の JSON は meta.json の entryFiles を読んで追加する）
@@ -36,7 +36,6 @@ const SHELL = [
   './js/snippets.js',
   './js/storage.js',
   './js/types.js',
-  './js/visibility.js',
   './js/ui/badges.js',
   './js/ui/builder-ui.js',
   './js/ui/chrome.js',

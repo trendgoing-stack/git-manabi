@@ -8,7 +8,6 @@ import { resultRow } from './search.js';
 import { db, getEntry } from '../data.js';
 import { go, redirect, back } from '../router.js';
 import { validPath } from '../flow.js';
-import { isVisible } from '../visibility.js';
 
 /** 選択肢のタップで積んだパス（「1つ戻る」で history.back してよいかの判定用） */
 let pushed = [];
@@ -87,7 +86,7 @@ export function renderFlow(ctx) {
           { class: 'flow-card flow-result' },
           h('p', { class: 'flow-step' }, 'おすすめの方法'),
           h('div', { class: 'rich' }, rich(node.note)),
-          resultEntries(node.entryIds)
+          h('ul', { class: 'result-list' }, node.entryIds.map(getEntry).filter(Boolean).map(resultRow))
         );
 
   view.append(
@@ -102,13 +101,3 @@ export function renderFlow(ctx) {
   );
 }
 
-/** 結果ノードの項目一覧。未確認を隠す設定のときは、隠した件数を添える */
-function resultEntries(ids) {
-  const all = ids.map(getEntry).filter(Boolean);
-  const shown = all.filter(isVisible);
-  const hidden = all.length - shown.length;
-  return [
-    shown.length ? h('ul', { class: 'result-list' }, shown.map(resultRow)) : null,
-    hidden ? h('p', { class: 'sub' }, `未確認の項目 ${hidden} 件を表示していません（設定の「未確認項目の表示」で変更できます）。`) : null,
-  ];
-}

@@ -68,8 +68,6 @@
  * @property {string[]} [related]
  * @property {string} [docUrl]
  * @property {string[]} [tags]
- * @property {boolean} verified
- * @property {string} [verifiedNote]
  */
 
 /**
@@ -121,7 +119,6 @@
  * @property {string} [entryId]
  * @property {Tool} tool
  * @property {string} category
- * @property {boolean} verified  true のものだけ出題する
  */
 
 /**
@@ -147,7 +144,6 @@
  * @typedef {Object} Settings
  * @property {'normal'|'large'} fontSize
  * @property {boolean} confirmDanger
- * @property {boolean} showUnverified
  * @property {boolean} analyticsOff
  */
 

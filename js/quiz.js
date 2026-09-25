@@ -1,5 +1,6 @@
 // クイズの出題ロジック（DOM に依存しない）。
-// 出題対象は verified: true のエントリと手書き問題だけ（未確認項目の表示設定とは無関係）。
+// 出題対象は、すべてのエントリ（自動出題）と手書き問題。
+// コマンドのないエントリ（GitHub の画面操作）は「説明 → やりたいこと」の形で出題する。
 
 import { plain } from './markup.js';
 
@@ -9,7 +10,7 @@ export const MIN_ITEMS = 4;
 /**
  * @typedef {Object} Question
  * @property {string} statId        成績を記録するキー（エントリ id か手書き問題の id）
- * @property {'reverse'|'forward'|'manual'} kind
+ * @property {'reverse'|'forward'|'describe'|'manual'} kind
  * @property {string} lead          問題文の前置き
  * @property {string} prompt
  * @property {boolean} promptIsCode
@@ -45,22 +46,9 @@ export function commandOf(entry) {
  */
 export function eligible(entries, quizItems, scope = {}) {
   const inScope = (x) => (!scope.tool || x.tool === scope.tool) && (!scope.category || x.category === scope.category);
-  // 自動出題はコマンドのある確認済みエントリだけ（GitHub 画面の項目は手書き問題で扱う）
-  const auto = entries.filter((e) => e.verified === true && e.syntax && inScope(e));
-  const manual = quizItems.filter((q) => q.verified === true && inScope(q));
-  // 自動出題は選択肢が4つそろうときだけ使う
-  const usableAuto = uniqueBy(auto, commandOf).length >= MIN_ITEMS ? auto : [];
-  return { auto: usableAuto, manual, total: usableAuto.length + manual.length };
-}
-
-function uniqueBy(arr, key) {
-  const seen = new Set();
-  return arr.filter((x) => {
-    const k = key(x);
-    if (seen.has(k)) return false;
-    seen.add(k);
-    return true;
-  });
+  const auto = entries.filter(inScope);
+  const manual = quizItems.filter(inScope);
+  return { auto, manual, total: auto.length + manual.length };
 }
 
 /**
@@ -92,11 +80,28 @@ function distractors(target, pool, label, rng) {
  * @returns {Question}
  */
 export function autoQuestion(e, pool, rng = Math.random) {
+  if (!e.syntax) {
+    // コマンドのない項目：説明文から、当てはまるやりたいことを選ぶ
+    const choices = shuffle([e.title, ...distractors(e, pool, (x) => x.title, rng)], rng);
+    return {
+      statId: e.id,
+      kind: 'describe',
+      lead: 'この説明に当てはまるやりたいことは？',
+      prompt: plain(e.summary),
+      promptIsCode: false,
+      choices,
+      choicesAreCode: false,
+      answer: choices.indexOf(e.title),
+      explain: e.steps?.length ? `GitHub の画面で操作します。最初の手順：${plain(e.steps[0])}` : undefined,
+      entryId: e.id,
+    };
+  }
+  const commandPool = pool.filter((x) => x.syntax);
   const reverse = rng() < 0.5;
   if (reverse) {
     const intents = [e.title, ...(e.intents || [])];
     const prompt = intents[Math.floor(rng() * intents.length)];
-    const choices = shuffle([commandOf(e), ...distractors(e, pool, commandOf, rng)], rng);
+    const choices = shuffle([commandOf(e), ...distractors(e, commandPool, commandOf, rng)], rng);
     return {
       statId: e.id,
       kind: 'reverse',
@@ -165,8 +170,8 @@ export function buildQuiz(opt) {
   const size = opt.size ?? QUIZ_SIZE;
   const { auto, manual, total } = eligible(opt.entries, opt.quizItems, opt.scope);
   if (total < MIN_ITEMS) return [];
-  // 選択肢は範囲外も含めた確認済みエントリから選ぶ（範囲が狭くても4択にできるように）
-  const pool = opt.entries.filter((e) => e.verified === true && e.syntax);
+  // 選択肢は範囲外も含めたエントリから選ぶ（範囲が狭くても4択にできるように）
+  const pool = opt.entries;
   const items = [...auto.map((e) => ({ id: e.id, make: () => autoQuestion(e, pool, rng) })), ...manual.map((q) => ({ id: q.id, make: () => manualQuestion(q, rng) }))];
 
   let picked;

@@ -19,9 +19,7 @@
     "prereq": "gh（GitHub CLI）のインストールが必要です。",
     "related": ["gh-repo-clone", "gh-pr-create", "git-config-user"],
     "docUrl": "https://cli.github.com/manual/gh_auth_login",
-    "tags": ["初回", "認証"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["初回", "認証"]
   },
   {
     "id": "gh-repo-create",
@@ -46,9 +44,7 @@
     "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。コミットが1つ以上あるリポジトリで実行します。",
     "related": ["git-init", "git-remote-add", "git-push-upstream", "web-create-repo", "web-delete-repo"],
     "docUrl": "https://cli.github.com/manual/gh_repo_create",
-    "tags": ["初回", "作成"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["初回", "作成"]
   },
   {
     "id": "gh-repo-clone",
@@ -72,9 +68,7 @@
     "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
     "related": ["git-clone", "gh-auth-login"],
     "docUrl": "https://cli.github.com/manual/gh_repo_clone",
-    "tags": ["取得"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["取得"]
   },
   {
     "id": "gh-pr-create",
@@ -107,9 +101,7 @@
     "shellNote": "タイトルや説明に `$` やバッククォートを含むと、mac/Linux では展開されます。PowerShell では `@` が特別な意味を持つため、`@me` は `\"@me\"` のように \" で囲んでください。",
     "related": ["gh-pr-list", "gh-pr-view", "git-push-upstream", "web-create-pr"],
     "docUrl": "https://cli.github.com/manual/gh_pr_create",
-    "tags": ["PR", "レビュー"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["PR", "レビュー"]
   },
   {
     "id": "gh-pr-list",
@@ -132,9 +124,7 @@
     "shellNote": "PowerShell では `@` が特別な意味を持つため、`@me` は `\"@me\"` のように \" で囲んでください。",
     "related": ["gh-pr-view", "gh-pr-checkout", "gh-pr-create"],
     "docUrl": "https://cli.github.com/manual/gh_pr_list",
-    "tags": ["PR", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["PR", "確認"]
   },
   {
     "id": "gh-pr-checkout",
@@ -157,9 +147,7 @@
     "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
     "related": ["gh-pr-list", "git-switch", "web-review-pr"],
     "docUrl": "https://cli.github.com/manual/gh_pr_checkout",
-    "tags": ["PR", "レビュー"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["PR", "レビュー"]
   },
   {
     "id": "gh-pr-view",
@@ -184,9 +172,7 @@
     "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
     "related": ["gh-pr-list", "gh-pr-checks", "gh-browse"],
     "docUrl": "https://cli.github.com/manual/gh_pr_view",
-    "tags": ["PR", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["PR", "確認"]
   },
   {
     "id": "gh-pr-merge",
@@ -218,9 +204,7 @@
     "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
     "related": ["gh-pr-checks", "gh-pr-view", "git-merge", "web-merge-pr"],
     "docUrl": "https://cli.github.com/manual/gh_pr_merge",
-    "tags": ["PR", "統合"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["PR", "統合"]
   },
   {
     "id": "gh-pr-checks",
@@ -243,9 +227,7 @@
     "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
     "related": ["gh-pr-view", "gh-pr-merge"],
     "docUrl": "https://cli.github.com/manual/gh_pr_checks",
-    "tags": ["PR", "CI", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["PR", "CI", "確認"]
   },
   {
     "id": "gh-issue-create",
@@ -272,9 +254,7 @@
     "shellNote": "PowerShell では `@` が特別な意味を持つため、`@me` は `\"@me\"` のように \" で囲んでください。",
     "related": ["gh-issue-list", "gh-pr-create"],
     "docUrl": "https://cli.github.com/manual/gh_issue_create",
-    "tags": ["Issue"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["Issue"]
   },
   {
     "id": "gh-issue-list",
@@ -297,9 +277,7 @@
     "shellNote": "PowerShell では `@` が特別な意味を持つため、`@me` は `\"@me\"` のように \" で囲んでください。",
     "related": ["gh-issue-create", "gh-pr-list"],
     "docUrl": "https://cli.github.com/manual/gh_issue_list",
-    "tags": ["Issue", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["Issue", "確認"]
   },
   {
     "id": "gh-browse",
@@ -321,8 +299,6 @@
     "prereq": "gh（GitHub CLI）のインストールと、`gh auth login` でのログインが必要です。",
     "related": ["gh-pr-view", "web-pages"],
     "docUrl": "https://cli.github.com/manual/gh_browse",
-    "tags": ["確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["確認"]
   }
 ]

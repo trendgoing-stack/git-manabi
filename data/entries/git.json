@@ -24,9 +24,7 @@
     "shellNote": "名前に空白がある場合、mac/Linux でも Windows でも \" で囲めば動きます。",
     "related": ["git-init", "git-clone"],
     "docUrl": "https://git-scm.com/docs/git-config",
-    "tags": ["初回", "設定"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["初回", "設定"]
   },
   {
     "id": "git-init",
@@ -49,9 +47,7 @@
     "since": "2.28",
     "related": ["git-config-user", "git-clone", "git-remote-add"],
     "docUrl": "https://git-scm.com/docs/git-init",
-    "tags": ["初回", "作成"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["初回", "作成"]
   },
   {
     "id": "git-clone",
@@ -76,9 +72,7 @@
     "prereq": "非公開リポジトリの場合は、GitHub への認証（gh auth login や SSH 鍵など）が必要です。",
     "related": ["git-init", "git-remote-add", "git-pull"],
     "docUrl": "https://git-scm.com/docs/git-clone",
-    "tags": ["初回", "取得"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["初回", "取得"]
   },
   {
     "id": "git-status",
@@ -97,9 +91,7 @@
     "danger": "safe",
     "related": ["git-add", "git-diff", "git-restore"],
     "docUrl": "https://git-scm.com/docs/git-status",
-    "tags": ["確認", "毎日"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["確認", "毎日"]
   },
   {
     "id": "git-add",
@@ -123,9 +115,7 @@
     "undo": "ステージを取り消すには `git restore --staged <path>` を使います。ファイルの中身は変わりません。",
     "related": ["git-restore-staged", "git-commit", "git-status", "git-diff-staged"],
     "docUrl": "https://git-scm.com/docs/git-add",
-    "tags": ["毎日", "ステージ"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["毎日", "ステージ"]
   },
   {
     "id": "git-commit",
@@ -181,9 +171,7 @@
     },
     "related": ["git-add", "git-commit-amend", "git-reset-soft", "git-log"],
     "docUrl": "https://git-scm.com/docs/git-commit",
-    "tags": ["毎日", "記録"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["毎日", "記録"]
   },
   {
     "id": "git-diff",
@@ -211,9 +199,7 @@
     "danger": "safe",
     "related": ["git-diff-staged", "git-status", "git-add", "git-diff-commits"],
     "docUrl": "https://git-scm.com/docs/git-diff",
-    "tags": ["確認", "差分"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["確認", "差分"]
   },
   {
     "id": "git-diff-staged",
@@ -232,9 +218,7 @@
     "danger": "safe",
     "related": ["git-diff", "git-add", "git-commit", "git-restore-staged"],
     "docUrl": "https://git-scm.com/docs/git-diff",
-    "tags": ["確認", "差分"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["確認", "差分"]
   },
   {
     "id": "git-branch-list",
@@ -254,9 +238,7 @@
     "danger": "safe",
     "related": ["git-switch", "git-switch-create", "git-branch-delete", "git-fetch"],
     "docUrl": "https://git-scm.com/docs/git-branch",
-    "tags": ["確認", "ブランチ"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["確認", "ブランチ"]
   },
   {
     "id": "git-switch-create",
@@ -305,9 +287,7 @@
     },
     "related": ["git-switch", "git-branch-list", "git-branch-delete", "git-push-upstream"],
     "docUrl": "https://git-scm.com/docs/git-switch",
-    "tags": ["ブランチ", "作成"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["ブランチ", "作成"]
   },
   {
     "id": "git-switch",
@@ -331,9 +311,7 @@
     "since": "2.23",
     "related": ["git-switch-create", "git-branch-list", "git-stash"],
     "docUrl": "https://git-scm.com/docs/git-switch",
-    "tags": ["ブランチ", "移動"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["ブランチ", "移動"]
   },
   {
     "id": "git-branch-delete",
@@ -358,9 +336,7 @@
     "undo": "消した直後なら `git reflog` で消えたブランチの最後のコミットの[[ハッシュ]]を探し、`git branch <branch> <hash>` で作り直せます。",
     "related": ["git-branch-list", "git-switch", "git-reflog", "git-merge", "git-push-delete-branch", "git-branch-merged"],
     "docUrl": "https://git-scm.com/docs/git-branch",
-    "tags": ["ブランチ", "削除", "片付け"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["ブランチ", "削除", "片付け"]
   },
   {
     "id": "git-merge",
@@ -419,9 +395,7 @@
     },
     "related": ["git-rebase", "git-switch", "git-pull", "git-revert", "git-merge-abort", "git-merge-squash", "git-conflict-ours-theirs"],
     "docUrl": "https://git-scm.com/docs/git-merge",
-    "tags": ["統合", "コンフリクト"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["統合", "コンフリクト"]
   },
   {
     "id": "git-rebase",
@@ -482,9 +456,7 @@
     },
     "related": ["git-merge", "git-pull", "git-reflog", "git-fetch", "git-rebase-interactive"],
     "docUrl": "https://git-scm.com/docs/git-rebase",
-    "tags": ["統合", "履歴の書き換え"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["統合", "履歴の書き換え"]
   },
   {
     "id": "git-cherry-pick",
@@ -543,9 +515,7 @@
     },
     "related": ["git-merge", "git-rebase", "git-log", "git-revert"],
     "docUrl": "https://git-scm.com/docs/git-cherry-pick",
-    "tags": ["統合", "コピー"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["統合", "コピー"]
   },
   {
     "id": "git-log",
@@ -586,9 +556,7 @@
     "danger": "safe",
     "related": ["git-show", "git-reflog", "git-diff", "git-log-graph", "git-log-file"],
     "docUrl": "https://git-scm.com/docs/git-log",
-    "tags": ["確認", "履歴"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["確認", "履歴"]
   },
   {
     "id": "git-show",
@@ -612,9 +580,7 @@
     "danger": "safe",
     "related": ["git-log", "git-diff"],
     "docUrl": "https://git-scm.com/docs/git-show",
-    "tags": ["確認", "履歴"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["確認", "履歴"]
   },
   {
     "id": "git-reflog",
@@ -636,9 +602,7 @@
     "shellNote": "PowerShell では `{}` が特別な意味を持つため、`'HEAD@{1}'` のように ' で囲んでください。",
     "related": ["git-reset-hard", "git-branch-delete", "git-log", "git-rebase"],
     "docUrl": "https://git-scm.com/docs/git-reflog",
-    "tags": ["確認", "救出", "取り消し"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["確認", "救出", "取り消し"]
   },
   {
     "id": "git-restore",
@@ -666,9 +630,7 @@
     "since": "2.23",
     "related": ["git-restore-staged", "git-stash", "git-status", "git-reset-hard", "git-clean", "git-restore-source"],
     "docUrl": "https://git-scm.com/docs/git-restore",
-    "tags": ["取り消し", "破棄"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["取り消し", "破棄"]
   },
   {
     "id": "git-restore-staged",
@@ -693,9 +655,7 @@
     "since": "2.23",
     "related": ["git-add", "git-restore", "git-diff-staged"],
     "docUrl": "https://git-scm.com/docs/git-restore",
-    "tags": ["取り消し", "ステージ"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["取り消し", "ステージ"]
   },
   {
     "id": "git-clean",
@@ -719,9 +679,7 @@
     "alternatives": "迷うときは `git stash -u` で、新しいファイルも含めて一時退避しておくと後から取り戻せます。",
     "related": ["git-restore", "git-status", "git-stash"],
     "docUrl": "https://git-scm.com/docs/git-clean",
-    "tags": ["取り消し", "破棄", "片付け"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["取り消し", "破棄", "片付け"]
   },
   {
     "id": "git-commit-amend",
@@ -774,9 +732,7 @@
     },
     "related": ["git-commit", "git-reset-soft", "git-reflog", "git-push", "git-commit-amend-author"],
     "docUrl": "https://git-scm.com/docs/git-commit",
-    "tags": ["取り消し", "修正", "履歴の書き換え"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["取り消し", "修正", "履歴の書き換え"]
   },
   {
     "id": "git-reset-soft",
@@ -829,9 +785,7 @@
     },
     "related": ["git-reset-hard", "git-reset-mixed", "git-revert", "git-commit-amend", "git-reflog"],
     "docUrl": "https://git-scm.com/docs/git-reset",
-    "tags": ["取り消し", "履歴の書き換え"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["取り消し", "履歴の書き換え"]
   },
   {
     "id": "git-reset-mixed",
@@ -884,9 +838,7 @@
     },
     "related": ["git-reset-soft", "git-reset-hard", "git-revert", "git-add"],
     "docUrl": "https://git-scm.com/docs/git-reset",
-    "tags": ["取り消し", "履歴の書き換え"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["取り消し", "履歴の書き換え"]
   },
   {
     "id": "git-reset-hard",
@@ -939,9 +891,7 @@
     },
     "related": ["git-reset-soft", "git-reset-mixed", "git-reflog", "git-revert", "git-stash", "git-restore"],
     "docUrl": "https://git-scm.com/docs/git-reset",
-    "tags": ["取り消し", "破棄", "履歴の書き換え"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["取り消し", "破棄", "履歴の書き換え"]
   },
   {
     "id": "git-revert",
@@ -992,9 +942,7 @@
     },
     "related": ["git-reset-soft", "git-reset-hard", "git-log", "git-merge", "git-revert-merge"],
     "docUrl": "https://git-scm.com/docs/git-revert",
-    "tags": ["取り消し", "共有ブランチ"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["取り消し", "共有ブランチ"]
   },
   {
     "id": "git-remote-add",
@@ -1018,9 +966,7 @@
     "undo": "`git remote remove origin` で登録を解除できます。",
     "related": ["git-init", "git-push-upstream", "git-clone", "git-remote-v", "git-remote-set-url"],
     "docUrl": "https://git-scm.com/docs/git-remote",
-    "tags": ["リモート", "初回"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["リモート", "初回"]
   },
   {
     "id": "git-push",
@@ -1046,9 +992,7 @@
     "undo": "送ったコミットを取り消すには、`git revert` で打ち消すコミットを作り、それを push します。",
     "related": ["git-push-upstream", "git-pull", "git-fetch", "git-revert", "git-push-force-lease", "git-push-tag"],
     "docUrl": "https://git-scm.com/docs/git-push",
-    "tags": ["毎日", "リモート"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["毎日", "リモート"]
   },
   {
     "id": "git-push-upstream",
@@ -1071,9 +1015,7 @@
     "undo": "GitHub 側のブランチを消すには `git push origin --delete <branch>` を使います。",
     "related": ["git-push", "git-switch-create", "git-remote-add"],
     "docUrl": "https://git-scm.com/docs/git-push",
-    "tags": ["リモート", "初回"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["リモート", "初回"]
   },
   {
     "id": "git-fetch",
@@ -1093,9 +1035,7 @@
     "danger": "safe",
     "related": ["git-pull", "git-merge", "git-rebase", "git-branch-list"],
     "docUrl": "https://git-scm.com/docs/git-fetch",
-    "tags": ["リモート", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["リモート", "確認"]
   },
   {
     "id": "git-pull",
@@ -1125,9 +1065,7 @@
     "alternatives": "先に `git fetch` で中身を確認してから、`git merge` で取り込むと慎重に進められます。",
     "related": ["git-fetch", "git-merge", "git-rebase", "git-push"],
     "docUrl": "https://git-scm.com/docs/git-pull",
-    "tags": ["毎日", "リモート", "コンフリクト"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["毎日", "リモート", "コンフリクト"]
   },
   {
     "id": "git-stash",
@@ -1183,9 +1121,7 @@
     },
     "related": ["git-stash-pop", "git-switch", "git-pull", "git-stash-list"],
     "docUrl": "https://git-scm.com/docs/git-stash",
-    "tags": ["退避", "stash"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["退避", "stash"]
   },
   {
     "id": "git-stash-pop",
@@ -1208,9 +1144,7 @@
     "shellNote": "PowerShell では `stash@{1}` を `'stash@{1}'` のように ' で囲んでください。",
     "related": ["git-stash", "git-restore", "git-stash-apply", "git-stash-list"],
     "docUrl": "https://git-scm.com/docs/git-stash",
-    "tags": ["退避", "stash", "コンフリクト"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["退避", "stash", "コンフリクト"]
   },
   {
     "id": "git-config-list",
@@ -1230,9 +1164,7 @@
     "danger": "safe",
     "related": ["git-config-user", "git-config-editor", "git-config-alias"],
     "docUrl": "https://git-scm.com/docs/git-config",
-    "tags": ["設定", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["設定", "確認"]
   },
   {
     "id": "git-config-editor",
@@ -1256,9 +1188,7 @@
     "shellNote": "vim が開いてしまったときは、`Esc` を押してから `:wq` と入力して Enter で保存して閉じます（`:q!` なら保存せずに閉じます）。",
     "related": ["git-config-list", "git-commit", "git-rebase-interactive"],
     "docUrl": "https://git-scm.com/docs/git-config",
-    "tags": ["設定", "エディタ"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["設定", "エディタ"]
   },
   {
     "id": "git-config-alias",
@@ -1283,9 +1213,7 @@
     "undo": "`git config --global --unset alias.<別名>` で削除できます。",
     "related": ["git-config-list", "git-log-graph"],
     "docUrl": "https://git-scm.com/docs/git-config",
-    "tags": ["設定", "効率化"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["設定", "効率化"]
   },
   {
     "id": "git-config-pull-rebase",
@@ -1309,9 +1237,7 @@
     "undo": "`git config --global --unset pull.rebase` で設定を消せます。",
     "related": ["git-pull", "git-pull-rebase", "git-config-list"],
     "docUrl": "https://git-scm.com/docs/git-config",
-    "tags": ["設定", "リモート"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["設定", "リモート"]
   },
   {
     "id": "git-config-default-branch",
@@ -1331,9 +1257,7 @@
     "since": "2.28",
     "related": ["git-init", "git-branch-rename", "git-config-list"],
     "docUrl": "https://git-scm.com/docs/git-config",
-    "tags": ["設定", "初回"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["設定", "初回"]
   },
   {
     "id": "git-config-autocrlf",
@@ -1356,9 +1280,7 @@
     "undo": "`git config --global --unset core.autocrlf` で設定を消せます。既に記録済みのファイルの改行は自動では直りません。",
     "related": ["git-config-list", "git-diff"],
     "docUrl": "https://git-scm.com/docs/git-config",
-    "tags": ["設定", "Windows"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["設定", "Windows"]
   },
   {
     "id": "git-version",
@@ -1376,9 +1298,7 @@
     "danger": "safe",
     "related": ["git-config-user", "git-help"],
     "docUrl": "https://git-scm.com/docs/git",
-    "tags": ["初回", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["初回", "確認"]
   },
   {
     "id": "git-rm",
@@ -1402,9 +1322,7 @@
     "undo": "コミット前なら `git restore --staged <path>` と `git restore <path>` で元に戻せます。コミット後でも、1つ前のコミットから `git restore --source HEAD~1 <path>` で取り戻せます。",
     "related": ["git-rm-cached", "git-mv", "git-commit"],
     "docUrl": "https://git-scm.com/docs/git-rm",
-    "tags": ["削除"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["削除"]
   },
   {
     "id": "git-mv",
@@ -1428,9 +1346,7 @@
     "undo": "逆向きにもう一度 `git mv <新しい名前> <元の名前>` を実行します。",
     "related": ["git-rm", "git-status"],
     "docUrl": "https://git-scm.com/docs/git-mv",
-    "tags": ["名前変更"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["名前変更"]
   },
   {
     "id": "git-rm-cached",
@@ -1454,9 +1370,7 @@
     "undo": "コミット前なら `git add <path>` で管理に戻せます。",
     "related": ["git-rm", "git-check-ignore", "git-commit"],
     "docUrl": "https://git-scm.com/docs/git-rm",
-    "tags": ["管理から外す", "gitignore"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["管理から外す", "gitignore"]
   },
   {
     "id": "git-diff-commits",
@@ -1481,9 +1395,7 @@
     "danger": "safe",
     "related": ["git-diff", "git-log-range", "git-show"],
     "docUrl": "https://git-scm.com/docs/git-diff",
-    "tags": ["差分", "比較"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["差分", "比較"]
   },
   {
     "id": "git-log-graph",
@@ -1502,9 +1414,7 @@
     "danger": "safe",
     "related": ["git-log", "git-config-alias", "git-branch-list"],
     "docUrl": "https://git-scm.com/docs/git-log",
-    "tags": ["確認", "履歴"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["確認", "履歴"]
   },
   {
     "id": "git-log-file",
@@ -1526,9 +1436,7 @@
     "danger": "safe",
     "related": ["git-log", "git-blame", "git-show"],
     "docUrl": "https://git-scm.com/docs/git-log",
-    "tags": ["確認", "履歴"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["確認", "履歴"]
   },
   {
     "id": "git-log-grep",
@@ -1551,9 +1459,7 @@
     "danger": "safe",
     "related": ["git-log", "git-log-pickaxe", "git-grep"],
     "docUrl": "https://git-scm.com/docs/git-log",
-    "tags": ["検索", "履歴"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["検索", "履歴"]
   },
   {
     "id": "git-log-pickaxe",
@@ -1575,9 +1481,7 @@
     "danger": "safe",
     "related": ["git-log-grep", "git-grep", "git-blame"],
     "docUrl": "https://git-scm.com/docs/git-log",
-    "tags": ["検索", "履歴"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["検索", "履歴"]
   },
   {
     "id": "git-blame",
@@ -1599,9 +1503,7 @@
     "danger": "safe",
     "related": ["git-log-file", "git-show", "git-log-pickaxe"],
     "docUrl": "https://git-scm.com/docs/git-blame",
-    "tags": ["確認", "調査"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["確認", "調査"]
   },
   {
     "id": "git-grep",
@@ -1624,9 +1526,7 @@
     "danger": "safe",
     "related": ["git-log-pickaxe", "git-blame"],
     "docUrl": "https://git-scm.com/docs/git-grep",
-    "tags": ["検索"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["検索"]
   },
   {
     "id": "git-log-range",
@@ -1650,9 +1550,7 @@
     "danger": "safe",
     "related": ["git-log", "git-diff-commits", "git-fetch"],
     "docUrl": "https://git-scm.com/docs/git-log",
-    "tags": ["確認", "履歴"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["確認", "履歴"]
   },
   {
     "id": "git-bisect",
@@ -1676,9 +1574,7 @@
     "danger": "safe",
     "related": ["git-log", "git-switch-detach", "git-revert"],
     "docUrl": "https://git-scm.com/docs/git-bisect",
-    "tags": ["調査", "デバッグ"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["調査", "デバッグ"]
   },
   {
     "id": "git-branch-rename",
@@ -1702,9 +1598,7 @@
     "undo": "もう一度 `git branch -m <元の名前>` で戻せます。",
     "related": ["git-branch-list", "git-push-delete-branch", "git-config-default-branch"],
     "docUrl": "https://git-scm.com/docs/git-branch",
-    "tags": ["ブランチ", "名前変更"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["ブランチ", "名前変更"]
   },
   {
     "id": "git-branch-merged",
@@ -1726,9 +1620,7 @@
     "danger": "safe",
     "related": ["git-branch-delete", "git-branch-list", "git-merge"],
     "docUrl": "https://git-scm.com/docs/git-branch",
-    "tags": ["ブランチ", "片付け"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["ブランチ", "片付け"]
   },
   {
     "id": "git-switch-detach",
@@ -1752,9 +1644,7 @@
     "since": "2.23",
     "related": ["git-switch", "git-switch-create", "git-bisect"],
     "docUrl": "https://git-scm.com/docs/git-switch",
-    "tags": ["ブランチ", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["ブランチ", "確認"]
   },
   {
     "id": "git-branch-from-commit",
@@ -1779,9 +1669,7 @@
     "undo": "`git branch -d <name>` で削除できます。",
     "related": ["git-switch-create", "git-reflog", "git-branch-delete"],
     "docUrl": "https://git-scm.com/docs/git-branch",
-    "tags": ["ブランチ", "作成", "バックアップ"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["ブランチ", "作成", "バックアップ"]
   },
   {
     "id": "git-branch-show-current",
@@ -1800,9 +1688,7 @@
     "since": "2.22",
     "related": ["git-branch-list", "git-status"],
     "docUrl": "https://git-scm.com/docs/git-branch",
-    "tags": ["ブランチ", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["ブランチ", "確認"]
   },
   {
     "id": "git-push-delete-branch",
@@ -1826,9 +1712,7 @@
     "undo": "手元に同じブランチが残っていれば、`git push origin <branch>` でもう一度作れます。GitHub の PR 画面の「Restore branch」でも戻せます。",
     "related": ["git-branch-delete", "git-branch-merged", "git-fetch"],
     "docUrl": "https://git-scm.com/docs/git-push",
-    "tags": ["リモート", "削除", "片付け"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["リモート", "削除", "片付け"]
   },
   {
     "id": "git-branch-upstream",
@@ -1851,9 +1735,7 @@
     "danger": "safe",
     "related": ["git-push-upstream", "git-branch-list", "git-pull"],
     "docUrl": "https://git-scm.com/docs/git-branch",
-    "tags": ["リモート", "設定"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["リモート", "設定"]
   },
   {
     "id": "git-remote-v",
@@ -1872,9 +1754,7 @@
     "danger": "safe",
     "related": ["git-remote-add", "git-remote-set-url"],
     "docUrl": "https://git-scm.com/docs/git-remote",
-    "tags": ["リモート", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["リモート", "確認"]
   },
   {
     "id": "git-remote-set-url",
@@ -1897,9 +1777,7 @@
     "undo": "もう一度 `git remote set-url origin <元の URL>` を実行します。",
     "related": ["git-remote-v", "git-remote-add"],
     "docUrl": "https://git-scm.com/docs/git-remote",
-    "tags": ["リモート", "設定"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["リモート", "設定"]
   },
   {
     "id": "git-push-force-lease",
@@ -1921,9 +1799,7 @@
     "alternatives": "共有しているブランチでは、履歴を書き換えずに `git revert` や修正のコミットを追加してください。",
     "related": ["git-push", "git-rebase", "git-commit-amend", "git-rebase-interactive"],
     "docUrl": "https://git-scm.com/docs/git-push",
-    "tags": ["リモート", "履歴の書き換え"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["リモート", "履歴の書き換え"]
   },
   {
     "id": "git-pull-rebase",
@@ -1944,9 +1820,7 @@
     "undo": "途中なら `git rebase --abort`。完了後は `git reflog` で取り込む前の位置を探して `git reset --hard` で戻せます。",
     "related": ["git-pull", "git-rebase", "git-config-pull-rebase"],
     "docUrl": "https://git-scm.com/docs/git-pull",
-    "tags": ["リモート", "統合"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["リモート", "統合"]
   },
   {
     "id": "git-remote-add-upstream",
@@ -1969,9 +1843,7 @@
     "undo": "`git remote remove upstream` で登録を解除できます。",
     "related": ["git-sync-fork", "git-remote-v", "gh-repo-clone"],
     "docUrl": "https://git-scm.com/docs/git-remote",
-    "tags": ["リモート", "フォーク"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["リモート", "フォーク"]
   },
   {
     "id": "git-sync-fork",
@@ -1996,9 +1868,7 @@
     "undo": "取り込んだ直後なら `git reset --hard ORIG_HEAD` で取り込む前に戻せます（未コミットの変更も消えるので注意）。",
     "related": ["git-remote-add-upstream", "git-fetch", "git-merge"],
     "docUrl": "https://git-scm.com/docs/git-fetch",
-    "tags": ["リモート", "フォーク"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["リモート", "フォーク"]
   },
   {
     "id": "git-merge-abort",
@@ -2018,9 +1888,7 @@
     "dangerNote": "コンフリクトを解決するために途中まで直した内容は消えます。",
     "related": ["git-merge", "git-status", "git-rebase"],
     "docUrl": "https://git-scm.com/docs/git-merge",
-    "tags": ["統合", "コンフリクト", "中止"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["統合", "コンフリクト", "中止"]
   },
   {
     "id": "git-rebase-interactive",
@@ -2045,9 +1913,7 @@
     "undo": "途中なら `git rebase --abort`。完了後は `git reset --hard ORIG_HEAD` か、`git reflog` で開始前の位置を探して戻します。",
     "related": ["git-rebase", "git-commit-amend", "git-push-force-lease", "git-config-editor"],
     "docUrl": "https://git-scm.com/docs/git-rebase",
-    "tags": ["統合", "履歴の書き換え"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["統合", "履歴の書き換え"]
   },
   {
     "id": "git-merge-squash",
@@ -2071,9 +1937,7 @@
     "undo": "コミット前なら `git reset --hard HEAD` で取り込む前に戻せます（未コミットの変更も消えるので注意）。",
     "related": ["git-merge", "git-rebase-interactive", "gh-pr-merge"],
     "docUrl": "https://git-scm.com/docs/git-merge",
-    "tags": ["統合"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["統合"]
   },
   {
     "id": "git-conflict-ours-theirs",
@@ -2098,9 +1962,7 @@
     "since": "2.23",
     "related": ["git-merge", "git-rebase", "git-status", "git-add"],
     "docUrl": "https://git-scm.com/docs/git-restore",
-    "tags": ["統合", "コンフリクト"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["統合", "コンフリクト"]
   },
   {
     "id": "git-restore-source",
@@ -2127,9 +1989,7 @@
     "since": "2.23",
     "related": ["git-restore", "git-log-file", "git-show"],
     "docUrl": "https://git-scm.com/docs/git-restore",
-    "tags": ["取り消し", "復元"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["取り消し", "復元"]
   },
   {
     "id": "git-revert-merge",
@@ -2152,9 +2012,7 @@
     "undo": "作られた打ち消しコミットを、さらに `git revert` すれば元に戻ります。",
     "related": ["git-revert", "git-merge", "web-merge-pr"],
     "docUrl": "https://git-scm.com/docs/git-revert",
-    "tags": ["取り消し", "共有ブランチ"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["取り消し", "共有ブランチ"]
   },
   {
     "id": "git-commit-amend-author",
@@ -2176,9 +2034,7 @@
     "shellNote": "PowerShell では `HEAD@{1}` を `'HEAD@{1}'` のように ' で囲んでください。",
     "related": ["git-commit-amend", "git-config-user", "git-log"],
     "docUrl": "https://git-scm.com/docs/git-commit",
-    "tags": ["取り消し", "修正", "履歴の書き換え"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["取り消し", "修正", "履歴の書き換え"]
   },
   {
     "id": "git-stash-list",
@@ -2196,9 +2052,7 @@
     "danger": "safe",
     "related": ["git-stash", "git-stash-show", "git-stash-apply"],
     "docUrl": "https://git-scm.com/docs/git-stash",
-    "tags": ["stash", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["stash", "確認"]
   },
   {
     "id": "git-stash-show",
@@ -2221,9 +2075,7 @@
     "shellNote": "PowerShell では `{}` が特別な意味を持つため、`'stash@{1}'` のように ' で囲んでください。",
     "related": ["git-stash-list", "git-stash-apply"],
     "docUrl": "https://git-scm.com/docs/git-stash",
-    "tags": ["stash", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["stash", "確認"]
   },
   {
     "id": "git-stash-apply",
@@ -2248,9 +2100,7 @@
     "shellNote": "PowerShell では `{}` が特別な意味を持つため、`'stash@{1}'` のように ' で囲んでください。",
     "related": ["git-stash-pop", "git-stash-drop", "git-stash-list"],
     "docUrl": "https://git-scm.com/docs/git-stash",
-    "tags": ["stash"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["stash"]
   },
   {
     "id": "git-stash-drop",
@@ -2275,9 +2125,7 @@
     "shellNote": "PowerShell では `{}` が特別な意味を持つため、`'stash@{1}'` のように ' で囲んでください。",
     "related": ["git-stash-list", "git-stash-apply"],
     "docUrl": "https://git-scm.com/docs/git-stash",
-    "tags": ["stash", "削除"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["stash", "削除"]
   },
   {
     "id": "git-tag",
@@ -2302,9 +2150,7 @@
     "undo": "`git tag -d <tag>` で削除できます。",
     "related": ["git-tag-list", "git-push-tag", "git-tag-delete"],
     "docUrl": "https://git-scm.com/docs/git-tag",
-    "tags": ["タグ", "リリース"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["タグ", "リリース"]
   },
   {
     "id": "git-tag-list",
@@ -2325,9 +2171,7 @@
     "shellNote": "`*` はシェルに展開されないように、\" で囲んでください。",
     "related": ["git-tag", "git-show"],
     "docUrl": "https://git-scm.com/docs/git-tag",
-    "tags": ["タグ", "確認"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["タグ", "確認"]
   },
   {
     "id": "git-push-tag",
@@ -2350,9 +2194,7 @@
     "undo": "GitHub のタグを消すには `git push origin --delete <tag>` を使います。",
     "related": ["git-tag", "git-tag-delete", "git-push"],
     "docUrl": "https://git-scm.com/docs/git-push",
-    "tags": ["タグ", "リモート", "リリース"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["タグ", "リモート", "リリース"]
   },
   {
     "id": "git-tag-delete",
@@ -2376,9 +2218,7 @@
     "undo": "指していたコミットが分かれば、`git tag -a <tag> <commit> -m \"…\"` で作り直せます。",
     "related": ["git-tag", "git-push-tag", "git-tag-list"],
     "docUrl": "https://git-scm.com/docs/git-tag",
-    "tags": ["タグ", "削除"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["タグ", "削除"]
   },
   {
     "id": "git-check-ignore",
@@ -2399,9 +2239,7 @@
     "danger": "safe",
     "related": ["git-rm-cached", "git-status"],
     "docUrl": "https://git-scm.com/docs/git-check-ignore",
-    "tags": ["gitignore", "調査"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["gitignore", "調査"]
   },
   {
     "id": "git-help",
@@ -2423,8 +2261,6 @@
     "danger": "safe",
     "related": ["git-version"],
     "docUrl": "https://git-scm.com/docs/git-help",
-    "tags": ["調査"],
-    "verified": false,
-    "verifiedNote": ""
+    "tags": ["調査"]
   }
 ]
